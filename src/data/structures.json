@@ -1,0 +1,57 @@
+[
+  {
+    "id": "calcaneal_tendon",
+    "meshes": ["Calcaneal tendon.r"],
+    "name": { "fi": "akillesjänne", "la": "Tendo calcaneus" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "plantar_aponeurosis",
+    "meshes": ["Plantar aponeurosis.r"],
+    "name": { "fi": "jalkapohjan kalvojänne", "la": "Aponeurosis plantaris" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "iliotibial_tract",
+    "meshes": ["Iliotibial tract.r"],
+    "name": { "fi": "suoliluu-sääriluukaista", "la": "Tractus iliotibialis" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "quadriceps_tendon",
+    "meshes": ["Quadriceps common tendon and patellar ligament.r"],
+    "name": { "fi": "nelipäisen reisilihaksen jänne ja polvilumpioside", "la": "Tendo musculi quadricipitis femoris; Ligamentum patellae" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "pes_anserinus",
+    "meshes": ["Pes anserinus common tendon.r"],
+    "name": { "fi": "hanhenjalka", "la": "Pes anserinus" },
+    "sources": ["fipat-ta2"]
+  }
+,
+  {
+    "id": "bicipital_aponeurosis",
+    "meshes": ["Bicipital aponeurosis.r"],
+    "name": { "fi": "hauislihaksen kalvojänne", "la": "Aponeurosis bicipitalis" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "palmar_aponeurosis",
+    "meshes": ["Aponeurosis palmaris.r"],
+    "name": { "fi": "kämmenen kalvojänne", "la": "Aponeurosis palmaris" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "flexor_retinaculum_carpi",
+    "meshes": ["Flexor retinaculum"],
+    "name": { "fi": "ranteen koukistajien pidäke", "la": "Retinaculum flexorium carpi" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "extensor_expansion",
+    "meshes": ["Extensor hood of 2nd finger.r", "Extensor hood of 3rd finger.r", "Extensor hood of 4th finger.r", "Extensor hood of 5th finger.r"],
+    "name": { "fi": "sormien ojentajajänteiden laajentumat", "la": "Aponeurosis extensoria manus" },
+    "sources": ["fipat-ta2"]
+  }
+]

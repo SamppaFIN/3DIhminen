@@ -1,0 +1,128 @@
+[
+  {
+    "id": "teachme-leg-anterior",
+    "label": "TeachMeAnatomy: säären etuosasto",
+    "citation": "Jones O. Muscles in the Anterior Compartment of the Leg. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/leg/anterior-compartment/"
+  },
+  {
+    "id": "teachme-leg-lateral",
+    "label": "TeachMeAnatomy: säären sivuosasto",
+    "citation": "Jones O. Muscles in the Lateral Compartment of the Leg. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/leg/lateral-compartment/"
+  },
+  {
+    "id": "teachme-leg-posterior",
+    "label": "TeachMeAnatomy: säären takaosasto",
+    "citation": "Jones O. Muscles in the Posterior Compartment of the Leg. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/leg/posterior-compartment/"
+  },
+  {
+    "id": "teachme-foot",
+    "label": "TeachMeAnatomy: jalkaterän lihakset",
+    "citation": "Speller J. Muscles of the Foot – Dorsal – Plantar. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/foot/"
+  },
+  {
+    "id": "fipat-ta2",
+    "label": "Terminologia Anatomica 2",
+    "citation": "FIPAT. Terminologia Anatomica. 2nd ed. FIPAT.library.dal.ca. Federative International Programme for Anatomical Terminology, 2019. Part II, Caput IV: Systema musculare.",
+    "url": "https://cdn.dal.ca/content/dam/dalhousie/pdf/library/FIPAT/TA2/FIPAT-TA2-Part-2.pdf"
+  },
+  {
+    "id": "snow-1995",
+    "label": "Snow ym. 1995",
+    "citation": "Snow SW, Bohne WH, DiCarlo E, Chang VK. Anatomy of the Achilles tendon and plantar fascia in relation to the calcaneus in various age groups. Foot Ankle Int. 1995;16(7):418–421. Tiivistelmä luettu 2026-10-03.",
+    "url": "https://doi.org/10.1177/107110079501600707"
+  },
+  {
+    "id": "singh-2021",
+    "label": "Singh ym. 2021",
+    "citation": "Singh A, Zwirner J, Templer F, Kieser D, Klima S, Hammer N. On the morphological relations of the Achilles tendon and plantar fascia via the calcaneus: a cadaveric study. Sci Rep. 2021;11(1):5986. Tiivistelmä luettu 2026-10-03.",
+    "url": "https://doi.org/10.1038/s41598-021-85251-0"
+  },
+  {
+    "id": "stecco-2013",
+    "label": "Stecco ym. 2013",
+    "citation": "Stecco C, Corradin M, Macchi V, Morra A, Porzionato A, Biz C, De Caro R. Plantar fascia anatomy and its relationship with Achilles tendon and paratenon. J Anat. 2013;223(6):665–676. Tiivistelmä luettu 2026-10-03.",
+    "url": "https://doi.org/10.1111/joa.12111"
+  },
+  {
+    "id": "ortega-santiago-2020",
+    "label": "Ortega-Santiago ym. 2020",
+    "citation": "Ortega-Santiago R, Ríos-León M, Martín-Casas P, Fernández-de-las-Peñas C, Plaza-Manzano G. Active muscle trigger points are associated with pain and related disability in patients with plantar heel pain: a case-control study. Pain Med. 2020;21(5):1032–1038. Tiivistelmä luettu 2026-10-03.",
+    "url": "https://doi.org/10.1093/pm/pnz086"
+  },
+  {
+    "id": "quintner-2015",
+    "label": "Quintner ym. 2015",
+    "citation": "Quintner JL, Bove GM, Cohen ML. A critical evaluation of the trigger point phenomenon. Rheumatology (Oxford). 2015;54(3):392–399. Tiivistelmä luettu 2026-10-03.",
+    "url": "https://doi.org/10.1093/rheumatology/keu471"
+  },
+  {
+    "id": "teachme-gluteal",
+    "label": "TeachMeAnatomy: pakaran alue",
+    "citation": "Jones O. Muscles of the Gluteal Region – Superficial – Deep. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/gluteal-region/"
+  },
+  {
+    "id": "teachme-thigh-anterior",
+    "label": "TeachMeAnatomy: reiden etuosasto",
+    "citation": "Jones O. Muscles of the Anterior Thigh – Quadriceps. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/thigh/anterior-compartment/"
+  },
+  {
+    "id": "teachme-thigh-medial",
+    "label": "TeachMeAnatomy: reiden sisäosasto",
+    "citation": "Jones O. Muscles in the Medial Compartment of the Thigh. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/thigh/medial-compartment/"
+  },
+  {
+    "id": "teachme-thigh-posterior",
+    "label": "TeachMeAnatomy: takareisi",
+    "citation": "Jones O. Muscles of the Posterior Thigh – Hamstrings. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/thigh/hamstrings/"
+  },
+  {
+    "id": "teachme-shoulder-intrinsic",
+    "label": "TeachMeAnatomy: olkapään sisäiset lihakset",
+    "citation": "Jones O. The Intrinsic Muscles of the Shoulder. TeachMeAnatomy, päivitetty 2025-10-28, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/upper-limb/muscles/shoulder/intrinsic/"
+  },
+  {
+    "id": "teachme-shoulder-extrinsic",
+    "label": "TeachMeAnatomy: olkapään ulkoiset lihakset",
+    "citation": "Jones O. The Extrinsic Muscles of the Shoulder. TeachMeAnatomy, päivitetty 2026-01-19, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/upper-limb/muscles/shoulder/extrinsic/"
+  },
+  {
+    "id": "teachme-pectoral",
+    "label": "TeachMeAnatomy: rintalihakset",
+    "citation": "Jones O. Muscles of the Pectoral Region. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/upper-limb/muscles/pectoral-region/"
+  },
+  {
+    "id": "teachme-upper-arm",
+    "label": "TeachMeAnatomy: olkavarsi",
+    "citation": "Jones O. Muscles of the Upper Arm. TeachMeAnatomy, päivitetty 2026-04-10, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/upper-limb/muscles/upper-arm/"
+  },
+  {
+    "id": "teachme-forearm-anterior",
+    "label": "TeachMeAnatomy: kyynärvarren etuosasto",
+    "citation": "Jones O. Muscles in the Anterior Compartment of the Forearm. TeachMeAnatomy, päivitetty 2025-12-15, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/upper-limb/muscles/anterior-forearm/"
+  },
+  {
+    "id": "teachme-forearm-posterior",
+    "label": "TeachMeAnatomy: kyynärvarren takaosasto",
+    "citation": "Jones O. Muscles in the Posterior Compartment of the Forearm. TeachMeAnatomy, päivitetty 2025-12-12, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/upper-limb/muscles/posterior-forearm/"
+  },
+  {
+    "id": "teachme-hand",
+    "label": "TeachMeAnatomy: käden lihakset",
+    "citation": "Jones O. Muscles of the Hand. TeachMeAnatomy, päivitetty 2026-05-10, luettu 2026-10-03.",
+    "url": "https://teachmeanatomy.info/upper-limb/muscles/hand/"
+  }
+]

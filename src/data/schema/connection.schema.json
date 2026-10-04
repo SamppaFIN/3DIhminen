@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Connections",
+  "description": "Contents of connections.json: sourced links between muscles, structures and pain regions, used by the pain search (S3.2) and its chain explanation (S3.3). Free-text fields are in Finnish.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "type", "from", "to", "evidence", "description", "sources"],
+    "properties": {
+      "id": {
+        "description": "Stable identifier in kebab-case.",
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "type": {
+        "description": "shared_tissue: a shared tendon or fascia. attachment: one attaches to the other, or both share an attachment site. referred_pain: pain from the muscle may be felt in the region.",
+        "enum": ["shared_tissue", "attachment", "referred_pain"]
+      },
+      "from": {
+        "description": "muscle:<id> or structure:<id>.",
+        "type": "string",
+        "pattern": "^(muscle|structure):[a-z][a-z0-9_]*$"
+      },
+      "to": {
+        "description": "muscle:<id>, structure:<id>, or region:<id> (regions only for referred_pain).",
+        "type": "string",
+        "pattern": "^(muscle|structure|region):[a-z][a-z0-9_]*$"
+      },
+      "evidence": {
+        "description": "anatomy: textbook anatomy. cadaver_study: dissection or histology studies. contested: clinical findings whose theoretical basis is disputed.",
+        "enum": ["anatomy", "cadaver_study", "contested"]
+      },
+      "description": {
+        "description": "Shown to the user. Describes what the sources report; never says that something causes pain.",
+        "type": "string",
+        "minLength": 1
+      },
+      "sources": {
+        "description": "Ids of entries in sources.json that support this connection.",
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": { "type": "string", "pattern": "^[a-z0-9-]+$" }
+      }
+    },
+    "if": { "properties": { "type": { "const": "referred_pain" } } },
+    "then": {
+      "properties": {
+        "from": { "type": "string", "pattern": "^muscle:" },
+        "to": { "type": "string", "pattern": "^region:" }
+      }
+    },
+    "else": {
+      "properties": {
+        "to": { "type": "string", "pattern": "^(muscle|structure):" }
+      }
+    }
+  }
+}

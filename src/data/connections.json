@@ -1,0 +1,552 @@
+[
+  {
+    "id": "gastrocnemius-calcaneal-tendon",
+    "type": "shared_tissue",
+    "from": "muscle:gastrocnemius",
+    "to": "structure:calcaneal_tendon",
+    "evidence": "anatomy",
+    "description": "Kaksoiskantalihas yhtyy leveän kantalihaksen kanssa akillesjänteeksi, joka kiinnittyy kantaluuhun.",
+    "sources": ["teachme-leg-posterior"]
+  },
+  {
+    "id": "soleus-calcaneal-tendon",
+    "type": "shared_tissue",
+    "from": "muscle:soleus",
+    "to": "structure:calcaneal_tendon",
+    "evidence": "anatomy",
+    "description": "Leveä kantalihas yhtyy kaksoiskantalihaksen kanssa akillesjänteeksi, joka kiinnittyy kantaluuhun.",
+    "sources": ["teachme-leg-posterior"]
+  },
+  {
+    "id": "plantaris-calcaneal-tendon",
+    "type": "shared_tissue",
+    "from": "muscle:plantaris",
+    "to": "structure:calcaneal_tendon",
+    "evidence": "anatomy",
+    "description": "Jalkapohjalihaksen pitkä jänne sulautuu akillesjänteeseen ja kiinnittyy kantaluuhun.",
+    "sources": ["teachme-leg-posterior"]
+  },
+  {
+    "id": "calcaneal-tendon-plantar-aponeurosis",
+    "type": "shared_tissue",
+    "from": "structure:calcaneal_tendon",
+    "to": "structure:plantar_aponeurosis",
+    "evidence": "cadaver_study",
+    "description": "Akillesjänne ja jalkapohjan kalvojänne kiinnittyvät kumpikin kantaluuhun. Vastasyntyneillä niiden välillä on paksu säieyhteys, joka ohenee iän myötä. Aikuisilla täyttä säieyhteyttä ei ole vahvistettu, mutta rakenteiden koot ovat yhteydessä toisiinsa, ja kalvojänne liittyy kantaluun luukalvon kautta akillesjänteen jännetuppeen.",
+    "sources": ["snow-1995", "singh-2021", "stecco-2013"]
+  },
+  {
+    "id": "flexor-digitorum-brevis-plantar-aponeurosis",
+    "type": "attachment",
+    "from": "muscle:flexor_digitorum_brevis",
+    "to": "structure:plantar_aponeurosis",
+    "evidence": "anatomy",
+    "description": "Varpaiden lyhyt koukistajalihas lähtee osittain jalkapohjan kalvojänteestä.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "abductor-hallucis-plantar-aponeurosis",
+    "type": "attachment",
+    "from": "muscle:abductor_hallucis",
+    "to": "structure:plantar_aponeurosis",
+    "evidence": "anatomy",
+    "description": "Isonvarpaan loitontajalihas lähtee osittain jalkapohjan kalvojänteestä, ja kalvojänne jatkuu lihaksen ympäryskalvoon.",
+    "sources": ["teachme-foot", "stecco-2013"]
+  },
+  {
+    "id": "abductor-digiti-minimi-plantar-aponeurosis",
+    "type": "attachment",
+    "from": "muscle:abductor_digiti_minimi_pedis",
+    "to": "structure:plantar_aponeurosis",
+    "evidence": "anatomy",
+    "description": "Pikkuvarpaan loitontajalihas lähtee osittain jalkapohjan kalvojänteestä, ja kalvojänne jatkuu lihaksen ympäryskalvoon.",
+    "sources": ["teachme-foot", "stecco-2013"]
+  },
+  {
+    "id": "quadratus-plantae-flexor-digitorum-longus",
+    "type": "attachment",
+    "from": "muscle:quadratus_plantae",
+    "to": "muscle:flexor_digitorum_longus",
+    "evidence": "anatomy",
+    "description": "Jalkapohjan nelikulmainen lihas kiinnittyy varpaiden pitkän koukistajalihaksen jänteisiin.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "lumbricales-flexor-digitorum-longus",
+    "type": "attachment",
+    "from": "muscle:lumbricales_pedis",
+    "to": "muscle:flexor_digitorum_longus",
+    "evidence": "anatomy",
+    "description": "Jalan matolihakset lähtevät varpaiden pitkän koukistajalihaksen jänteistä.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "flexor-hallucis-brevis-tibialis-posterior",
+    "type": "attachment",
+    "from": "muscle:flexor_hallucis_brevis",
+    "to": "muscle:tibialis_posterior",
+    "evidence": "anatomy",
+    "description": "Isonvarpaan lyhyen koukistajalihaksen mediaalinen pää lähtee takimmaisen säärilihaksen jänteestä.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "fibularis-tertius-extensor-digitorum-longus",
+    "type": "attachment",
+    "from": "muscle:fibularis_tertius",
+    "to": "muscle:extensor_digitorum_longus",
+    "evidence": "anatomy",
+    "description": "Kolmas pohjeluulihas lähtee pohjeluusta yhdessä varpaiden pitkän ojentajalihaksen kanssa.",
+    "sources": ["teachme-leg-anterior"]
+  },
+  {
+    "id": "extensor-digitorum-brevis-extensor-digitorum-longus",
+    "type": "attachment",
+    "from": "muscle:extensor_digitorum_brevis",
+    "to": "muscle:extensor_digitorum_longus",
+    "evidence": "anatomy",
+    "description": "Varpaiden lyhyt ojentajalihas kiinnittyy toisen–neljännen varpaan pitkiin ojentajajänteisiin.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "quadratus-plantae-heel-referred-pain",
+    "type": "referred_pain",
+    "from": "muscle:quadratus_plantae",
+    "to": "region:heel",
+    "evidence": "contested",
+    "description": "Tapaus-verrokkitutkimuksessa kantapään alapinnan kipua sairastavilla oli useimmin aktiivisia trigger pointeja jalkapohjan nelikulmaisessa lihaksessa, ja jalkaterän lihaksista heijastunut kipu toisti potilaiden oireet. Trigger point -mallin tieteellinen perusta on kiistanalainen, vaikka itse kipuilmiöt ovat todellisia.",
+    "sources": ["ortega-santiago-2020", "quintner-2015"]
+  },
+  {
+    "id": "flexor-hallucis-brevis-heel-referred-pain",
+    "type": "referred_pain",
+    "from": "muscle:flexor_hallucis_brevis",
+    "to": "region:heel",
+    "evidence": "contested",
+    "description": "Tapaus-verrokkitutkimuksessa kantapään alapinnan kipua sairastavilla oli usein aktiivisia trigger pointeja isonvarpaan lyhyessä koukistajalihaksessa, ja jalkaterän lihaksista heijastunut kipu toisti potilaiden oireet. Trigger point -mallin tieteellinen perusta on kiistanalainen, vaikka itse kipuilmiöt ovat todellisia.",
+    "sources": ["ortega-santiago-2020", "quintner-2015"]
+  },
+  {
+    "id": "tensor-fasciae-latae-iliotibial-tract",
+    "type": "attachment",
+    "from": "muscle:tensor_fasciae_latae",
+    "to": "structure:iliotibial_tract",
+    "evidence": "anatomy",
+    "description": "Leveän peitinkalvon jännittäjälihas kiinnittyy suoliluu-sääriluukaistaan.",
+    "sources": ["teachme-gluteal"]
+  },
+  {
+    "id": "gluteus-maximus-iliotibial-tract",
+    "type": "attachment",
+    "from": "muscle:gluteus_maximus",
+    "to": "structure:iliotibial_tract",
+    "evidence": "anatomy",
+    "description": "Iso pakaralihas kiinnittyy suoliluu-sääriluukaistaan ja reisiluun pakarakyhmyyn.",
+    "sources": ["teachme-gluteal"]
+  },
+  {
+    "id": "rectus-femoris-quadriceps-tendon",
+    "type": "shared_tissue",
+    "from": "muscle:rectus_femoris",
+    "to": "structure:quadriceps_tendon",
+    "evidence": "anatomy",
+    "description": "Suora reisilihas kiinnittyy polvilumpioon nelipäisen reisilihaksen yhteisen jänteen kautta; polvilumpio kiinnittyy sääriluun kyhmyyn polvilumpiositeellä.",
+    "sources": ["teachme-thigh-anterior"]
+  },
+  {
+    "id": "vastus-lateralis-quadriceps-tendon",
+    "type": "shared_tissue",
+    "from": "muscle:vastus_lateralis",
+    "to": "structure:quadriceps_tendon",
+    "evidence": "anatomy",
+    "description": "Ulompi reisilihas kiinnittyy polvilumpioon nelipäisen reisilihaksen yhteisen jänteen kautta; polvilumpio kiinnittyy sääriluun kyhmyyn polvilumpiositeellä.",
+    "sources": ["teachme-thigh-anterior"]
+  },
+  {
+    "id": "vastus-intermedius-quadriceps-tendon",
+    "type": "shared_tissue",
+    "from": "muscle:vastus_intermedius",
+    "to": "structure:quadriceps_tendon",
+    "evidence": "anatomy",
+    "description": "Keskimmäinen reisilihas kiinnittyy polvilumpioon nelipäisen reisilihaksen yhteisen jänteen kautta; polvilumpio kiinnittyy sääriluun kyhmyyn polvilumpiositeellä.",
+    "sources": ["teachme-thigh-anterior"]
+  },
+  {
+    "id": "vastus-medialis-quadriceps-tendon",
+    "type": "shared_tissue",
+    "from": "muscle:vastus_medialis",
+    "to": "structure:quadriceps_tendon",
+    "evidence": "anatomy",
+    "description": "Sisempi reisilihas kiinnittyy polvilumpioon nelipäisen reisilihaksen yhteisen jänteen kautta; polvilumpio kiinnittyy sääriluun kyhmyyn polvilumpiositeellä.",
+    "sources": ["teachme-thigh-anterior"]
+  },
+  {
+    "id": "sartorius-pes-anserinus",
+    "type": "shared_tissue",
+    "from": "muscle:sartorius",
+    "to": "structure:pes_anserinus",
+    "evidence": "anatomy",
+    "description": "Räätälinlihas kiinnittyy hanhenjalkaan, räätälinlihaksen, hoikkalihaksen ja puolijänteisen lihaksen yhteiseen kiinnityskohtaan sääriluun yläosan mediaalisella pinnalla.",
+    "sources": ["fipat-ta2", "teachme-thigh-anterior"]
+  },
+  {
+    "id": "gracilis-pes-anserinus",
+    "type": "shared_tissue",
+    "from": "muscle:gracilis",
+    "to": "structure:pes_anserinus",
+    "evidence": "anatomy",
+    "description": "Hoikkalihas kiinnittyy hanhenjalkaan, räätälinlihaksen, hoikkalihaksen ja puolijänteisen lihaksen yhteiseen kiinnityskohtaan sääriluun yläosan mediaalisella pinnalla.",
+    "sources": ["fipat-ta2", "teachme-thigh-medial"]
+  },
+  {
+    "id": "semitendinosus-pes-anserinus",
+    "type": "shared_tissue",
+    "from": "muscle:semitendinosus",
+    "to": "structure:pes_anserinus",
+    "evidence": "anatomy",
+    "description": "Puolijänteinen lihas kiinnittyy hanhenjalkaan, räätälinlihaksen, hoikkalihaksen ja puolijänteisen lihaksen yhteiseen kiinnityskohtaan sääriluun yläosan mediaalisella pinnalla.",
+    "sources": ["fipat-ta2", "teachme-thigh-posterior"]
+  },
+  {
+    "id": "iliacus-psoas-major",
+    "type": "shared_tissue",
+    "from": "muscle:iliacus",
+    "to": "muscle:psoas_major",
+    "evidence": "anatomy",
+    "description": "Suoliluulihas ja suuri lannelihas kiinnittyvät yhdessä reisiluun pieneen sarvennoiseen.",
+    "sources": ["teachme-thigh-anterior"]
+  },
+  {
+    "id": "biceps-femoris-semitendinosus",
+    "type": "attachment",
+    "from": "muscle:biceps_femoris",
+    "to": "muscle:semitendinosus",
+    "evidence": "anatomy",
+    "description": "Kaksipäisen reisilihaksen pitkä pää ja puolijänteinen lihas lähtevät molemmat istuinkyhmystä.",
+    "sources": ["teachme-thigh-posterior"]
+  },
+  {
+    "id": "semimembranosus-semitendinosus",
+    "type": "attachment",
+    "from": "muscle:semimembranosus",
+    "to": "muscle:semitendinosus",
+    "evidence": "anatomy",
+    "description": "Puolikalvoinen ja puolijänteinen lihas lähtevät molemmat istuinkyhmystä.",
+    "sources": ["teachme-thigh-posterior"]
+  },
+  {
+    "id": "semimembranosus-biceps-femoris",
+    "type": "attachment",
+    "from": "muscle:semimembranosus",
+    "to": "muscle:biceps_femoris",
+    "evidence": "anatomy",
+    "description": "Puolikalvoinen lihas ja kaksipäisen reisilihaksen pitkä pää lähtevät molemmat istuinkyhmystä.",
+    "sources": ["teachme-thigh-posterior"]
+  }
+,
+  {
+    "id": "flexor-carpi-ulnaris-palmaris-longus",
+    "type": "attachment",
+    "from": "muscle:flexor_carpi_ulnaris",
+    "to": "muscle:palmaris_longus",
+    "evidence": "anatomy",
+    "description": "Ranteen kyynärpuoleinen koukistajalihas ja pitkä kämmenlihas lähtevät olkaluun sisemmästä sivunastasta koukistajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "flexor-carpi-ulnaris-flexor-carpi-radialis",
+    "type": "attachment",
+    "from": "muscle:flexor_carpi_ulnaris",
+    "to": "muscle:flexor_carpi_radialis",
+    "evidence": "anatomy",
+    "description": "Ranteen kyynärpuoleinen koukistajalihas ja ranteen värttinäpuoleinen koukistajalihas lähtevät olkaluun sisemmästä sivunastasta koukistajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "flexor-carpi-ulnaris-pronator-teres",
+    "type": "attachment",
+    "from": "muscle:flexor_carpi_ulnaris",
+    "to": "muscle:pronator_teres",
+    "evidence": "anatomy",
+    "description": "Ranteen kyynärpuoleinen koukistajalihas ja pyöreä sisäkiertäjälihas lähtevät olkaluun sisemmästä sivunastasta koukistajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "palmaris-longus-flexor-carpi-radialis",
+    "type": "attachment",
+    "from": "muscle:palmaris_longus",
+    "to": "muscle:flexor_carpi_radialis",
+    "evidence": "anatomy",
+    "description": "Pitkä kämmenlihas ja ranteen värttinäpuoleinen koukistajalihas lähtevät olkaluun sisemmästä sivunastasta koukistajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "palmaris-longus-pronator-teres",
+    "type": "attachment",
+    "from": "muscle:palmaris_longus",
+    "to": "muscle:pronator_teres",
+    "evidence": "anatomy",
+    "description": "Pitkä kämmenlihas ja pyöreä sisäkiertäjälihas lähtevät olkaluun sisemmästä sivunastasta koukistajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "flexor-carpi-radialis-pronator-teres",
+    "type": "attachment",
+    "from": "muscle:flexor_carpi_radialis",
+    "to": "muscle:pronator_teres",
+    "evidence": "anatomy",
+    "description": "Ranteen värttinäpuoleinen koukistajalihas ja pyöreä sisäkiertäjälihas lähtevät olkaluun sisemmästä sivunastasta koukistajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "extensor-carpi-radialis-brevis-extensor-digitorum",
+    "type": "attachment",
+    "from": "muscle:extensor_carpi_radialis_brevis",
+    "to": "muscle:extensor_digitorum",
+    "evidence": "anatomy",
+    "description": "Ranteen lyhyt värttinäpuoleinen ojentajalihas ja sormien ojentajalihas lähtevät olkaluun ulommasta sivunastasta ojentajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-carpi-radialis-brevis-extensor-carpi-ulnaris",
+    "type": "attachment",
+    "from": "muscle:extensor_carpi_radialis_brevis",
+    "to": "muscle:extensor_carpi_ulnaris",
+    "evidence": "anatomy",
+    "description": "Ranteen lyhyt värttinäpuoleinen ojentajalihas ja ranteen kyynärpuoleinen ojentajalihas lähtevät olkaluun ulommasta sivunastasta ojentajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-carpi-radialis-brevis-extensor-digiti-minimi",
+    "type": "attachment",
+    "from": "muscle:extensor_carpi_radialis_brevis",
+    "to": "muscle:extensor_digiti_minimi",
+    "evidence": "anatomy",
+    "description": "Ranteen lyhyt värttinäpuoleinen ojentajalihas ja pikkusormen ojentajalihas lähtevät olkaluun ulommasta sivunastasta ojentajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-digitorum-extensor-carpi-ulnaris",
+    "type": "attachment",
+    "from": "muscle:extensor_digitorum",
+    "to": "muscle:extensor_carpi_ulnaris",
+    "evidence": "anatomy",
+    "description": "Sormien ojentajalihas ja ranteen kyynärpuoleinen ojentajalihas lähtevät olkaluun ulommasta sivunastasta ojentajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-digitorum-extensor-digiti-minimi",
+    "type": "attachment",
+    "from": "muscle:extensor_digitorum",
+    "to": "muscle:extensor_digiti_minimi",
+    "evidence": "anatomy",
+    "description": "Sormien ojentajalihas ja pikkusormen ojentajalihas lähtevät olkaluun ulommasta sivunastasta ojentajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-carpi-ulnaris-extensor-digiti-minimi",
+    "type": "attachment",
+    "from": "muscle:extensor_carpi_ulnaris",
+    "to": "muscle:extensor_digiti_minimi",
+    "evidence": "anatomy",
+    "description": "Ranteen kyynärpuoleinen ojentajalihas ja pikkusormen ojentajalihas lähtevät olkaluun ulommasta sivunastasta ojentajien yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "supraspinatus-infraspinatus",
+    "type": "attachment",
+    "from": "muscle:supraspinatus",
+    "to": "muscle:infraspinatus",
+    "evidence": "anatomy",
+    "description": "Ylempi lapalihas ja alempi lapalihas kiinnittyvät molemmat olkaluun isoon kyhmyyn.",
+    "sources": ["teachme-shoulder-intrinsic"]
+  },
+  {
+    "id": "supraspinatus-teres-minor",
+    "type": "attachment",
+    "from": "muscle:supraspinatus",
+    "to": "muscle:teres_minor",
+    "evidence": "anatomy",
+    "description": "Ylempi lapalihas ja pieni liereälihas kiinnittyvät molemmat olkaluun isoon kyhmyyn.",
+    "sources": ["teachme-shoulder-intrinsic"]
+  },
+  {
+    "id": "infraspinatus-teres-minor",
+    "type": "attachment",
+    "from": "muscle:infraspinatus",
+    "to": "muscle:teres_minor",
+    "evidence": "anatomy",
+    "description": "Alempi lapalihas ja pieni liereälihas kiinnittyvät molemmat olkaluun isoon kyhmyyn.",
+    "sources": ["teachme-shoulder-intrinsic"]
+  },
+  {
+    "id": "anconeus-triceps-brachii",
+    "type": "shared_tissue",
+    "from": "muscle:anconeus",
+    "to": "muscle:triceps_brachii",
+    "evidence": "anatomy",
+    "description": "Kyynärlihaksen säikeet sulautuvat kolmipäiseen olkalihakseen, eikä lihaksia aina voi erottaa toisistaan.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "biceps-brachii-bicipital-aponeurosis",
+    "type": "attachment",
+    "from": "muscle:biceps_brachii",
+    "to": "structure:bicipital_aponeurosis",
+    "evidence": "anatomy",
+    "description": "Hauislihaksen jänteestä erkanee kalvojänne, joka muodostaa kyynärtaipeen katon ja sulautuu kyynärvarren etuosan syvään kalvoon.",
+    "sources": ["teachme-upper-arm"]
+  },
+  {
+    "id": "palmaris-longus-palmar-aponeurosis",
+    "type": "attachment",
+    "from": "muscle:palmaris_longus",
+    "to": "structure:palmar_aponeurosis",
+    "evidence": "anatomy",
+    "description": "Pitkä kämmenlihas kiinnittyy kämmenen kalvojänteeseen.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "palmaris-longus-flexor-retinaculum-carpi",
+    "type": "attachment",
+    "from": "muscle:palmaris_longus",
+    "to": "structure:flexor_retinaculum_carpi",
+    "evidence": "anatomy",
+    "description": "Pitkä kämmenlihas kiinnittyy ranteen koukistajien pidäkkeeseen.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "palmaris-brevis-palmar-aponeurosis",
+    "type": "attachment",
+    "from": "muscle:palmaris_brevis",
+    "to": "structure:palmar_aponeurosis",
+    "evidence": "anatomy",
+    "description": "Lyhyt kämmenlihas lähtee kämmenen kalvojänteestä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "palmaris-brevis-flexor-retinaculum-carpi",
+    "type": "attachment",
+    "from": "muscle:palmaris_brevis",
+    "to": "structure:flexor_retinaculum_carpi",
+    "evidence": "anatomy",
+    "description": "Lyhyt kämmenlihas lähtee osittain ranteen koukistajien pidäkkeestä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "opponens-pollicis-flexor-retinaculum-carpi",
+    "type": "attachment",
+    "from": "muscle:opponens_pollicis",
+    "to": "structure:flexor_retinaculum_carpi",
+    "evidence": "anatomy",
+    "description": "Peukalon vastakkainasettajalihas lähtee osittain ranteen koukistajien pidäkkeestä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "abductor-pollicis-brevis-flexor-retinaculum-carpi",
+    "type": "attachment",
+    "from": "muscle:abductor_pollicis_brevis",
+    "to": "structure:flexor_retinaculum_carpi",
+    "evidence": "anatomy",
+    "description": "Peukalon lyhyt loitontajalihas lähtee osittain ranteen koukistajien pidäkkeestä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "flexor-pollicis-brevis-flexor-retinaculum-carpi",
+    "type": "attachment",
+    "from": "muscle:flexor_pollicis_brevis",
+    "to": "structure:flexor_retinaculum_carpi",
+    "evidence": "anatomy",
+    "description": "Peukalon lyhyt koukistajalihas lähtee osittain ranteen koukistajien pidäkkeestä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "opponens-digiti-minimi-manus-flexor-retinaculum-carpi",
+    "type": "attachment",
+    "from": "muscle:opponens_digiti_minimi_manus",
+    "to": "structure:flexor_retinaculum_carpi",
+    "evidence": "anatomy",
+    "description": "Pikkusormen vastakkainasettajalihas lähtee osittain ranteen koukistajien pidäkkeestä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "flexor-digiti-minimi-brevis-manus-flexor-retinaculum-carpi",
+    "type": "attachment",
+    "from": "muscle:flexor_digiti_minimi_brevis_manus",
+    "to": "structure:flexor_retinaculum_carpi",
+    "evidence": "anatomy",
+    "description": "Pikkusormen lyhyt koukistajalihas lähtee osittain ranteen koukistajien pidäkkeestä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "extensor-digitorum-extensor-expansion",
+    "type": "attachment",
+    "from": "muscle:extensor_digitorum",
+    "to": "structure:extensor_expansion",
+    "evidence": "anatomy",
+    "description": "Sormien ojentajalihaksen neljä jännettä kiinnittyvät kunkin sormen ojentajajänteen laajentumaan.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-digiti-minimi-extensor-expansion",
+    "type": "attachment",
+    "from": "muscle:extensor_digiti_minimi",
+    "to": "structure:extensor_expansion",
+    "evidence": "anatomy",
+    "description": "Pikkusormen ojentajalihas kiinnittyy pikkusormen ojentajajänteen laajentumaan.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-indicis-extensor-expansion",
+    "type": "attachment",
+    "from": "muscle:extensor_indicis",
+    "to": "structure:extensor_expansion",
+    "evidence": "anatomy",
+    "description": "Etusormen ojentajalihas kiinnittyy etusormen ojentajajänteen laajentumaan.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "lumbricales-manus-extensor-expansion",
+    "type": "attachment",
+    "from": "muscle:lumbricales_manus",
+    "to": "structure:extensor_expansion",
+    "evidence": "anatomy",
+    "description": "Käden matolihakset kiinnittyvät sormien ojentajajänteiden laajentumiin.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "interossei-dorsales-manus-extensor-expansion",
+    "type": "attachment",
+    "from": "muscle:interossei_dorsales_manus",
+    "to": "structure:extensor_expansion",
+    "evidence": "anatomy",
+    "description": "Kämmenselän puoleiset luidenväliset lihakset kiinnittyvät sormien ojentajajänteiden laajentumiin.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "interossei-palmares-extensor-expansion",
+    "type": "attachment",
+    "from": "muscle:interossei_palmares",
+    "to": "structure:extensor_expansion",
+    "evidence": "anatomy",
+    "description": "Kämmenen puoleiset luidenväliset lihakset kiinnittyvät sormien ojentajajänteiden laajentumiin.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "lumbricales-manus-flexor-digitorum-profundus",
+    "type": "attachment",
+    "from": "muscle:lumbricales_manus",
+    "to": "muscle:flexor_digitorum_profundus",
+    "evidence": "anatomy",
+    "description": "Käden matolihakset lähtevät sormien syvän koukistajalihaksen jänteistä.",
+    "sources": ["teachme-hand"]
+  },
+  {
+    "id": "abductor-digiti-minimi-manus-flexor-carpi-ulnaris",
+    "type": "attachment",
+    "from": "muscle:abductor_digiti_minimi_manus",
+    "to": "muscle:flexor_carpi_ulnaris",
+    "evidence": "anatomy",
+    "description": "Pikkusormen loitontajalihas lähtee osittain ranteen kyynärpuoleisen koukistajalihaksen jänteestä.",
+    "sources": ["teachme-hand"]
+  }
+]

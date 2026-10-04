@@ -1,0 +1,537 @@
+/* Design tokens from design-brief.md */
+:root {
+  /* Surfaces */
+  --surface:        oklch(97% 0.008 240);
+  --surface-raised: oklch(99.5% 0.004 240);
+  --ink:            oklch(24% 0.02 250);
+  --ink-muted:      oklch(48% 0.02 250);
+  --line:           oklch(88% 0.01 240);
+
+  /* Anatomy */
+  --muscle:         oklch(58% 0.14 22);
+  --muscle-dim:     oklch(72% 0.06 22);
+  --tendon:         oklch(88% 0.05 85);
+
+  /* Meaningful highlights */
+  --pain:           oklch(70% 0.14 215);
+  --source-local:   oklch(74% 0.17 65);
+  --source-distant: oklch(60% 0.18 300);
+  --focus:          oklch(55% 0.2 260);
+
+  /* Typography */
+  --font: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --step--1: clamp(0.83rem, 0.80rem + 0.15vw, 0.90rem);
+  --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.10rem);
+  --step-1:  clamp(1.20rem, 1.12rem + 0.40vw, 1.40rem);
+  --step-2:  clamp(1.44rem, 1.30rem + 0.70vw, 1.80rem);
+  --leading: 1.5;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface:        oklch(20% 0.015 250);
+    --surface-raised: oklch(25% 0.015 250);
+    --ink:            oklch(94% 0.01 240);
+    --ink-muted:      oklch(72% 0.015 240);
+    --line:           oklch(34% 0.015 250);
+    --muscle-dim:     oklch(42% 0.06 22);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--step-0);
+  line-height: var(--leading);
+  color: var(--ink);
+  background: var(--surface);
+}
+
+/* Mobile: model above, panel below. Desktop: fixed panel on the right. */
+main {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100dvh;
+}
+
+@media (min-width: 64rem) {
+  main {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr clamp(20rem, 28vw, 26rem);
+  }
+}
+
+.viewer {
+  position: relative;
+  min-height: 0;
+}
+
+.viewer-error {
+  max-width: 40ch;
+  margin: 0;
+  padding: 7rem 1rem 1rem;
+  color: var(--ink-muted);
+}
+
+.panel {
+  padding: 1rem;
+  background: var(--surface-raised);
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 64rem) {
+  .panel {
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+}
+
+.panel > :not(dialog) {
+  max-width: 60ch;
+  margin: 0 0 0.75rem;
+}
+
+/* On phones the panel is a bottom sheet: half open or fully open, with the model always
+   visible above it. It scrolls instead of growing further. */
+.sheet-handle {
+  display: none;
+}
+
+@media (max-width: 63.99rem) {
+  .panel {
+    max-height: 45dvh;
+    padding-top: 0;
+    transition: max-height 200ms ease-out;
+  }
+
+  .panel[data-sheet='full'] {
+    max-height: 75dvh;
+  }
+
+  .wide-only {
+    display: none;
+  }
+
+  /* Narrow enough to share the first row with the search; the options list shows full names. */
+  .area-select {
+    width: 6.5rem;
+  }
+
+  /* Next to the layer toggles on the toolbar's second row, so it never covers them. */
+  .viewer .reset-view {
+    top: calc(1rem + 44px + 0.5rem);
+    right: 1rem;
+    bottom: auto;
+    left: auto;
+  }
+
+  .panel > .sheet-handle {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% + 2rem);
+    max-width: none;
+    min-height: 44px;
+    margin: 0 -1rem 0.25rem;
+    padding: 0;
+    background: var(--surface-raised);
+    border: 0;
+    border-radius: 0;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .sheet-grip {
+    width: 2.5rem;
+    height: 0.3rem;
+    background: var(--line);
+    border-radius: 1rem;
+  }
+}
+
+.region-name {
+  font-size: var(--step-2);
+  line-height: 1.2;
+}
+
+.empty-state {
+  color: var(--ink-muted);
+}
+
+.disclaimer {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+}
+
+.notice {
+  max-width: min(32rem, calc(100vw - 2rem));
+  padding: 1.5rem;
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+
+.notice::backdrop {
+  background: oklch(24% 0.02 250 / 0.4);
+}
+
+.notice h2 {
+  margin-top: 0;
+  font-size: var(--step-1);
+}
+
+.notice h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: var(--step-0);
+}
+
+.sources {
+  max-height: 85dvh;
+  overflow-y: auto;
+}
+
+.sources ul,
+.facts-sources {
+  padding-left: 1.25rem;
+  font-size: var(--step--1);
+}
+
+.muscle-name {
+  margin-bottom: 0;
+  font-size: var(--step-1);
+}
+
+.latin-name {
+  margin-top: 0.25rem;
+}
+
+.pain-results h3 {
+  margin: 0 0 0.5rem;
+  font-size: var(--step-1);
+}
+
+.source-heading {
+  margin: 1rem 0 0.25rem;
+  font-size: var(--step-0);
+}
+
+/* Local and distant sources differ by shape as well as colour. */
+.source-marker {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  margin-right: 0.35em;
+}
+
+.source-marker.local {
+  background: var(--source-local);
+  border-radius: 50%;
+}
+
+.source-marker.distant {
+  background: var(--source-distant);
+  transform: rotate(45deg) scale(0.85);
+}
+
+.source-subheading {
+  margin: 0.75rem 0 0.25rem;
+  font-size: var(--step--1);
+}
+
+.source-hint {
+  margin: 0 0 0.5rem;
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+}
+
+.source-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.source-list button {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  font-size: var(--step-0);
+  text-align: left;
+}
+
+.source-chain {
+  display: block;
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+}
+
+.chain h3 {
+  margin: 1rem 0 0.5rem;
+  font-size: var(--step-1);
+}
+
+.chain-steps {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Steps light up one by one from the pain point towards the source (useReveal). */
+.chain-steps li {
+  opacity: 0.2;
+  transition: opacity 150ms ease-out;
+}
+
+.chain-steps li.lit {
+  opacity: 1;
+}
+
+.chain-node {
+  display: block;
+  padding: 0.25rem 0.5rem;
+  font-weight: 700;
+  border-left: 4px solid var(--source-distant);
+}
+
+.chain-steps li:first-child .chain-node {
+  border-left-color: var(--pain);
+}
+
+.chain-link {
+  margin: 0;
+  padding: 0.25rem 0 0.5rem 1.25rem;
+  font-size: var(--step--1);
+  border-left: 2px dashed var(--line);
+  margin-left: 1px;
+}
+
+.chain-link p {
+  margin: 0 0 0.25rem;
+}
+
+.chain-meta {
+  color: var(--ink-muted);
+}
+
+.attachment-legend {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+}
+
+/* Vertex colours of the attachments model (public/models/attachments.glb). */
+.swatch {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.5em;
+  vertical-align: -0.05em;
+  border-radius: 50%;
+}
+
+.swatch-origin {
+  background: #e73f30;
+}
+
+.swatch-insertion {
+  background: #5dc0d6;
+}
+
+.muscle-facts dt {
+  font-weight: 700;
+}
+
+.muscle-facts dd {
+  margin: 0 0 0.75rem;
+}
+
+.facts-sources-title {
+  font-size: var(--step--1);
+}
+
+a {
+  color: var(--focus);
+}
+
+/* The source list stays at the bottom of the panel. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sources-button {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+/* Search on the left, layer toggles on the right; wraps to two rows on phones. */
+.toolbar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toolbar > * {
+  pointer-events: auto;
+}
+
+.layer-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.layer-toggles[hidden] {
+  display: none;
+}
+
+.search {
+  position: relative;
+  flex: 1 1 14rem;
+  max-width: 22rem;
+}
+
+.search input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+
+/* Next to the search; the layer toggles stay at the right edge. */
+.area-select {
+  margin-right: auto;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--ink);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  left: 0;
+  max-height: 50dvh;
+  margin: 0;
+  padding: 0.25rem;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+
+.search-results button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+}
+
+.search-results button:hover {
+  background: var(--surface);
+}
+
+.search-results i,
+.latin-name {
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+.search-empty {
+  padding: 0.5rem 1rem;
+  color: var(--ink-muted);
+}
+
+/* Checkbox-like marker so the state is not shown by colour alone. */
+.layer-toggles button::before {
+  content: '';
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 0.5em;
+  vertical-align: -0.1em;
+  border: 2px solid currentColor;
+  border-radius: 0.2em;
+}
+
+.layer-toggles button[aria-pressed='true']::before {
+  background: currentColor;
+}
+
+.layer-toggles button[aria-pressed='false'] {
+  color: var(--ink-muted);
+}
+
+.reset-view {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* View headings receive focus programmatically (App.tsx) so screen readers announce them;
+   they are not controls, so no focus ring. */
+[data-autofocus]:focus {
+  outline: none;
+}
+
+.notice-line {
+  padding: 0.5rem 0.75rem;
+  font-size: var(--step--1);
+  background: var(--surface);
+  border-left: 3px solid var(--focus);
+}

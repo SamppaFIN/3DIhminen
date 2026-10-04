@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Muscles",
+  "description": "Contents of muscles.json: one record per muscle. Free-text fields are in Finnish.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "name", "origin", "insertion", "action", "layer", "sources"],
+    "properties": {
+      "id": {
+        "description": "Stable identifier in snake_case.",
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "meshes": {
+        "description": "Mesh names in the 3D model that make up this muscle, exactly as in the model file (S1.1). A muscle may have several meshes, e.g. two heads.",
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": { "type": "string", "minLength": 1 }
+      },
+      "attachmentMeshes": {
+        "description": "Attachment patch meshes in the attachments model (S4.1), exactly as in the model file. Vertex colour marks the end: red = origin, blue = insertion.",
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": { "type": "string", "minLength": 1 }
+      },
+      "name": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fi", "la"],
+        "properties": {
+          "fi": { "description": "Finnish name.", "type": "string", "minLength": 1 },
+          "la": { "description": "Latin name (shown in italics).", "type": "string", "minLength": 1 }
+        }
+      },
+      "origin": { "description": "Origin (origo).", "type": "string", "minLength": 1 },
+      "insertion": { "description": "Insertion (insertio).", "type": "string", "minLength": 1 },
+      "action": { "description": "Action (toiminta).", "type": "string", "minLength": 1 },
+      "layer": {
+        "description": "Layer toggle group in the 3D view (S1.3).",
+        "enum": ["superficial", "deep"]
+      },
+      "sources": {
+        "description": "Ids of entries in sources.json that support this record.",
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": { "type": "string", "pattern": "^[a-z0-9-]+$" }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sources",
+  "description": "Contents of sources.json: the bibliography that data records cite by id. Also rendered as the in-app source list (S5.2).",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "label", "citation"],
+    "properties": {
+      "id": {
+        "description": "Stable identifier in kebab-case, e.g. teachme-foot.",
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "label": {
+        "description": "Short label shown next to a claim, e.g. \"Snow ym. 1995\".",
+        "type": "string",
+        "minLength": 1
+      },
+      "citation": {
+        "description": "Full citation: authors, title, edition or journal, year, and section or page where relevant.",
+        "type": "string",
+        "minLength": 1
+      },
+      "url": {
+        "description": "Link to the source, if one exists.",
+        "type": "string",
+        "pattern": "^https?://"
+      }
+    }
+  }
+}

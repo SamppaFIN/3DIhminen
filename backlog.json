@@ -1,0 +1,570 @@
+{
+  "_meta": {
+    "schema_version": "1.0",
+    "project": "Lihastohtori",
+    "generated_at": "2026-10-04T05:00:00Z",
+    "language": "fi",
+    "git_commit": null,
+    "generated_by": "Delta",
+    "notes": "Koodi on GitHubissa (https://github.com/SamppaFIN/3DIhminen, päätös 2026-10-04). git_commit on commit, jonka päälle backlog on päivitetty; null tarkoittaa, että päivitys tehtiin samassa commitissa. Päivitä generated_at aina kun backlogia muutetaan.",
+    "status_values": [
+      "todo",
+      "in_progress",
+      "blocked",
+      "done"
+    ],
+    "effort_values": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  "epics": [
+    {
+      "id": "E1",
+      "title": "3D-anatomiamalli",
+      "type": "epic",
+      "status": "done",
+      "description": "Alaraajan 3D-malli selaimessa: lataus, navigointi ja kerrokset.",
+      "stories": [
+        {
+          "id": "S1.1",
+          "title": "Anatomiamalli glTF-muodossa",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "anatomiamallin glTF-muodossa",
+          "so_that": "lihakset voidaan renderöidä ja valita erillisinä objekteina",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "Jokainen MVP-alueen lihas on mapattu meshiinsä lihasdatan meshes-kentällä, ja testi tarkistaa, että nimet löytyvät mallista",
+            "Mallin lähde ja lisenssi on kirjattu, ja malli latautuu paikallisesti alle 5 sekunnissa"
+          ],
+          "depends_on": []
+        },
+        {
+          "id": "S1.2",
+          "title": "Mallin navigointi",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "pyörittää, zoomata ja panoroida mallia",
+          "so_that": "näen kehon mistä suunnasta tahansa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Toimii sekä hiirellä että kosketuksella (vedä, nipistä)",
+            "'Palauta näkymä' -painike palauttaa oletuskulman"
+          ],
+          "depends_on": [
+            "S1.1"
+          ]
+        },
+        {
+          "id": "S1.3",
+          "title": "Lihaskerrokset",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "näyttää ja piilottaa kerroksia (pinnalliset ja syvät lihakset)",
+          "so_that": "näen myös syvemmät rakenteet",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Vähintään kaksi lihaskerrosta on kytkettävissä erikseen",
+            "Piilotettu kerros ei vastaanota klikkauksia"
+          ],
+          "depends_on": [
+            "S1.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "title": "Lihasdata ja kytkökset",
+      "type": "epic",
+      "status": "done",
+      "description": "Validoitava lihas- ja kytkösdata lähdeviitteineen.",
+      "stories": [
+        {
+          "id": "S2.0",
+          "title": "Testausympäristö (Vitest)",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "Vitest-testiympäristön ja ensimmäisen testin",
+          "so_that": "datan ja logiikan oikeellisuus voidaan todentaa alusta asti",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "'npm test' ajaa Vitestin ja vähintään yksi testi menee läpi",
+            "Testit ajetaan ennen kuin story merkitään tilaan done"
+          ],
+          "depends_on": []
+        },
+        {
+          "id": "S2.1",
+          "title": "Lihasdatan JSON-skeema",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "JSON-skeeman lihaksille (id, nimi suomeksi ja latinaksi, origo, insertio, toiminta, kerros)",
+          "so_that": "data on validoitavissa",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Skeema on dokumentoitu",
+            "Vitest-testi validoi kaikki datatiedostot skeemaa vasten"
+          ],
+          "depends_on": [
+            "S2.0"
+          ]
+        },
+        {
+          "id": "S2.2",
+          "title": "MVP-alueen lihasdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "MVP-alueen (polvesta alaspäin) lihasdatan",
+          "so_that": "toiminnot rakennetaan oikealla datalla",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "Kaikki säären ja jalkaterän päälihakset ovat mukana",
+            "Jokaisella lihaksella on vähintään yksi lähdeviite"
+          ],
+          "depends_on": [
+            "S2.1"
+          ]
+        },
+        {
+          "id": "S2.3",
+          "title": "Kytkösdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "kytkösdatan (yhteinen jänne tai faskia, kiinnityskohta, heijastekipu)",
+          "so_that": "kytkösnäkymä ja kipuhaku käyttävät samaa dataa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Jokaisella kytköksellä on tyyppi, näytön taso ja lähde",
+            "Testi varmistaa, että kytkökset viittaavat vain olemassa oleviin lihaksiin"
+          ],
+          "depends_on": [
+            "S2.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E3",
+      "title": "Kipukohdasta lihaksiin",
+      "type": "epic",
+      "status": "done",
+      "description": "Ydintoiminto: kipeän kohdan valinta ja siihen mahdollisesti vaikuttavien lihasten näyttäminen.",
+      "stories": [
+        {
+          "id": "S3.1",
+          "title": "Kipukohdan valinta",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "klikata kipeää kohtaa mallin pinnalla",
+          "so_that": "voin näyttää, missä kipu tuntuu",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Klikkaus jättää näkyvän merkin, ja sovellus tunnistaa kehon alueen (esim. jalkapohja)",
+            "Toimii myös kosketusnäytöllä"
+          ],
+          "depends_on": [
+            "S1.2"
+          ]
+        },
+        {
+          "id": "S3.2",
+          "title": "Vaikuttavien lihasten korostus",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "nähdä korostettuina lihakset, jotka voivat vaikuttaa kipukohtaan",
+          "so_that": "ymmärrän, mistä kipu voi olla peräisin",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "Jalkapohjan klikkaus korostaa muun muassa pohjelihaksen kiinnityksen polven takana",
+            "Paikalliset ja kauempana sijaitsevat lähteet erottuvat värillä, ja tulos näytetään myös tekstilistana"
+          ],
+          "depends_on": [
+            "S3.1",
+            "S2.3"
+          ]
+        },
+        {
+          "id": "S3.3",
+          "title": "Kytkösketjun selitys",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "nähdä, miksi lihas liittyy kipuuni",
+          "so_that": "yhteys on ymmärrettävä",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Kytkösketju näytetään vaihe vaiheelta (esim. jalkapohja → plantaarifaskia → akillesjänne → kaksoiskantalihas)",
+            "Ketjun jokaisen vaiheen lähde on nähtävissä"
+          ],
+          "depends_on": [
+            "S3.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E4",
+      "title": "Lihasten tutkiminen",
+      "type": "epic",
+      "status": "done",
+      "description": "Yksittäisen lihaksen tiedot, kytkökset ja haku.",
+      "stories": [
+        {
+          "id": "S4.1",
+          "title": "Lihaksen tietopaneeli",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "klikata lihasta ja nähdä sen tiedot",
+          "so_that": "opin sen origon, insertion ja toiminnan",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Tietopaneelissa on nimi suomeksi ja latinaksi",
+            "Origo ja insertio korostetaan mallissa"
+          ],
+          "depends_on": [
+            "S1.2",
+            "S2.2"
+          ]
+        },
+        {
+          "id": "S4.2",
+          "title": "Kytkeytyvät lihakset",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "nähdä lihakseen kytkeytyvät lihakset",
+          "so_that": "hahmotan kokonaisuuden",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Kytkeytyvät lihakset korostetaan mallissa",
+            "Kytkeytyvää lihasta klikkaamalla siirrytään sen tietoihin"
+          ],
+          "depends_on": [
+            "S4.1",
+            "S2.3"
+          ]
+        },
+        {
+          "id": "S4.3",
+          "title": "Lihashaku",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "hakea lihasta nimellä",
+          "so_that": "löydän sen pyörittelemättä mallia",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Haku toimii sekä suomeksi että latinaksi",
+            "Valinta kohdistaa kameran lihakseen"
+          ],
+          "depends_on": [
+            "S2.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E5",
+      "title": "Luotettavuus ja vastuu",
+      "type": "epic",
+      "status": "done",
+      "description": "Vastuuvapausilmoitus ja lähteiden läpinäkyvyys.",
+      "stories": [
+        {
+          "id": "S5.1",
+          "title": "Ei-diagnoosi-ilmoitus",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "selkeän ilmoituksen siitä, ettei sovellus tee diagnoosia",
+          "so_that": "en tee hoitopäätöksiä pelkän sovelluksen perusteella",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Ilmoitus näkyy ensikäynnillä ja jokaisessa kipuhaun tulosnäkymässä",
+            "Ilmoitus kehottaa hakeutumaan ammattilaiselle, jos kipu on kova tai pitkittynyt"
+          ],
+          "depends_on": []
+        },
+        {
+          "id": "S5.2",
+          "title": "Lähteet ja attribuutio",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "nähdä datan ja 3D-mallin lähteet",
+          "so_that": "voin arvioida tiedon luotettavuutta",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Lähdeluettelo on avattavissa sovelluksesta",
+            "3D-mallin lisenssin vaatima attribuutio näkyy"
+          ],
+          "depends_on": [
+            "S1.1",
+            "S2.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E6",
+      "title": "Viimeistely",
+      "type": "epic",
+      "status": "done",
+      "description": "MVP:n jälkeiset korjaukset: design-briefin mobiiliasettelu ja koodin laatukatselmus.",
+      "stories": [
+        {
+          "id": "S6.1",
+          "title": "Mobiilin vedettävä alapaneeli",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "vetää tulospaneelin puoliksi tai kokonaan auki puhelimella",
+          "so_that": "voin lukea tulokset ja nähdä silti mallin",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Paneeli on puoliksi tai kokonaan auki, ja malli näkyy aina sen yläpuolella",
+            "Tilaa voi vaihtaa vetämällä, napauttamalla ja näppäimistöllä"
+          ],
+          "depends_on": [
+            "S3.2"
+          ]
+        },
+        {
+          "id": "S6.2",
+          "title": "Koodin laatukatselmus",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "katselmoidun ja korjatun koodipohjan",
+          "so_that": "MVP:n nopeasti kirjoitettu koodi on luotettava jatkokehitykselle",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Katselmoinnin vakavat löydökset on korjattu tai perustellusti hylätty",
+            "Testit, tyyppitarkistus ja lint menevät läpi"
+          ],
+          "depends_on": []
+        }
+      ]
+    },
+    {
+      "id": "E7",
+      "title": "Koko alaraaja (laajennus, vaihe A)",
+      "type": "epic",
+      "status": "in_progress",
+      "description": "Lonkka, pakara ja reisi mukaan. Yleistää kehon aluejärjestelmän koko keholle sopivaksi ja mittaa suorituskyvyn ennen muita alueita.",
+      "stories": [
+        {
+          "id": "S7.1",
+          "title": "Yleistetty kehon aluejärjestelmä",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "aluejärjestelmän, joka päättelee kehon osan lähimmästä luusta ja puolen osan keskilinjasta",
+          "so_that": "sama logiikka toimii koko keholle",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "Nykyisten säären ja jalkaterän alueiden testit menevät edelleen läpi",
+            "Reiden, lonkan ja pakaran alueet tunnistuvat testeissä oikean mallin säteillä"
+          ],
+          "depends_on": [
+            "S7.2"
+          ]
+        },
+        {
+          "id": "S7.2",
+          "title": "Koko alaraajan malli",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "lonkan, pakaran ja reiden lihakset ja luut malliin",
+          "so_that": "alaraaja on kokonainen",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Malli latautuu paikallisesti alle 5 sekunnissa",
+            "Kipuklikkauksen poiminta kestää alle 50 ms työpöydällä, tarvittaessa BVH-kiihdytyksellä"
+          ],
+          "depends_on": []
+        },
+        {
+          "id": "S7.3",
+          "title": "Lonkan, pakaran ja reiden lihasdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "lihasdatan lähteineen uusille lihaksille",
+          "so_that": "toiminnot kattavat koko alaraajan",
+          "effort": "L",
+          "status": "in_progress",
+          "acceptance_criteria": [
+            "Kaikki lonkan, pakaran ja reiden päälihakset ovat mukana",
+            "Jokaisella lihaksella on vähintään yksi lähdeviite, ja Sami on tehnyt pistokokeen"
+          ],
+          "depends_on": [
+            "S7.2"
+          ]
+        },
+        {
+          "id": "S7.4",
+          "title": "Reiden ja lonkan kytkösdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "kytkökset uusille lihaksille ja rakenteille (esim. suoliluu-sääriluukaista, nelipäisen jänne)",
+          "so_that": "kipuhaku toimii koko alaraajassa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Jokaisella kytköksellä on tyyppi, näytön taso ja lähde",
+            "Testit varmistavat viittausten eheyden"
+          ],
+          "depends_on": [
+            "S7.3"
+          ]
+        },
+        {
+          "id": "S7.5",
+          "title": "Koko raajan näkymä ja aluepikavalinnat",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "siirtyä nopeasti kehon alueelle",
+          "so_that": "löydän kipukohdan pyörittelemättä",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Oletusnäkymä näyttää koko alaraajan",
+            "Aluepikavalinnat siirtävät kameran alueelle"
+          ],
+          "depends_on": [
+            "S7.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E8",
+      "title": "Yläraaja ja käsi (vaihe B)",
+      "type": "epic",
+      "status": "in_progress",
+      "description": "Open3D:n yläraaja- ja käsimallit, lihasdata ja kytkökset.",
+      "stories": [
+        {
+          "id": "S8.1",
+          "title": "Useiden mallien lataus ja kehon osan tunnistus lähimmästä luusta",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "ladata alaraajan ja yläraajan mallit yhdeksi näkymäksi ja tunnistaa kehon osan lähimmästä luusta",
+          "so_that": "käsivarren ja vartalon samalla korkeudella olevat pisteet erottuvat",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "Alaraajan aluetestit menevät edelleen läpi",
+            "Yläraajan alueet (olkapää, olkavarsi, kyynärpää, kyynärvarsi, ranne, käsi) tunnistuvat testeissä oikean mallin säteillä"
+          ],
+          "depends_on": [
+            "S8.2"
+          ]
+        },
+        {
+          "id": "S8.2",
+          "title": "Yläraajan ja käden malli",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "yläraajan ja käden lihakset ja luut malliin",
+          "so_that": "kehon laajennus etenee",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Malli latautuu paikallisesti alle 5 sekunnissa",
+            "Lähde, lisenssi ja tarkistussummat on kirjattu ATTRIBUTION.md:hen"
+          ],
+          "depends_on": []
+        },
+        {
+          "id": "S8.3",
+          "title": "Yläraajan ja käden lihasdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "lihasdatan lähteineen yläraajan ja käden lihaksille",
+          "so_that": "toiminnot kattavat yläraajan",
+          "effort": "L",
+          "status": "in_progress",
+          "acceptance_criteria": [
+            "Kaikki yläraajan ja käden päälihakset ovat mukana",
+            "Jokaisella lihaksella on vähintään yksi lähdeviite, ja Sami on tehnyt pistokokeen"
+          ],
+          "depends_on": [
+            "S8.2"
+          ]
+        },
+        {
+          "id": "S8.4",
+          "title": "Yläraajan kytkösdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "kytkökset yläraajan lihaksille (esim. kyynärpään yhteiset koukistaja- ja ojentajalähtökohdat, kiertäjäkalvosin)",
+          "so_that": "kipuhaku toimii yläraajassa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Jokaisella kytköksellä on tyyppi, näytön taso ja lähde",
+            "Testit varmistavat viittausten eheyden"
+          ],
+          "depends_on": [
+            "S8.3"
+          ]
+        },
+        {
+          "id": "S8.5",
+          "title": "Yläraajan aluepikavalinnat",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "siirtyä nopeasti olkapäähän, kyynärpäähän tai käteen",
+          "so_that": "löydän kipukohdan pyörittelemättä",
+          "effort": "S",
+          "status": "in_progress",
+          "acceptance_criteria": [
+            "Pikavalinnat kattavat yläraajan alueet"
+          ],
+          "depends_on": [
+            "S8.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E9",
+      "title": "Vartalo (vaihe C)",
+      "type": "epic",
+      "status": "todo",
+      "description": "Rintakehän, vatsan ja selän lihakset Open3D:n vartalomallista.",
+      "stories": []
+    },
+    {
+      "id": "E10",
+      "title": "Pää ja kaula (vaihe D)",
+      "type": "epic",
+      "status": "todo",
+      "description": "Z-Anatomyn pää ja kaula. Edellyttää yhteensopivuustestiä Open3D-koordinaatiston kanssa.",
+      "stories": []
+    },
+    {
+      "id": "E11",
+      "title": "Molemmat puolet (vaihe E)",
+      "type": "epic",
+      "status": "todo",
+      "description": "Vasemman puolen peilaus ja kipukohdan puolen tunnistus.",
+      "stories": []
+    }
+  ]
+}
