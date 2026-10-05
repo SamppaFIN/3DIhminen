@@ -548,5 +548,122 @@
     "evidence": "anatomy",
     "description": "Pikkusormen loitontajalihas lähtee osittain ranteen kyynärpuoleisen koukistajalihaksen jänteestä.",
     "sources": ["teachme-hand"]
+  },
+  {
+    "id": "obliquus-externus-abdominis-linea-alba",
+    "type": "shared_tissue",
+    "from": "muscle:obliquus_externus_abdominis",
+    "to": "structure:linea_alba",
+    "evidence": "anatomy",
+    "description": "Ulomman vinon vatsalihaksen kalvojänne punoutuu keskiviivassa muiden litteiden vatsalihasten kalvojänteiden kanssa valkoiseksi juovaksi (linea alba).",
+    "sources": ["teachme-abdominal-wall"]
+  },
+  {
+    "id": "obliquus-internus-abdominis-linea-alba",
+    "type": "shared_tissue",
+    "from": "muscle:obliquus_internus_abdominis",
+    "to": "structure:linea_alba",
+    "evidence": "anatomy",
+    "description": "Sisemmän vinon vatsalihaksen kalvojänne punoutuu keskiviivassa muiden litteiden vatsalihasten kalvojänteiden kanssa valkoiseksi juovaksi (linea alba).",
+    "sources": ["teachme-abdominal-wall"]
+  },
+  {
+    "id": "transversus-abdominis-linea-alba",
+    "type": "shared_tissue",
+    "from": "muscle:transversus_abdominis",
+    "to": "structure:linea_alba",
+    "evidence": "anatomy",
+    "description": "Poikittaisen vatsalihaksen kalvojänne punoutuu keskiviivassa muiden litteiden vatsalihasten kalvojänteiden kanssa valkoiseksi juovaksi (linea alba).",
+    "sources": ["teachme-abdominal-wall"]
+  },
+  {
+    "id": "pyramidalis-linea-alba",
+    "type": "attachment",
+    "from": "muscle:pyramidalis",
+    "to": "structure:linea_alba",
+    "evidence": "anatomy",
+    "description": "Pyramidilihas kiinnittyy valkoiseen juovaan.",
+    "sources": ["teachme-abdominal-wall"]
+  },
+  {
+    "id": "obliquus-internus-abdominis-thoracolumbar-fascia",
+    "type": "attachment",
+    "from": "muscle:obliquus_internus_abdominis",
+    "to": "structure:thoracolumbar_fascia",
+    "evidence": "anatomy",
+    "description": "Sisempi vino vatsalihas lähtee osittain rinta-lannekalvosta.",
+    "sources": ["teachme-abdominal-wall"]
+  },
+  {
+    "id": "transversus-abdominis-thoracolumbar-fascia",
+    "type": "attachment",
+    "from": "muscle:transversus_abdominis",
+    "to": "structure:thoracolumbar_fascia",
+    "evidence": "anatomy",
+    "description": "Poikittainen vatsalihas lähtee osittain rinta-lannekalvosta.",
+    "sources": ["teachme-abdominal-wall"]
+  },
+  {
+    "id": "latissimus-dorsi-thoracolumbar-fascia",
+    "type": "attachment",
+    "from": "muscle:latissimus_dorsi",
+    "to": "structure:thoracolumbar_fascia",
+    "evidence": "anatomy",
+    "description": "Leveä selkälihas lähtee osittain rinta-lannekalvosta.",
+    "sources": ["teachme-shoulder-extrinsic"]
+  },
+  {
+    "id": "iliocostalis-longissimus",
+    "type": "attachment",
+    "from": "muscle:iliocostalis",
+    "to": "muscle:longissimus",
+    "evidence": "anatomy",
+    "description": "Suoliluu-kylkilihas ja pitkä selkälihas lähtevät selän ojentajalihasten (erector spinae) yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-back-intrinsic"]
+  },
+  {
+    "id": "iliocostalis-spinalis",
+    "type": "attachment",
+    "from": "muscle:iliocostalis",
+    "to": "muscle:spinalis",
+    "evidence": "anatomy",
+    "description": "Suoliluu-kylkilihas ja okalihas lähtevät selän ojentajalihasten (erector spinae) yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-back-intrinsic"]
+  },
+  {
+    "id": "longissimus-spinalis",
+    "type": "attachment",
+    "from": "muscle:longissimus",
+    "to": "muscle:spinalis",
+    "evidence": "anatomy",
+    "description": "Pitkä selkälihas ja okalihas lähtevät selän ojentajalihasten (erector spinae) yhteisestä lähtöjänteestä.",
+    "sources": ["teachme-back-intrinsic"]
+  },
+  {
+    "id": "intercostales-externi-obliquus-externus-abdominis",
+    "type": "shared_tissue",
+    "from": "muscle:intercostales_externi",
+    "to": "muscle:obliquus_externus_abdominis",
+    "evidence": "anatomy",
+    "description": "Ulommat kylkivälilihakset jatkuvat ulompaan vinoon vatsalihakseen.",
+    "sources": ["teachme-thoracic-cage"]
+  },
+  {
+    "id": "intercostales-interni-obliquus-internus-abdominis",
+    "type": "shared_tissue",
+    "from": "muscle:intercostales_interni",
+    "to": "muscle:obliquus_internus_abdominis",
+    "evidence": "anatomy",
+    "description": "Sisemmät kylkivälilihakset jatkuvat sisempään vinoon vatsalihakseen.",
+    "sources": ["teachme-thoracic-cage"]
+  },
+  {
+    "id": "transversus-thoracis-transversus-abdominis",
+    "type": "shared_tissue",
+    "from": "muscle:transversus_thoracis",
+    "to": "muscle:transversus_abdominis",
+    "evidence": "anatomy",
+    "description": "Poikittainen rintalihas jatkuu alaspäin poikittaiseen vatsalihakseen.",
+    "sources": ["teachme-thoracic-cage"]
   }
 ]

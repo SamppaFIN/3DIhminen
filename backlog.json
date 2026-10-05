@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-05T20:00:00Z",
+    "generated_at": "2026-10-05T21:00:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -574,7 +574,7 @@
           "i_want": "Open3D:n vartalon lihasmallin samaan näkymään raajojen kanssa",
           "so_that": "vartalon lihakset näkyvät ja ovat valittavissa",
           "effort": "M",
-          "status": "in_progress",
+          "status": "done",
           "acceptance_criteria": [
             "Vartalon lihakset, joita raajojen malleissa ei jo ole, sekä rintakehän ja selkärangan luut ladataan kolmantena mallina",
             "Lisenssi ja muutokset on kirjattu ATTRIBUTION.md:hen"
@@ -591,7 +591,7 @@
           "i_want": "tunnistaa vartalon kipukohdan alueen",
           "so_that": "kipuhaku toimii vartalossa",
           "effort": "M",
-          "status": "in_progress",
+          "status": "done",
           "acceptance_criteria": [
             "Rintakehä, vatsa, yläselkä, alaselkä ja niska tunnistuvat testeissä vartalomallin säteillä"
           ],
@@ -624,7 +624,7 @@
           "i_want": "vartalon lihasten väliset kytkökset lähteineen",
           "so_that": "kipuhaku löytää myös kauempana olevat vartalon lähteet",
           "effort": "M",
-          "status": "in_progress",
+          "status": "done",
           "acceptance_criteria": [
             "Vatsan litteiden lihasten kalvojänteet, rinta-lannekalvo, selän ojentajalihasten yhteinen lähtöjänne ja kylkivälilihasten jatkumot vatsalihaksiin ovat mukana"
           ],
@@ -640,7 +640,7 @@
           "i_want": "siirtyä nopeasti rintakehään, vatsaan, selkään tai niskaan",
           "so_that": "löydän kipukohdan pyörittelemättä",
           "effort": "S",
-          "status": "in_progress",
+          "status": "done",
           "acceptance_criteria": [
             "Pikavalinnat kattavat vartalon alueet"
           ],

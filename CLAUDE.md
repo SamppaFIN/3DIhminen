@@ -109,9 +109,10 @@ Koko tikettipuu on tiedostossa `backlog.json`. Tarkista sen `_meta`-lohko ennen 
 | E6 | Viimeistely | S6.1 (S, mobiilin alapaneeli), S6.2 (S, koodin laatukatselmus) |
 | E7 | Koko alaraaja (laajennus, vaihe A) | S7.1 (L, yleistetty aluejärjestelmä), S7.2 (M, malli), S7.3 (L, lihasdata), S7.4 (M, kytkökset), S7.5 (M, näkymä ja pikavalinnat) |
 | E8 | Yläraaja ja käsi (vaihe B) | S8.1 (L, useat mallit ja kehon osa lähimmästä luusta), S8.2 (M, malli), S8.3 (L, lihasdata), S8.4 (M, kytkökset), S8.5 (S, pikavalinnat) |
-| E9–E11 | Vartalo, pää ja kaula, molemmat puolet (vaiheet C–E) | Storyt pilkotaan, kun vaihe alkaa |
+| E9 | Vartalo (vaihe C) | S9.1 (M, malli), S9.2 (M, alueet), S9.3 (L, lihasdata), S9.4 (M, kytkökset), S9.5 (S, pikavalinnat) |
+| E10–E11 | Pää ja kaula, molemmat puolet (vaiheet D–E) | Storyt pilkotaan, kun vaihe alkaa |
 
-Yhteensä 11 epiciä, 28 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus).
+Yhteensä 11 epiciä, 33 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus).
 
 ---
 

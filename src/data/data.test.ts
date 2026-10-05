@@ -96,8 +96,19 @@ describe('3D model', () => {
     expect(missing).toEqual([])
   })
 
-  // The source model has no patches for these muscles; they insert into soft tissue (tendons, aponeuroses, skin).
-  const WITHOUT_PATCHES = ['palmaris_longus', 'palmaris_brevis', 'lumbricales_manus']
+  // The source model has no patches for these muscles. The first ones insert into soft tissue (tendons,
+  // aponeuroses, skin); the trunk muscles after them run between ribs, vertebrae or the iliac crest.
+  const WITHOUT_PATCHES = [
+    'palmaris_longus',
+    'palmaris_brevis',
+    'lumbricales_manus',
+    'intertransversarii',
+    'intercostales_externi',
+    'intercostales_interni',
+    'intercostales_intimi',
+    'subcostales',
+    'quadratus_lumborum',
+  ]
 
   it('every muscle is mapped to attachment patches that exist in the attachments model', () => {
     const nodeNames = glbNodeNames('public/models/attachments.glb')

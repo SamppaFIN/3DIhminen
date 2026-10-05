@@ -124,5 +124,41 @@
     "label": "TeachMeAnatomy: käden lihakset",
     "citation": "Jones O. Muscles of the Hand. TeachMeAnatomy, päivitetty 2026-05-10, luettu 2026-10-03.",
     "url": "https://teachmeanatomy.info/upper-limb/muscles/hand/"
+  },
+  {
+    "id": "teachme-back-intermediate",
+    "label": "TeachMeAnatomy: selän välikerroksen lihakset",
+    "citation": "Jones O. The Intermediate Back Muscles. TeachMeAnatomy, päivitetty 2025-11-20, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/back/muscles/intermediate/"
+  },
+  {
+    "id": "teachme-back-intrinsic",
+    "label": "TeachMeAnatomy: selän sisäiset lihakset",
+    "citation": "Jones O. The Intrinsic Back Muscles. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/back/muscles/intrinsic/"
+  },
+  {
+    "id": "teachme-thoracic-cage",
+    "label": "TeachMeAnatomy: rintakehän lihakset",
+    "citation": "Jones O. The Muscles of the Thoracic Cage. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/thorax/muscles/thoracic-cage/"
+  },
+  {
+    "id": "teachme-diaphragm",
+    "label": "TeachMeAnatomy: pallea",
+    "citation": "Jones O. The Diaphragm. TeachMeAnatomy, päivitetty 2026-05-26, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/thorax/muscles/diaphragm/"
+  },
+  {
+    "id": "teachme-abdominal-wall",
+    "label": "TeachMeAnatomy: vatsan etu- ja sivuseinämä",
+    "citation": "Jones O. The Anterolateral Abdominal Wall. TeachMeAnatomy, päivitetty 2026-02-01, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/abdomen/muscles/abdominal-wall/"
+  },
+  {
+    "id": "teachme-posterior-abdominal-wall",
+    "label": "TeachMeAnatomy: vatsaontelon takaseinämä",
+    "citation": "Kammath V. The Posterior Abdominal Wall. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/abdomen/muscles/posterior-wall/"
   }
 ]

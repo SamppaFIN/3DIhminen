@@ -3,7 +3,9 @@ import { type Object3D, Raycaster, Vector3 } from 'three'
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { beforeAll, describe, expect, it } from 'vitest'
+import { findPainSources } from '../search/painSearch'
 import { computeArmLandmarks, trunkRegion } from './armRegions'
+import { nearbyNodes, nearbyRadius } from './nearby'
 import type { Region } from './regions'
 import { computeTrunkLandmarks, type TrunkLandmarks } from './trunkRegions'
 
@@ -52,5 +54,35 @@ describe('trunk regions on the trunk model', () => {
 
   it('finds the neck above the first thoracic vertebra', () => {
     expect(landmarks.neckY).toBeGreaterThan(elbowY)
+  })
+})
+
+// The whole pain search as the app runs it: hit, region, nearby structures, sources.
+function painSourcesAt(origin: Vec, direction: Vec) {
+  const raycaster = new Raycaster(new Vector3(...origin), new Vector3(...direction).normalize())
+  const hit = raycaster.intersectObject(trunk, true)[0]
+  const region = trunkRegion(hit.point, elbowY, landmarks.neckY)
+  return findPainSources(nearbyNodes(trunk, hit.point, nearbyRadius(region)), region)
+}
+
+const muscleIds = (sources: { muscle: { id: string } }[]) => sources.map((s) => s.muscle.id)
+const localIds = (local: { id: string }[]) => local.map((m) => m.id)
+
+describe('pain search on the trunk model', () => {
+  it('traces lower back pain over the thoracolumbar fascia to the abdominal muscles that arise from it', () => {
+    const { distant } = painSourcesAt([-0.04, 1.0, -1], FROM_BEHIND)
+    expect(muscleIds(distant)).toEqual(expect.arrayContaining(['transversus_abdominis', 'obliquus_internus_abdominis']))
+  })
+
+  // The flat muscles' meshes include their aponeuroses, which cover the rectus abdominis.
+  it('finds the abdominal wall under abdominal pain and the pyramidalis through the linea alba', () => {
+    const { local, distant } = painSourcesAt([-0.01, 0.95, 1], FROM_FRONT)
+    expect(localIds(local)).toEqual(expect.arrayContaining(['rectus_abdominis', 'obliquus_externus_abdominis']))
+    expect(muscleIds(distant)).toContain('pyramidalis')
+  })
+
+  it('finds the splenius capitis under neck pain', () => {
+    const { local } = painSourcesAt([-0.03, 1.5, -1], FROM_BEHIND)
+    expect(localIds(local)).toContain('splenius_capitis')
   })
 })
