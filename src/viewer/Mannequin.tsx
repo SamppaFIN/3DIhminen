@@ -35,7 +35,7 @@ const CENTRE: Part[] = [
   { area: 'head', capsule: [[0, 1.4, -0.03], [0, 1.5, -0.02]], radius: 0.05 },
 ]
 
-// The head is a space-helmet bubble for now; the head is modelled separately later.
+// The figure's head is a space-helmet bubble; clicking it zooms into the head and neck anatomy.
 const HELMET = { centre: [0, 1.6, -0.005] as Vec, radius: 0.165, rimY: 1.46 }
 
 const mirror = ([x, y, z]: Vec): Vec => [-x, y, z]

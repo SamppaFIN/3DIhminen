@@ -1,9 +1,11 @@
 // Quick jumps to parts of the body (S7.5, S8.5), also used by the whole-body figure.
-// The camera frames these meshes: bones, or for the elbow the small muscles around the joint. The ids match the figure's body areas (viewer/Mannequin.tsx).
+// The camera frames these meshes: bones, or for the elbow the small muscles around the joint.
+// `view` is the direction to look from (model frame, +Z front); without it the camera keeps its direction. The ids match the figure's body areas (viewer/Mannequin.tsx).
 export const AREAS = [
-  { id: 'neck', label: 'Niska', meshes: ['Axis (C2)', 'Cervical vertebrae (C7)', 'Splenius capitis muscle.r'] },
+  { id: 'head', label: 'Pää', meshes: ['Frontal bone', 'Occipital bone', 'Mandible'] },
+  { id: 'neck', label: 'Kaula ja niska', meshes: ['Axis (C2)', 'Cervical vertebrae (C7)', 'Splenius capitis muscle.r'] },
   { id: 'trunk', label: 'Rintakehä', meshes: ['Manubrium of sternum', 'Xiphoid process', 'Rib (1st)', 'Rib (10th)'] },
-  { id: 'back', label: 'Selkä', meshes: ['Thoracic vertebrae (T1)', 'Lumbar vertebra (L5)', 'Scapula.r.'] },
+  { id: 'back', label: 'Selkä', meshes: ['Thoracic vertebrae (T1)', 'Lumbar vertebra (L5)', 'Scapula.r.'], view: [-0.3, 0.2, -1] },
   { id: 'abdomen', label: 'Vatsa', meshes: ['Linea alba', 'External abdominal oblique muscle.r'] },
   { id: 'shoulder', label: 'Olkapää', meshes: ['Clavicle.r', 'Scapula.r.'] },
   { id: 'upper_arm', label: 'Olkavarsi', meshes: ['Humerus.r'] },

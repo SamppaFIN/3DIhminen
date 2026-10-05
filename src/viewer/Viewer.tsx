@@ -9,6 +9,7 @@ import { classifyArmRegion, computeArmLandmarks, trunkRegion } from './armRegion
 import { highlightNodes } from './highlight'
 import { applyLayerVisibility, type LayerVisibility } from './layers'
 import { BODY_BOUNDS, type BodyArea, type BodySide } from './body'
+import { classifyHeadRegion, computeHeadLandmarks } from './headRegions'
 import { Mannequin } from './Mannequin'
 import { type Classify, PainMarker, type PainPoint, PainPicker } from './PainPicker'
 import { classifyRegion, computeLandmarks, legCentreAt } from './regions'
@@ -19,6 +20,7 @@ const MODELS = `${import.meta.env.BASE_URL}models`
 const LOWER_LIMB_URL = `${MODELS}/lower-limb.glb`
 const UPPER_LIMB_URL = `${MODELS}/upper-limb.glb`
 const TRUNK_URL = `${MODELS}/trunk.glb`
+const HEAD_NECK_URL = `${MODELS}/head-neck.glb`
 const ATTACHMENTS_URL = `${MODELS}/attachments.glb`
 
 // Default view: from the front, slightly from the outer side of the right leg.
@@ -52,8 +54,14 @@ export type Emphasis =
 
 // What the camera frames: all `meshes` (plus attachment patches), seen from the side that `aim`
 // lies on relative to the bones, or from the current direction with keepDirection (e.g. areas
-// framed by their bones). A new object moves the camera, even with the same content.
-export type Focus = { meshes: string[]; attachmentMeshes: string[]; aim: string[]; keepDirection?: boolean }
+// framed by their bones), or from `view` when given. A new object moves the camera, even with the same content.
+export type Focus = {
+  meshes: string[]
+  attachmentMeshes: string[]
+  aim: string[]
+  keepDirection?: boolean
+  view?: readonly [number, number, number]
+}
 
 type NodeColors = Map<string, string | null>
 
@@ -115,23 +123,28 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
   const { scene: lower } = useGLTF(LOWER_LIMB_URL)
   const { scene: upper } = useGLTF(UPPER_LIMB_URL)
   const { scene: trunk } = useGLTF(TRUNK_URL)
+  const { scene: head } = useGLTF(HEAD_NECK_URL)
   const { scene: attachments } = useGLTF(ATTACHMENTS_URL)
-  const root = useMemo(() => combine(lower, upper, trunk), [lower, upper, trunk])
+  const root = useMemo(() => combine(lower, upper, trunk, head), [lower, upper, trunk, head])
   const bounds = useBounds()
   const camera = useThree((state) => state.camera) as PerspectiveCamera
   const legLandmarks = useMemo(() => computeLandmarks(lower), [lower])
   const armLandmarks = useMemo(() => computeArmLandmarks(upper), [upper])
   const trunkLandmarks = useMemo(() => computeTrunkLandmarks(trunk), [trunk])
+  const headLandmarks = useMemo(() => computeHeadLandmarks(head), [head])
   const { neckY } = trunkLandmarks
 
   // The part of the body is known from the model the hit belongs to.
   const classify = useCallback<Classify>(
     (point, normal, object) => {
+      if (isInside(object, head)) {
+        return classifyHeadRegion(point, headLandmarks, { elbowY: armLandmarks.elbowY, ...trunkLandmarks })
+      }
       if (isInside(object, trunk)) return trunkRegion(point, armLandmarks.elbowY, neckY)
       if (isInside(object, upper)) return classifyArmRegion(point, normal, armLandmarks, neckY)
       return classifyRegion(point, normal, legLandmarks)
     },
-    [upper, trunk, armLandmarks, legLandmarks, neckY],
+    [upper, trunk, head, armLandmarks, legLandmarks, trunkLandmarks, headLandmarks, neckY],
   )
 
   useEffect(() => {
@@ -179,12 +192,14 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
     const aimBox = new Box3()
     let inArm = false
     let inTrunk = false
+    let inHead = false
     root.traverse((object) => {
       if (focus.meshes.includes(object.userData.name)) box.expandByObject(object)
       if (focus.aim.includes(object.userData.name)) {
         aimBox.expandByObject(object)
         inArm ||= isInside(object, upper)
         inTrunk ||= isInside(object, trunk)
+        inHead ||= isInside(object, head)
       }
     })
     attachments.traverse((object) => {
@@ -192,15 +207,18 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
     })
     const center = box.getCenter(new Vector3())
     const aim = aimBox.getCenter(new Vector3())
-    // Trunk muscles are seen from the side they lie on relative to the spine.
-    const bones = inTrunk
-      ? { x: 0, z: trunkLandmarks.spineZ }
-      : legCentreAt(aim.y, inArm ? armLandmarks.boneCentres : legLandmarks.boneCentres)
+    // Trunk, head and neck muscles are seen from the side they lie on relative to the spine.
+    const bones = inHead
+      ? { x: 0, z: trunkLandmarks.atlasZ }
+      : inTrunk
+        ? { x: 0, z: trunkLandmarks.spineZ }
+        : legCentreAt(aim.y, inArm ? armLandmarks.boneCentres : legLandmarks.boneCentres)
     const outward = new Vector3(aim.x - bones.x, 0, aim.z - bones.z)
-    const inFoot = !inArm && !inTrunk && aim.y < legLandmarks.heelTopY
+    const inFoot = !inArm && !inTrunk && !inHead && aim.y < legLandmarks.heelTopY
     const up = inFoot ? (aim.y < legLandmarks.footMidY ? -0.8 : 0.8) : 0.3
-    const direction =
-      !focus.keepDirection && (outward.lengthSq() > 1e-6 || inFoot)
+    const direction = focus.view
+      ? new Vector3(...focus.view).normalize()
+      : !focus.keepDirection && (outward.lengthSq() > 1e-6 || inFoot)
         ? outward.normalize().add(new Vector3(0, up, 0)).normalize()
         : camera.position.clone().sub(center).normalize()
     const distance = Math.max(fitDistance(box.getSize(new Vector3()), camera), MIN_FOCUS_DISTANCE)
@@ -209,7 +227,7 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
       .clip()
       .moveTo(center.clone().addScaledVector(direction, distance))
       .lookAt({ target: center, up: [0, 1, 0] })
-  }, [focus, root, upper, trunk, attachments, camera, bounds, legLandmarks, armLandmarks, trunkLandmarks])
+  }, [focus, root, upper, trunk, head, attachments, camera, bounds, legLandmarks, armLandmarks, trunkLandmarks])
 
   return (
     <>

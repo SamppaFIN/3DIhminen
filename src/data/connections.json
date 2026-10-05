@@ -665,5 +665,95 @@
     "evidence": "anatomy",
     "description": "Poikittainen rintalihas jatkuu alaspäin poikittaiseen vatsalihakseen.",
     "sources": ["teachme-thoracic-cage"]
+  },
+  {
+    "id": "buccinator-orbicularis-oris",
+    "type": "shared_tissue",
+    "from": "muscle:buccinator",
+    "to": "muscle:orbicularis_oris",
+    "evidence": "anatomy",
+    "description": "Poskilihaksen säikeet sulautuvat suun kehälihakseen.",
+    "sources": ["teachme-facial-expression"]
+  },
+  {
+    "id": "masseter-pterygoideus-medialis",
+    "type": "attachment",
+    "from": "muscle:masseter",
+    "to": "muscle:pterygoideus_medialis",
+    "evidence": "anatomy",
+    "description": "Puremalihas ja sisempi siipilihas kiinnittyvät molemmat alaleuan haaraan.",
+    "sources": ["teachme-mastication"]
+  },
+  {
+    "id": "sternocleidomastoideus-splenius-capitis",
+    "type": "attachment",
+    "from": "muscle:sternocleidomastoideus",
+    "to": "muscle:splenius_capitis",
+    "evidence": "anatomy",
+    "description": "Kiertäjänyökkääjälihas ja päänhihnalihas kiinnittyvät molemmat ohimoluun kartiolisäkkeeseen (processus mastoideus).",
+    "sources": ["teachme-sternocleidomastoid", "teachme-back-intrinsic"]
+  },
+  {
+    "id": "sternocleidomastoideus-longissimus",
+    "type": "attachment",
+    "from": "muscle:sternocleidomastoideus",
+    "to": "muscle:longissimus",
+    "evidence": "anatomy",
+    "description": "Kiertäjänyökkääjälihas ja pitkä selkälihas kiinnittyvät molemmat ohimoluun kartiolisäkkeeseen (processus mastoideus).",
+    "sources": ["teachme-sternocleidomastoid", "teachme-back-intrinsic"]
+  },
+  {
+    "id": "sternocleidomastoideus-digastricus",
+    "type": "attachment",
+    "from": "muscle:sternocleidomastoideus",
+    "to": "muscle:digastricus",
+    "evidence": "anatomy",
+    "description": "Kiertäjänyökkääjälihas kiinnittyy ja kaksivatsaisen lihaksen takimmainen vatsa lähtee ohimoluun kartiolisäkkeeseen (processus mastoideus).",
+    "sources": ["teachme-sternocleidomastoid", "teachme-suprahyoid"]
+  },
+  {
+    "id": "rectus-capitis-posterior-major-obliquus-capitis-inferior",
+    "type": "attachment",
+    "from": "muscle:rectus_capitis_posterior_major",
+    "to": "muscle:obliquus_capitis_inferior",
+    "evidence": "anatomy",
+    "description": "Iso takimmainen suora päänlihas ja alempi vino päänlihas lähtevät molemmat akselinikaman (C2) okahaarakkeesta.",
+    "sources": ["teachme-suboccipital"]
+  },
+  {
+    "id": "obliquus-capitis-inferior-obliquus-capitis-superior",
+    "type": "attachment",
+    "from": "muscle:obliquus_capitis_inferior",
+    "to": "muscle:obliquus_capitis_superior",
+    "evidence": "anatomy",
+    "description": "Alempi vino päänlihas kiinnittyy ja ylempi vino päänlihas lähtee atlaksen (C1) poikkihaarakkeesta.",
+    "sources": ["teachme-suboccipital"]
+  },
+  {
+    "id": "rectus-capitis-anterior-rectus-capitis-lateralis",
+    "type": "attachment",
+    "from": "muscle:rectus_capitis_anterior",
+    "to": "muscle:rectus_capitis_lateralis",
+    "evidence": "anatomy",
+    "description": "Etummainen ja sivuttainen suora päänlihas lähtevät molemmat atlaksen (C1) poikkihaarakkeesta.",
+    "sources": ["teachme-prevertebral"]
+  },
+  {
+    "id": "longus-capitis-rectus-capitis-anterior",
+    "type": "attachment",
+    "from": "muscle:longus_capitis",
+    "to": "muscle:rectus_capitis_anterior",
+    "evidence": "anatomy",
+    "description": "Pitkä päänlihas ja etummainen suora päänlihas kiinnittyvät molemmat takaraivoluun kallonpohjaosaan.",
+    "sources": ["teachme-prevertebral"]
+  },
+  {
+    "id": "longus-capitis-scalenus-anterior",
+    "type": "attachment",
+    "from": "muscle:longus_capitis",
+    "to": "muscle:scalenus_anterior",
+    "evidence": "anatomy",
+    "description": "Pitkä päänlihas ja etummainen kylkiluunkannattajalihas lähtevät molemmat C3–C6-nikamien poikkihaarakkeiden etukyhmyistä.",
+    "sources": ["teachme-prevertebral", "teachme-scalene"]
   }
 ]

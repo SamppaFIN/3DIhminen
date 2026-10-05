@@ -103,15 +103,12 @@ function App() {
     const meshes = [...area.meshes]
     setShowAnatomy(true)
     setNotice(null)
-    setAreaJump({ focus: { meshes, attachmentMeshes: [], aim: meshes, keepDirection: true }, selection })
+    const view = 'view' in area ? area.view : undefined
+    setAreaJump({ focus: { meshes, attachmentMeshes: [], aim: meshes, keepDirection: true, view }, selection })
   }
 
   // A part of the whole-body figure was clicked.
   const selectBodyArea = (area: BodyArea, side: BodySide) => {
-    if (area === 'head') {
-      setNotice('Pää mallinnetaan myöhemmin erikseen.')
-      return
-    }
     jumpToArea(area)
     if (side === 'left') setNotice('Vasen puoli on tulossa. Näytetään oikea puoli.')
   }

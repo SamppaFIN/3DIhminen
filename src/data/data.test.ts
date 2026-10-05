@@ -30,9 +30,9 @@ function duplicates(ids: string[]): string[] {
   return ids.filter((id, i) => ids.indexOf(id) !== i)
 }
 
-// Node names of every body model (the leg, arm and trunk models together).
+// Node names of every body model (the leg, arm, trunk and head models together).
 function modelNodeNames(): Set<string> {
-  return new Set(['lower-limb', 'upper-limb', 'trunk'].flatMap((m) => [...glbNodeNames(`public/models/${m}.glb`)]))
+  return new Set(['lower-limb', 'upper-limb', 'trunk', 'head-neck'].flatMap((m) => [...glbNodeNames(`public/models/${m}.glb`)]))
 }
 
 // Node names from the GLB's JSON chunk (header 12 bytes, chunk header 8 bytes).
@@ -97,7 +97,8 @@ describe('3D model', () => {
   })
 
   // The source model has no patches for these muscles. The first ones insert into soft tissue (tendons,
-  // aponeuroses, skin); the trunk muscles after them run between ribs, vertebrae or the iliac crest.
+  // aponeuroses, skin); the trunk muscles after them run between ribs, vertebrae or the iliac crest;
+  // the last ones are head and neck muscles the source has no patches for.
   const WITHOUT_PATCHES = [
     'palmaris_longus',
     'palmaris_brevis',
@@ -108,6 +109,9 @@ describe('3D model', () => {
     'intercostales_intimi',
     'subcostales',
     'quadratus_lumborum',
+    'orbicularis_oculi',
+    'nasalis',
+    'scalenus_posterior',
   ]
 
   it('every muscle is mapped to attachment patches that exist in the attachments model', () => {

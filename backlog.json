@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-05T21:00:00Z",
+    "generated_at": "2026-10-05T22:00:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -642,7 +642,8 @@
           "effort": "S",
           "status": "done",
           "acceptance_criteria": [
-            "Pikavalinnat kattavat vartalon alueet"
+            "Pikavalinnat kattavat vartalon alueet",
+            "Selkä katsotaan takaa"
           ],
           "depends_on": [
             "S9.1"
@@ -654,9 +655,93 @@
       "id": "E10",
       "title": "Pää ja kaula (vaihe D)",
       "type": "epic",
-      "status": "todo",
+      "status": "in_progress",
       "description": "Z-Anatomyn pää ja kaula. Edellyttää yhteensopivuustestiä Open3D-koordinaatiston kanssa.",
-      "stories": []
+      "stories": [
+        {
+          "id": "S10.1",
+          "title": "Pään ja kaulan malli",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "Z-Anatomyn pään ja kaulan lihakset ja kallon samaan näkymään",
+          "so_that": "pää ja kaula näkyvät ja ovat valittavissa",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "Pää ja kaula viedään Z-Anatomysta glTF:ksi toistettavalla skriptillä",
+            "Malli on kohdistettu Open3D-malleihin yhteisten luiden avulla, ja kohdistuksen virhe on alle 2 mm",
+            "Lisenssi ja muutokset on kirjattu ATTRIBUTION.md:hen"
+          ],
+          "depends_on": [
+            "S9.1"
+          ]
+        },
+        {
+          "id": "S10.2",
+          "title": "Pään ja kaulan alueet",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "tunnistaa pään ja kaulan kipukohdan alueen",
+          "so_that": "kipuhaku toimii päässä ja kaulassa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Takaraivo, ohimo, kasvot, leuka, kaulan etuosa, kaulan sivu ja niska tunnistuvat testeissä mallin säteillä molemmilla puolilla kalloa"
+          ],
+          "depends_on": [
+            "S10.1"
+          ]
+        },
+        {
+          "id": "S10.3",
+          "title": "Pään ja kaulan lihasdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "lihasdatan lähteineen pään ja kaulan lihaksille",
+          "so_that": "toiminnot kattavat pään ja kaulan",
+          "effort": "L",
+          "status": "in_progress",
+          "acceptance_criteria": [
+            "Pure- ja ilmelihakset sekä kaulan lihakset, joille on lähde, ovat mukana",
+            "Jokaisella lihaksella on vähintään yksi lähdeviite, ja Sami on tehnyt pistokokeen"
+          ],
+          "depends_on": [
+            "S10.1"
+          ]
+        },
+        {
+          "id": "S10.4",
+          "title": "Pään ja kaulan kytkökset",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "pään ja kaulan lihasten väliset kytkökset lähteineen",
+          "so_that": "kipuhaku löytää myös kauempana olevat pään ja kaulan lähteet",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Yhteiset kiinnityskohdat (kartiolisäke, alaleuan haara, C1–C2, kallonpohja) ja poskilihaksen jatkumo suun kehälihakseen ovat mukana"
+          ],
+          "depends_on": [
+            "S10.3"
+          ]
+        },
+        {
+          "id": "S10.5",
+          "title": "Pään pikavalinta ja hahmon pää",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "siirtyä hahmon päästä tai valikosta pään anatomiaan",
+          "so_that": "pään kipukohdan voi valita samalla tavalla kuin muut",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Hahmon pään klikkaus ja Pää-pikavalinta näyttävät pään ja kaulan anatomian"
+          ],
+          "depends_on": [
+            "S10.1"
+          ]
+        }
+      ]
     },
     {
       "id": "E11",
