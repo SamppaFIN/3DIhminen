@@ -53,5 +53,17 @@
     "meshes": ["Extensor hood of 2nd finger.r", "Extensor hood of 3rd finger.r", "Extensor hood of 4th finger.r", "Extensor hood of 5th finger.r"],
     "name": { "fi": "sormien ojentajajänteiden laajentumat", "la": "Aponeurosis extensoria manus" },
     "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "linea_alba",
+    "meshes": ["Linea alba"],
+    "name": { "fi": "valkoinen juova", "la": "Linea alba" },
+    "sources": ["fipat-ta2"]
+  },
+  {
+    "id": "thoracolumbar_fascia",
+    "meshes": ["Thoracolumbar fascia (posterior layer).r", "Thoracolumbar fascia (middle layer).r", "Thoracolumbar fascia (anterior layer).r"],
+    "name": { "fi": "rinta-lannekalvo", "la": "Fascia thoracolumbalis" },
+    "sources": ["fipat-ta2"]
   }
 ]

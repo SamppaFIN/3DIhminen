@@ -124,5 +124,89 @@
     "label": "TeachMeAnatomy: käden lihakset",
     "citation": "Jones O. Muscles of the Hand. TeachMeAnatomy, päivitetty 2026-05-10, luettu 2026-10-03.",
     "url": "https://teachmeanatomy.info/upper-limb/muscles/hand/"
+  },
+  {
+    "id": "teachme-back-intermediate",
+    "label": "TeachMeAnatomy: selän välikerroksen lihakset",
+    "citation": "Jones O. The Intermediate Back Muscles. TeachMeAnatomy, päivitetty 2025-11-20, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/back/muscles/intermediate/"
+  },
+  {
+    "id": "teachme-back-intrinsic",
+    "label": "TeachMeAnatomy: selän sisäiset lihakset",
+    "citation": "Jones O. The Intrinsic Back Muscles. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/back/muscles/intrinsic/"
+  },
+  {
+    "id": "teachme-thoracic-cage",
+    "label": "TeachMeAnatomy: rintakehän lihakset",
+    "citation": "Jones O. The Muscles of the Thoracic Cage. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/thorax/muscles/thoracic-cage/"
+  },
+  {
+    "id": "teachme-diaphragm",
+    "label": "TeachMeAnatomy: pallea",
+    "citation": "Jones O. The Diaphragm. TeachMeAnatomy, päivitetty 2026-05-26, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/thorax/muscles/diaphragm/"
+  },
+  {
+    "id": "teachme-abdominal-wall",
+    "label": "TeachMeAnatomy: vatsan etu- ja sivuseinämä",
+    "citation": "Jones O. The Anterolateral Abdominal Wall. TeachMeAnatomy, päivitetty 2026-02-01, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/abdomen/muscles/abdominal-wall/"
+  },
+  {
+    "id": "teachme-posterior-abdominal-wall",
+    "label": "TeachMeAnatomy: vatsaontelon takaseinämä",
+    "citation": "Kammath V. The Posterior Abdominal Wall. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/abdomen/muscles/posterior-wall/"
+  },
+  {
+    "id": "teachme-mastication",
+    "label": "TeachMeAnatomy: puremalihakset",
+    "citation": "Jones O. The Muscles of Mastication. TeachMeAnatomy, päivitetty 2025-12-03, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/head/muscles/mastication/"
+  },
+  {
+    "id": "teachme-facial-expression",
+    "label": "TeachMeAnatomy: kasvojen ilmelihakset",
+    "citation": "Jones O. The Muscles of Facial Expression. TeachMeAnatomy, päivitetty 2025-12-03, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/head/muscles/facial-expression/"
+  },
+  {
+    "id": "teachme-sternocleidomastoid",
+    "label": "TeachMeAnatomy: kiertäjänyökkääjälihas",
+    "citation": "Jones O. Sternocleidomastoid. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/encyclopaedia/s/sternocleidomastoid/"
+  },
+  {
+    "id": "teachme-scalene",
+    "label": "TeachMeAnatomy: kylkiluunkannattajalihakset",
+    "citation": "Barnes S. The Scalene Muscles. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/neck/muscles/scalene/"
+  },
+  {
+    "id": "teachme-suprahyoid",
+    "label": "TeachMeAnatomy: kieliluun yläpuoliset lihakset",
+    "citation": "Jones O. The Suprahyoid Muscles. TeachMeAnatomy, päivitetty 2025-12-29, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/neck/muscles/suprahyoid-muscles/"
+  },
+  {
+    "id": "teachme-infrahyoid",
+    "label": "TeachMeAnatomy: kieliluun alapuoliset lihakset",
+    "citation": "Jones O. The Infrahyoid Muscles. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/neck/muscles/infrahyoid/"
+  },
+  {
+    "id": "teachme-prevertebral",
+    "label": "TeachMeAnatomy: kaulan selkärangan etupuoliset lihakset",
+    "citation": "Jones O. Prevertebral Muscles of the Neck. TeachMeAnatomy, päivitetty 2026-07-07, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/neck/muscles/prevertebral/"
+  },
+  {
+    "id": "teachme-suboccipital",
+    "label": "TeachMeAnatomy: niskakuopan lihakset",
+    "citation": "Cassidy A. The Suboccipital Muscles. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
+    "url": "https://teachmeanatomy.info/neck/muscles/suboccipital/"
   }
 ]

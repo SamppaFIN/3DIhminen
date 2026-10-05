@@ -5,18 +5,23 @@ import { Box3, Group, Mesh, MeshBasicMaterial, type Object3D, type PerspectiveCa
 import { meshesOf } from '../data/connections'
 import type { Muscle } from '../data/muscles'
 import type { DistantSource, PainSources } from '../search/painSearch'
-import { classifyArmRegion, computeArmLandmarks } from './armRegions'
+import { classifyArmRegion, computeArmLandmarks, trunkRegion } from './armRegions'
 import { highlightNodes } from './highlight'
 import { applyLayerVisibility, type LayerVisibility } from './layers'
 import { BODY_BOUNDS, type BodyArea, type BodySide } from './body'
+import { classifyHeadRegion, computeHeadLandmarks } from './headRegions'
 import { Mannequin } from './Mannequin'
+import { mirrorRightSide, mirrorX, type Side, sideOfPoint } from './mirror'
 import { type Classify, PainMarker, type PainPoint, PainPicker } from './PainPicker'
 import { classifyRegion, computeLandmarks, legCentreAt } from './regions'
+import { computeTrunkLandmarks } from './trunkRegions'
 
 // Relative to the page (base './' in vite.config.ts), so the models load under the GitHub Pages path too.
 const MODELS = `${import.meta.env.BASE_URL}models`
 const LOWER_LIMB_URL = `${MODELS}/lower-limb.glb`
 const UPPER_LIMB_URL = `${MODELS}/upper-limb.glb`
+const TRUNK_URL = `${MODELS}/trunk.glb`
+const HEAD_NECK_URL = `${MODELS}/head-neck.glb`
 const ATTACHMENTS_URL = `${MODELS}/attachments.glb`
 
 // Default view: from the front, slightly from the outer side of the right leg.
@@ -50,8 +55,16 @@ export type Emphasis =
 
 // What the camera frames: all `meshes` (plus attachment patches), seen from the side that `aim`
 // lies on relative to the bones, or from the current direction with keepDirection (e.g. areas
-// framed by their bones). A new object moves the camera, even with the same content.
-export type Focus = { meshes: string[]; attachmentMeshes: string[]; aim: string[]; keepDirection?: boolean }
+// framed by their bones), or from `view` when given. Parts on both sides are framed on `side`
+// (default right). A new object moves the camera, even with the same content.
+export type Focus = {
+  meshes: string[]
+  attachmentMeshes: string[]
+  aim: string[]
+  keepDirection?: boolean
+  view?: readonly [number, number, number]
+  side?: Side
+}
 
 type NodeColors = Map<string, string | null>
 
@@ -90,18 +103,20 @@ type ModelProps = {
   showAnatomy: boolean
   nodeColors: NodeColors | null
   focus: Focus | null
+  // The side of the body the emphasis and attachments are shown on.
+  side: Side
   onPick: (pain: PainPoint) => void
 }
 
-// One root for all limb models, so picking, highlighting and layers work across them.
+// One root for all models, so picking, highlighting and layers work across them.
 function combine(...scenes: Object3D[]): Group {
   const root = new Group()
   for (const scene of scenes) root.add(scene)
   return root
 }
 
-function isInside(object: Object3D | null, ancestor: Object3D): boolean {
-  for (let node = object; node; node = node.parent) if (node === ancestor) return true
+function isInside(object: Object3D | null, ...ancestors: Object3D[]): boolean {
+  for (let node = object; node; node = node.parent) if (ancestors.includes(node)) return true
   return false
 }
 
@@ -109,21 +124,41 @@ function setVisible(object: Object3D, visible: boolean): void {
   object.visible = visible
 }
 
-function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: ModelProps) {
+function Model({ layers, resetKey, showAnatomy, nodeColors, focus, side, onPick }: ModelProps) {
   const { scene: lower } = useGLTF(LOWER_LIMB_URL)
   const { scene: upper } = useGLTF(UPPER_LIMB_URL)
+  const { scene: trunk } = useGLTF(TRUNK_URL)
+  const { scene: head } = useGLTF(HEAD_NECK_URL)
   const { scene: attachments } = useGLTF(ATTACHMENTS_URL)
-  const root = useMemo(() => combine(lower, upper), [lower, upper])
+  // The left side of each model, mirrored from the right (mirror.ts).
+  const [lowerL, upperL, trunkL, headL] = useMemo(() => [lower, upper, trunk, head].map(mirrorRightSide), [lower, upper, trunk, head])
+  const root = useMemo(
+    () => combine(lower, upper, trunk, head, lowerL, upperL, trunkL, headL),
+    [lower, upper, trunk, head, lowerL, upperL, trunkL, headL],
+  )
   const bounds = useBounds()
   const camera = useThree((state) => state.camera) as PerspectiveCamera
   const legLandmarks = useMemo(() => computeLandmarks(lower), [lower])
   const armLandmarks = useMemo(() => computeArmLandmarks(upper), [upper])
+  const trunkLandmarks = useMemo(() => computeTrunkLandmarks(trunk), [trunk])
+  const headLandmarks = useMemo(() => computeHeadLandmarks(head), [head])
+  const { neckY } = trunkLandmarks
 
-  // The limb is known from the model the hit belongs to.
+  // The part of the body is known from the model the hit belongs to. The classifiers work on the
+  // right side, so a point on the left is mirrored first.
   const classify = useCallback<Classify>(
-    (point, normal, object) =>
-      isInside(object, upper) ? classifyArmRegion(point, normal, armLandmarks) : classifyRegion(point, normal, legLandmarks),
-    [upper, armLandmarks, legLandmarks],
+    (hitPoint, hitNormal, object) => {
+      const left = sideOfPoint(hitPoint) === 'left'
+      const point = left ? mirrorX(hitPoint) : hitPoint
+      const normal = left ? mirrorX(hitNormal) : hitNormal
+      if (isInside(object, head, headL)) {
+        return classifyHeadRegion(point, headLandmarks, { elbowY: armLandmarks.elbowY, ...trunkLandmarks })
+      }
+      if (isInside(object, trunk, trunkL)) return trunkRegion(point, armLandmarks.elbowY, neckY)
+      if (isInside(object, upper, upperL)) return classifyArmRegion(point, normal, armLandmarks, neckY)
+      return classifyRegion(point, normal, legLandmarks)
+    },
+    [upper, trunk, head, upperL, trunkL, headL, armLandmarks, legLandmarks, trunkLandmarks, headLandmarks, neckY],
   )
 
   useEffect(() => {
@@ -139,8 +174,8 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
   }, [root, layers])
 
   useEffect(() => {
-    highlightNodes(root, nodeColors)
-  }, [root, nodeColors])
+    highlightNodes(root, nodeColors, side)
+  }, [root, nodeColors, side])
 
   // Default view: the whole figure, or all the muscles (not the bones, which reach the spine).
   useEffect(() => {
@@ -170,24 +205,38 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
     const box = new Box3()
     const aimBox = new Box3()
     let inArm = false
+    let inTrunk = false
+    let inHead = false
+    const side = focus.side ?? 'right'
     root.traverse((object) => {
+      if ((object.userData.side ?? side) !== side) return
       if (focus.meshes.includes(object.userData.name)) box.expandByObject(object)
       if (focus.aim.includes(object.userData.name)) {
         aimBox.expandByObject(object)
-        inArm ||= isInside(object, upper)
+        inArm ||= isInside(object, upper, upperL)
+        inTrunk ||= isInside(object, trunk, trunkL)
+        inHead ||= isInside(object, head, headL)
       }
     })
     attachments.traverse((object) => {
       if (focus.attachmentMeshes.includes(object.userData.name)) box.expandByObject(object)
     })
     const center = box.getCenter(new Vector3())
-    const aim = aimBox.getCenter(new Vector3())
-    const bones = legCentreAt(aim.y, inArm ? armLandmarks.boneCentres : legLandmarks.boneCentres)
-    const outward = new Vector3(aim.x - bones.x, 0, aim.z - bones.z)
-    const inFoot = !inArm && aim.y < legLandmarks.heelTopY
+    // The landmarks are on the right side: an aim on the left is mirrored, and so is the direction.
+    const flip = side === 'left' ? -1 : 1
+    const aim = aimBox.getCenter(new Vector3()).multiply(new Vector3(flip, 1, 1))
+    // Trunk, head and neck muscles are seen from the side they lie on relative to the spine.
+    const bones = inHead
+      ? { x: 0, z: trunkLandmarks.atlasZ }
+      : inTrunk
+        ? { x: 0, z: trunkLandmarks.spineZ }
+        : legCentreAt(aim.y, inArm ? armLandmarks.boneCentres : legLandmarks.boneCentres)
+    const outward = new Vector3((aim.x - bones.x) * flip, 0, aim.z - bones.z)
+    const inFoot = !inArm && !inTrunk && !inHead && aim.y < legLandmarks.heelTopY
     const up = inFoot ? (aim.y < legLandmarks.footMidY ? -0.8 : 0.8) : 0.3
-    const direction =
-      !focus.keepDirection && (outward.lengthSq() > 1e-6 || inFoot)
+    const direction = focus.view
+      ? new Vector3(focus.view[0] * flip, focus.view[1], focus.view[2]).normalize()
+      : !focus.keepDirection && (outward.lengthSq() > 1e-6 || inFoot)
         ? outward.normalize().add(new Vector3(0, up, 0)).normalize()
         : camera.position.clone().sub(center).normalize()
     const distance = Math.max(fitDistance(box.getSize(new Vector3()), camera), MIN_FOCUS_DISTANCE)
@@ -196,7 +245,7 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
       .clip()
       .moveTo(center.clone().addScaledVector(direction, distance))
       .lookAt({ target: center, up: [0, 1, 0] })
-  }, [focus, root, upper, attachments, camera, bounds, legLandmarks, armLandmarks])
+  }, [focus, root, upper, trunk, head, upperL, trunkL, headL, attachments, camera, bounds, legLandmarks, armLandmarks, trunkLandmarks])
 
   return (
     <>
@@ -212,23 +261,32 @@ function showOnly(root: Object3D, nodeNames: string[] | null): void {
 
 // Origin (red) and insertion (blue) patches of the selected muscle, drawn on top of everything:
 // the muscle itself would otherwise cover its own attachments.
-function Attachments({ nodeNames }: { nodeNames: string[] | null }) {
+function Attachments({ nodeNames, side }: { nodeNames: string[] | null; side: Side }) {
   const { scene } = useGLTF(ATTACHMENTS_URL)
+  const mirror = useMemo(() => mirrorRightSide(scene), [scene])
   const material = useMemo(() => new MeshBasicMaterial({ vertexColors: true, depthTest: false, transparent: true }), [])
 
   useEffect(() => {
-    scene.traverse((object) => {
-      if (!(object instanceof Mesh)) return
-      object.material = material
-      object.renderOrder = 2
-    })
-  }, [scene, material])
+    for (const root of [scene, mirror]) {
+      root.traverse((object) => {
+        if (!(object instanceof Mesh)) return
+        object.material = material
+        object.renderOrder = 2
+      })
+    }
+  }, [scene, mirror, material])
 
   useEffect(() => {
-    showOnly(scene, nodeNames)
-  }, [scene, nodeNames])
+    showOnly(scene, side === 'right' ? nodeNames : null)
+    showOnly(mirror, side === 'left' ? nodeNames : null)
+  }, [scene, mirror, nodeNames, side])
 
-  return <primitive object={scene} />
+  return (
+    <>
+      <primitive object={scene} />
+      <primitive object={mirror} />
+    </>
+  )
 }
 
 type ViewerProps = Omit<ModelProps, 'nodeColors'> & {
@@ -252,7 +310,7 @@ export function Viewer({ painPoint, emphasis, onSelectBodyArea, ...modelProps }:
         <Bounds maxDuration={reducedMotion ? 0.01 : 0.4}>
           <Model {...modelProps} nodeColors={nodeColors} />
         </Bounds>
-        <Attachments nodeNames={attachmentNodes} />
+        <Attachments nodeNames={attachmentNodes} side={modelProps.side} />
       </Suspense>
       <Mannequin visible={!modelProps.showAnatomy} onSelect={onSelectBodyArea} />
       {painPoint && <PainMarker point={painPoint.point} normal={painPoint.normal} />}

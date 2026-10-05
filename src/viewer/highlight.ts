@@ -36,13 +36,14 @@ function recolourOf(base: Material, color: string): Material {
 
 // nodeColors: the nodes to emphasise, each with a colour, or null to keep its own material.
 // Every other structure in the model's Muscles group is dimmed; bones are left as they are.
-// null shows everything normally.
-export function highlightNodes(root: Object3D, nodeColors: Map<string, string | null> | null): void {
+// null shows everything normally. Parts on both sides (mirror.ts) are emphasised on `side` only.
+export function highlightNodes(root: Object3D, nodeColors: Map<string, string | null> | null, side = 'right'): void {
   root.traverse((group) => {
     if (group.userData.name !== 'Muscles') return
     for (const node of group.children) {
       const name = node.userData.name
-      const color = nodeColors?.get(name)
+      const otherSide = node.userData.side !== undefined && node.userData.side !== side
+      const color = otherSide ? undefined : nodeColors?.get(name)
       node.traverse((object) => {
         if (!(object instanceof Mesh)) return
         const base: Material = object.userData.baseMaterial ?? object.material

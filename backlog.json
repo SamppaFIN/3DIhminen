@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-04T05:00:00Z",
+    "generated_at": "2026-10-05T23:00:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -273,6 +273,23 @@
           "depends_on": [
             "S2.2"
           ]
+        },
+        {
+          "id": "S4.4",
+          "title": "Takaisin edelliseen lihakseen",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "palata kytkeytyvästä lihaksesta edelliseen näkymään",
+          "so_that": "voin tutkia kytköksiä eksymättä",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Lihaksen tietopaneelissa on takaisin-painike, joka palaa edelliseen lihakseen, tuloksiin tai ketjuun",
+            "Uusi kipukohta tai koko kehon näkymä tyhjentää historian"
+          ],
+          "depends_on": [
+            "S4.2"
+          ]
         }
       ]
     },
@@ -532,7 +549,7 @@
           "i_want": "siirtyä nopeasti olkapäähän, kyynärpäähän tai käteen",
           "so_that": "löydän kipukohdan pyörittelemättä",
           "effort": "S",
-          "status": "in_progress",
+          "status": "done",
           "acceptance_criteria": [
             "Pikavalinnat kattavat yläraajan alueet"
           ],
@@ -546,25 +563,244 @@
       "id": "E9",
       "title": "Vartalo (vaihe C)",
       "type": "epic",
-      "status": "todo",
+      "status": "in_progress",
       "description": "Rintakehän, vatsan ja selän lihakset Open3D:n vartalomallista.",
-      "stories": []
+      "stories": [
+        {
+          "id": "S9.1",
+          "title": "Vartalon malli",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "Open3D:n vartalon lihasmallin samaan näkymään raajojen kanssa",
+          "so_that": "vartalon lihakset näkyvät ja ovat valittavissa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Vartalon lihakset, joita raajojen malleissa ei jo ole, sekä rintakehän ja selkärangan luut ladataan kolmantena mallina",
+            "Lisenssi ja muutokset on kirjattu ATTRIBUTION.md:hen"
+          ],
+          "depends_on": [
+            "S8.1"
+          ]
+        },
+        {
+          "id": "S9.2",
+          "title": "Vartalon alueet",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "tunnistaa vartalon kipukohdan alueen",
+          "so_that": "kipuhaku toimii vartalossa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Rintakehä, vatsa, yläselkä, alaselkä ja niska tunnistuvat testeissä vartalomallin säteillä"
+          ],
+          "depends_on": [
+            "S9.1"
+          ]
+        },
+        {
+          "id": "S9.3",
+          "title": "Vartalon lihasdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "lihasdatan lähteineen vartalon lihaksille",
+          "so_that": "toiminnot kattavat vartalon",
+          "effort": "L",
+          "status": "in_progress",
+          "acceptance_criteria": [
+            "Rintakehän, vatsan seinämän, vatsaontelon takaseinän ja selän sisäiset lihakset ovat mukana",
+            "Jokaisella lihaksella on vähintään yksi lähdeviite, ja Sami on tehnyt pistokokeen"
+          ],
+          "depends_on": [
+            "S9.1"
+          ]
+        },
+        {
+          "id": "S9.4",
+          "title": "Vartalon kytkökset",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "vartalon lihasten väliset kytkökset lähteineen",
+          "so_that": "kipuhaku löytää myös kauempana olevat vartalon lähteet",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Vatsan litteiden lihasten kalvojänteet, rinta-lannekalvo, selän ojentajalihasten yhteinen lähtöjänne ja kylkivälilihasten jatkumot vatsalihaksiin ovat mukana"
+          ],
+          "depends_on": [
+            "S9.3"
+          ]
+        },
+        {
+          "id": "S9.5",
+          "title": "Vartalon aluepikavalinnat",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "siirtyä nopeasti rintakehään, vatsaan, selkään tai niskaan",
+          "so_that": "löydän kipukohdan pyörittelemättä",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Pikavalinnat kattavat vartalon alueet",
+            "Selkä katsotaan takaa"
+          ],
+          "depends_on": [
+            "S9.1"
+          ]
+        }
+      ]
     },
     {
       "id": "E10",
       "title": "Pää ja kaula (vaihe D)",
       "type": "epic",
-      "status": "todo",
+      "status": "in_progress",
       "description": "Z-Anatomyn pää ja kaula. Edellyttää yhteensopivuustestiä Open3D-koordinaatiston kanssa.",
-      "stories": []
+      "stories": [
+        {
+          "id": "S10.1",
+          "title": "Pään ja kaulan malli",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "Z-Anatomyn pään ja kaulan lihakset ja kallon samaan näkymään",
+          "so_that": "pää ja kaula näkyvät ja ovat valittavissa",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "Pää ja kaula viedään Z-Anatomysta glTF:ksi toistettavalla skriptillä",
+            "Malli on kohdistettu Open3D-malleihin yhteisten luiden avulla, ja kohdistuksen virhe on alle 2 mm",
+            "Lisenssi ja muutokset on kirjattu ATTRIBUTION.md:hen"
+          ],
+          "depends_on": [
+            "S9.1"
+          ]
+        },
+        {
+          "id": "S10.2",
+          "title": "Pään ja kaulan alueet",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "tunnistaa pään ja kaulan kipukohdan alueen",
+          "so_that": "kipuhaku toimii päässä ja kaulassa",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Takaraivo, ohimo, kasvot, leuka, kaulan etuosa, kaulan sivu ja niska tunnistuvat testeissä mallin säteillä molemmilla puolilla kalloa"
+          ],
+          "depends_on": [
+            "S10.1"
+          ]
+        },
+        {
+          "id": "S10.3",
+          "title": "Pään ja kaulan lihasdata",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "lihasdatan lähteineen pään ja kaulan lihaksille",
+          "so_that": "toiminnot kattavat pään ja kaulan",
+          "effort": "L",
+          "status": "in_progress",
+          "acceptance_criteria": [
+            "Pure- ja ilmelihakset sekä kaulan lihakset, joille on lähde, ovat mukana",
+            "Jokaisella lihaksella on vähintään yksi lähdeviite, ja Sami on tehnyt pistokokeen"
+          ],
+          "depends_on": [
+            "S10.1"
+          ]
+        },
+        {
+          "id": "S10.4",
+          "title": "Pään ja kaulan kytkökset",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "pään ja kaulan lihasten väliset kytkökset lähteineen",
+          "so_that": "kipuhaku löytää myös kauempana olevat pään ja kaulan lähteet",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Yhteiset kiinnityskohdat (kartiolisäke, alaleuan haara, C1–C2, kallonpohja) ja poskilihaksen jatkumo suun kehälihakseen ovat mukana"
+          ],
+          "depends_on": [
+            "S10.3"
+          ]
+        },
+        {
+          "id": "S10.5",
+          "title": "Pään pikavalinta ja hahmon pää",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "siirtyä hahmon päästä tai valikosta pään anatomiaan",
+          "so_that": "pään kipukohdan voi valita samalla tavalla kuin muut",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Hahmon pään klikkaus ja Pää-pikavalinta näyttävät pään ja kaulan anatomian"
+          ],
+          "depends_on": [
+            "S10.1"
+          ]
+        }
+      ]
     },
     {
       "id": "E11",
       "title": "Molemmat puolet (vaihe E)",
       "type": "epic",
-      "status": "todo",
+      "status": "done",
       "description": "Vasemman puolen peilaus ja kipukohdan puolen tunnistus.",
-      "stories": []
+      "stories": [
+        {
+          "id": "S11.1",
+          "title": "Vasen puoli peilaamalla",
+          "type": "story",
+          "as_a": "kehittäjä",
+          "i_want": "kehon vasemman puolen oikean puolen peilikuvana",
+          "so_that": "koko keho näkyy ilman uusia mallitiedostoja",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Oikean puolen osat kopioidaan ja peilataan latauksen yhteydessä; keskiviivan ylittävät ja valmiiksi molemmilla puolilla olevat osat (kallo) jätetään kopioimatta",
+            "Kopiot käyttävät samaa dataa, korostusta ja kerroksia kuin oikea puoli"
+          ],
+          "depends_on": [
+            "S10.1"
+          ]
+        },
+        {
+          "id": "S11.2",
+          "title": "Kipuhaku vasemmalla puolella",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "valita kipukohdan kehon vasemmalta puolelta",
+          "so_that": "kipuhaku toimii kummalla tahansa puolella",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Vasemman puolen kipukohta saa saman alueen kuin vastaava oikean puolen kohta (testi)",
+            "Korostus ja kiinnityskohdat näkyvät vain valitulla puolella"
+          ],
+          "depends_on": [
+            "S11.1"
+          ]
+        },
+        {
+          "id": "S11.3",
+          "title": "Hahmon vasen puoli ja kameran puoli",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "siirtyä hahmon vasemmasta puolesta vasemman puolen anatomiaan",
+          "so_that": "en näe väärän puolen anatomiaa",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Hahmon vasemman puolen klikkaus ja sen jälkeiset pikavalinnat ja lihasvalinnat kohdistuvat vasemmalle puolelle"
+          ],
+          "depends_on": [
+            "S11.1"
+          ]
+        }
+      ]
     }
   ]
 }

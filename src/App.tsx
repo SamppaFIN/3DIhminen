@@ -16,6 +16,7 @@ import { useReveal } from './useReveal'
 import type { Layer, LayerVisibility } from './viewer/layers'
 import type { PainPoint } from './viewer/PainPicker'
 import type { BodyArea, BodySide } from './viewer/body'
+import { type Side, sideOfPoint } from './viewer/mirror'
 import { REGION_NAMES } from './viewer/regions'
 import { type Emphasis, type Focus, Viewer } from './viewer/Viewer'
 import { ViewerErrorBoundary } from './ViewerErrorBoundary'
@@ -45,16 +46,26 @@ function statusText(selection: Selection, sources: PainSources | null): string {
   return `${region}: ${muscles(sources.local.length)} kipukohdassa, ${muscles(sources.distant.length)} kauempana`
 }
 
+// The back button names the view it returns to.
+function backLabel(previous: NonNullable<Selection>): string {
+  if (previous.kind === 'muscle') return refName(`muscle:${previous.id}`)
+  if (previous.kind === 'chain') return 'Takaisin kytkösketjuun'
+  return 'Takaisin tuloksiin'
+}
+
 function App() {
   const [layers, setLayers] = useState<LayerVisibility>({ superficial: true, deep: true })
   const [resetKey, setResetKey] = useState(0)
   const [selection, setSelection] = useState<Selection>(null)
+  // Earlier selections, so the panel can go back from a muscle to the previous view.
+  const [history, setHistory] = useState<Selection[]>([])
   const [sheetExpanded, setSheetExpanded] = useState(false)
   // An area jump applies until the selection changes; then the selection's own focus takes over.
   const [areaJump, setAreaJump] = useState<{ focus: Focus; selection: Selection } | null>(null)
   // false: the whole-body figure; true: the anatomy of the area zoomed into.
   const [showAnatomy, setShowAnatomy] = useState(false)
-  const [notice, setNotice] = useState<string | null>(null)
+  // The side of the body being looked at: the camera frames muscles on this side.
+  const [side, setSide] = useState<Side>('right')
   const panelRef = useRef<HTMLElement>(null)
 
   const pain = selection?.kind === 'pain' || selection?.kind === 'chain' ? selection.pain : null
@@ -81,36 +92,34 @@ function App() {
   const selectionFocus = useMemo<Focus | null>(() => {
     if (selection?.kind === 'muscle' && selectedMuscle) {
       const { meshes, attachmentMeshes = [] } = selectedMuscle
-      return { meshes, attachmentMeshes, aim: meshes }
+      return { meshes, attachmentMeshes, aim: meshes, side }
     }
-    if (chain) return { meshes: chain.steps.flatMap(meshesOf), attachmentMeshes: [], aim: meshesOf(chain.steps.at(-1)!) }
+    if (chain) return { meshes: chain.steps.flatMap(meshesOf), attachmentMeshes: [], aim: meshesOf(chain.steps.at(-1)!), side }
     return null
-  }, [selection, selectedMuscle, chain])
+  }, [selection, selectedMuscle, chain, side])
   const focus = areaJump && areaJump.selection === selection ? areaJump.focus : selectionFocus
 
-  const jumpToArea = (id: string) => {
+  const jumpToArea = (id: string, areaSide: Side) => {
     const area = AREAS.find((a) => a.id === id)
     if (!area) return
     const meshes = [...area.meshes]
     setShowAnatomy(true)
-    setNotice(null)
-    setAreaJump({ focus: { meshes, attachmentMeshes: [], aim: meshes, keepDirection: true }, selection })
+    setSide(areaSide)
+    const view = 'view' in area ? area.view : undefined
+    const focus = { meshes, attachmentMeshes: [], aim: meshes, keepDirection: true, view, side: areaSide }
+    setAreaJump({ focus, selection })
   }
 
   // A part of the whole-body figure was clicked.
-  const selectBodyArea = (area: BodyArea, side: BodySide) => {
-    if (area === 'head') {
-      setNotice('Pää mallinnetaan myöhemmin erikseen.')
-      return
-    }
-    jumpToArea(area)
-    if (side === 'left') setNotice('Vasen puoli on tulossa. Näytetään oikea puoli.')
+  const selectBodyArea = (area: BodyArea, bodySide: BodySide) => {
+    jumpToArea(area, bodySide === 'left' ? 'left' : 'right')
   }
 
   const showWholeBody = () => {
     setShowAnatomy(false)
     setSelection(null)
-    setNotice(null)
+    setHistory([])
+    setSide('right')
     setResetKey((key) => key + 1)
   }
 
@@ -129,12 +138,27 @@ function App() {
     if (!muscle) return
     setLayers({ ...layers, [muscle.layer]: true })
     setShowAnatomy(true)
-    setNotice(null)
+    if (selection && !(selection.kind === 'muscle' && selection.id === id)) setHistory([...history, selection])
     setSelection({ kind: 'muscle', id })
   }
 
+  const goBack = () => {
+    const previous = history.at(-1)
+    if (!previous) return
+    if (previous.kind === 'muscle') {
+      const muscle = muscles.find((m) => m.id === previous.id)
+      if (muscle) setLayers({ ...layers, [muscle.layer]: true })
+    }
+    setHistory(history.slice(0, -1))
+    setSelection(previous)
+  }
+
   // Stable, so the pick listeners are not re-attached on every render (e.g. during the chain animation).
-  const handlePick = useCallback((picked: PainPoint) => setSelection({ kind: 'pain', pain: picked }), [])
+  const handlePick = useCallback((picked: PainPoint) => {
+    setHistory([])
+    setSide(sideOfPoint(picked.point))
+    setSelection({ kind: 'pain', pain: picked })
+  }, [])
 
   return (
     <main>
@@ -153,6 +177,7 @@ function App() {
             painPoint={pain}
             emphasis={emphasis}
             focus={focus}
+            side={side}
             onPick={handlePick}
           />
         </ViewerErrorBoundary>
@@ -162,7 +187,7 @@ function App() {
             className="area-select"
             aria-label="Siirry alueelle"
             value=""
-            onChange={(event) => jumpToArea(event.target.value)}
+            onChange={(event) => jumpToArea(event.target.value, side)}
           >
             <option value="" disabled>
               Siirry
@@ -202,7 +227,6 @@ function App() {
           {statusText(selection, painSources)}
         </p>
         <SheetHandle expanded={sheetExpanded} onChange={setSheetExpanded} />
-        {notice && <p className="notice-line">{notice}</p>}
         {pain && (
           <>
             <h2 className="region-name" tabIndex={-1} data-autofocus={selection?.kind === 'pain' || undefined}>
@@ -227,6 +251,11 @@ function App() {
             )}
             <Disclaimer />
           </>
+        )}
+        {selectedMuscle && history.length > 0 && (
+          <button type="button" onClick={goBack}>
+            ← {backLabel(history.at(-1)!)}
+          </button>
         )}
         {selectedMuscle && <MuscleInfo muscle={selectedMuscle} connected={connected} onSelectMuscle={selectMuscle} />}
         {!selection && (
