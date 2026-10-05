@@ -6,6 +6,7 @@ import { Box3, Mesh, type Object3D, Vector3 } from 'three'
 // (this file). The arm shares heights with the trunk, so its parts come from the nearest bone
 // (armRegions.ts).
 export const REGION_NAMES = {
+  neck: 'Niska',
   chest: 'Rintakehä',
   upper_back: 'Yläselkä',
   abdomen: 'Vatsa',

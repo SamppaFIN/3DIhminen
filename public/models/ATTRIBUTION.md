@@ -1,6 +1,6 @@
 # Attribution
 
-This folder holds three adapted models, all licensed CC BY-SA 4.0 (see `LICENSE.md`).
+This folder holds four adapted models, all licensed CC BY-SA 4.0 (see `LICENSE.md`).
 
 ## lower-limb.glb
 
@@ -48,6 +48,30 @@ Like the lower limb, the Open3D model is based on Z-Anatomy and BodyParts3D.
 2. Merged the source's region groups ("Arm - muscles", "Forearm - bones", ...) into two groups, "Muscles" and "Bones".
 3. Removed all textures and replaced the materials with three flat colours (muscle, tendon, bone).
 4. Re-encoded the geometry with meshopt compression instead of Draco.
+
+Node names are unchanged from the source.
+
+## trunk.glb
+
+### Source
+
+"Open3DModel - Muscles of thorax, abdomen and back - English labels" by Open3D project, Eungyeol Lee, LUMC, Andreas Herrler, MUMC+ et al, license: CC BY-SA 4.0
+
+- Model page: https://anatomytool.org/content/open3dmodel-muscles-thorax-abdomen-and-back-english-labels (version March 2026)
+- Downloaded file: https://caskanatomy.info/open3dviewer/3dmodels/muscles-thorax-abdomen/muscles-thorax-abdomen.glb
+  - Last-Modified: 2026-03-18, downloaded 2026-10-05
+  - SHA-256: `ece35da4cf9b28315b71f5077e010fac84baa50e792b9ba5277d972accb49f1b`
+
+Like the limb models, the Open3D model is based on Z-Anatomy and BodyParts3D.
+
+### Changes made
+
+`trunk.glb` was produced with `scripts/extract-trunk.mjs`:
+
+1. Kept the right-side muscles of the thorax, abdomen and back that are not already in the limb models, the linea alba and the thoracolumbar fascia, and the ribs, sternum, costal cartilage and the vertebrae C1–T11 (both sides, as in the source). The muscles of the shoulder girdle and the iliopsoas (already in the limb models), the overlay copies of muscle parts, the other bones, the articular structures and the other fascia were removed.
+2. Merged the source's groups into two groups, "Muscles" and "Bones".
+3. Removed all textures and replaced the materials with three flat colours (muscle, tendon, bone).
+4. Simplified the geometry with meshoptimizer (error 0.1 % of each mesh's size) and re-encoded it with meshopt compression instead of Draco.
 
 Node names are unchanged from the source.
 

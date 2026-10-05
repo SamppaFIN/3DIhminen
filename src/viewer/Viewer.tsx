@@ -5,18 +5,20 @@ import { Box3, Group, Mesh, MeshBasicMaterial, type Object3D, type PerspectiveCa
 import { meshesOf } from '../data/connections'
 import type { Muscle } from '../data/muscles'
 import type { DistantSource, PainSources } from '../search/painSearch'
-import { classifyArmRegion, computeArmLandmarks } from './armRegions'
+import { classifyArmRegion, computeArmLandmarks, trunkRegion } from './armRegions'
 import { highlightNodes } from './highlight'
 import { applyLayerVisibility, type LayerVisibility } from './layers'
 import { BODY_BOUNDS, type BodyArea, type BodySide } from './body'
 import { Mannequin } from './Mannequin'
 import { type Classify, PainMarker, type PainPoint, PainPicker } from './PainPicker'
 import { classifyRegion, computeLandmarks, legCentreAt } from './regions'
+import { computeTrunkLandmarks } from './trunkRegions'
 
 // Relative to the page (base './' in vite.config.ts), so the models load under the GitHub Pages path too.
 const MODELS = `${import.meta.env.BASE_URL}models`
 const LOWER_LIMB_URL = `${MODELS}/lower-limb.glb`
 const UPPER_LIMB_URL = `${MODELS}/upper-limb.glb`
+const TRUNK_URL = `${MODELS}/trunk.glb`
 const ATTACHMENTS_URL = `${MODELS}/attachments.glb`
 
 // Default view: from the front, slightly from the outer side of the right leg.
@@ -93,7 +95,7 @@ type ModelProps = {
   onPick: (pain: PainPoint) => void
 }
 
-// One root for all limb models, so picking, highlighting and layers work across them.
+// One root for all models, so picking, highlighting and layers work across them.
 function combine(...scenes: Object3D[]): Group {
   const root = new Group()
   for (const scene of scenes) root.add(scene)
@@ -112,18 +114,24 @@ function setVisible(object: Object3D, visible: boolean): void {
 function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: ModelProps) {
   const { scene: lower } = useGLTF(LOWER_LIMB_URL)
   const { scene: upper } = useGLTF(UPPER_LIMB_URL)
+  const { scene: trunk } = useGLTF(TRUNK_URL)
   const { scene: attachments } = useGLTF(ATTACHMENTS_URL)
-  const root = useMemo(() => combine(lower, upper), [lower, upper])
+  const root = useMemo(() => combine(lower, upper, trunk), [lower, upper, trunk])
   const bounds = useBounds()
   const camera = useThree((state) => state.camera) as PerspectiveCamera
   const legLandmarks = useMemo(() => computeLandmarks(lower), [lower])
   const armLandmarks = useMemo(() => computeArmLandmarks(upper), [upper])
+  const trunkLandmarks = useMemo(() => computeTrunkLandmarks(trunk), [trunk])
+  const { neckY } = trunkLandmarks
 
-  // The limb is known from the model the hit belongs to.
+  // The part of the body is known from the model the hit belongs to.
   const classify = useCallback<Classify>(
-    (point, normal, object) =>
-      isInside(object, upper) ? classifyArmRegion(point, normal, armLandmarks) : classifyRegion(point, normal, legLandmarks),
-    [upper, armLandmarks, legLandmarks],
+    (point, normal, object) => {
+      if (isInside(object, trunk)) return trunkRegion(point, armLandmarks.elbowY, neckY)
+      if (isInside(object, upper)) return classifyArmRegion(point, normal, armLandmarks, neckY)
+      return classifyRegion(point, normal, legLandmarks)
+    },
+    [upper, trunk, armLandmarks, legLandmarks, neckY],
   )
 
   useEffect(() => {
@@ -170,11 +178,13 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
     const box = new Box3()
     const aimBox = new Box3()
     let inArm = false
+    let inTrunk = false
     root.traverse((object) => {
       if (focus.meshes.includes(object.userData.name)) box.expandByObject(object)
       if (focus.aim.includes(object.userData.name)) {
         aimBox.expandByObject(object)
         inArm ||= isInside(object, upper)
+        inTrunk ||= isInside(object, trunk)
       }
     })
     attachments.traverse((object) => {
@@ -182,9 +192,12 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
     })
     const center = box.getCenter(new Vector3())
     const aim = aimBox.getCenter(new Vector3())
-    const bones = legCentreAt(aim.y, inArm ? armLandmarks.boneCentres : legLandmarks.boneCentres)
+    // Trunk muscles are seen from the side they lie on relative to the spine.
+    const bones = inTrunk
+      ? { x: 0, z: trunkLandmarks.spineZ }
+      : legCentreAt(aim.y, inArm ? armLandmarks.boneCentres : legLandmarks.boneCentres)
     const outward = new Vector3(aim.x - bones.x, 0, aim.z - bones.z)
-    const inFoot = !inArm && aim.y < legLandmarks.heelTopY
+    const inFoot = !inArm && !inTrunk && aim.y < legLandmarks.heelTopY
     const up = inFoot ? (aim.y < legLandmarks.footMidY ? -0.8 : 0.8) : 0.3
     const direction =
       !focus.keepDirection && (outward.lengthSq() > 1e-6 || inFoot)
@@ -196,7 +209,7 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, onPick }: Mod
       .clip()
       .moveTo(center.clone().addScaledVector(direction, distance))
       .lookAt({ target: center, up: [0, 1, 0] })
-  }, [focus, root, upper, attachments, camera, bounds, legLandmarks, armLandmarks])
+  }, [focus, root, upper, trunk, attachments, camera, bounds, legLandmarks, armLandmarks, trunkLandmarks])
 
   return (
     <>

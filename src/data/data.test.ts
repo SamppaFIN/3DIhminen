@@ -30,9 +30,9 @@ function duplicates(ids: string[]): string[] {
   return ids.filter((id, i) => ids.indexOf(id) !== i)
 }
 
-// Node names of every limb model (the arm and leg models together).
+// Node names of every body model (the leg, arm and trunk models together).
 function modelNodeNames(): Set<string> {
-  return new Set([...glbNodeNames('public/models/lower-limb.glb'), ...glbNodeNames('public/models/upper-limb.glb')])
+  return new Set(['lower-limb', 'upper-limb', 'trunk'].flatMap((m) => [...glbNodeNames(`public/models/${m}.glb`)]))
 }
 
 // Node names from the GLB's JSON chunk (header 12 bytes, chunk header 8 bytes).

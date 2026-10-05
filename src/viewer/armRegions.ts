@@ -94,19 +94,21 @@ function armSide(point: Vector3, lm: ArmLandmarks): Side {
   return sideOf(point.x - centre.x, point.z - centre.z)
 }
 
-// The trunk's front and back meet near the spine's front edge; above the elbow is the upper trunk.
-function trunkRegion(point: Vector3, lm: ArmLandmarks): Region {
+// The trunk's front and back meet near the spine's front edge; above the elbow is the upper trunk,
+// above neckY (the top of T1, from the trunk model) the neck. Also used for the trunk model.
+export function trunkRegion(point: Vector3, elbowY: number, neckY: number): Region {
+  if (point.y > neckY) return 'neck'
   const front = point.z >= 0
-  if (point.y > lm.elbowY) return front ? 'chest' : 'upper_back'
+  if (point.y > elbowY) return front ? 'chest' : 'upper_back'
   return front ? 'abdomen' : 'lower_back'
 }
 
-export function classifyArmRegion(point: Vector3, normal: Vector3, lm: ArmLandmarks): Region {
+export function classifyArmRegion(point: Vector3, normal: Vector3, lm: ArmLandmarks, neckY = Infinity): Region {
   const { name, distance } = nearestBone(point, lm.bones)
-  if (distance > TRUNK_DISTANCE) return trunkRegion(point, lm)
+  if (distance > TRUNK_DISTANCE) return trunkRegion(point, lm.elbowY, neckY)
 
   if (name === 'Clavicle.r' || name === 'Scapula.r.') {
-    return point.x < lm.lateralX + 0.02 ? 'shoulder' : trunkRegion(point, lm)
+    return point.x < lm.lateralX + 0.02 ? 'shoulder' : trunkRegion(point, lm.elbowY, neckY)
   }
   if (name === 'Humerus.r') {
     if (point.y > lm.shoulderY - SHOULDER_BAND) return 'shoulder'

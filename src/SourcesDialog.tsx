@@ -26,6 +26,20 @@ function ModelAttribution() {
         .
       </p>
       <p>
+        <a
+          href="https://anatomytool.org/content/open3dmodel-muscles-thorax-abdomen-and-back-english-labels"
+          target="_blank"
+          rel="noreferrer"
+        >
+          “Open3DModel – Muscles of thorax, abdomen and back – English labels”
+        </a>{' '}
+        by Open3D project, Eungyeol Lee, LUMC, Andreas Herrler, MUMC+ et al., lisenssi{' '}
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
+          CC BY-SA 4.0
+        </a>
+        .
+      </p>
+      <p>
         Mallit perustuvat{' '}
         <a href="https://github.com/Z-Anatomy/Models-of-human-anatomy" target="_blank" rel="noreferrer">
           Z-Anatomy
@@ -52,8 +66,9 @@ function ModelAttribution() {
         .
       </p>
       <p>
-        Muutokset: malleista on otettu mukaan vain raajojen lihakset, jänteet ja luut,
-        tekstuurit on korvattu yksivärisillä materiaaleilla ja geometria on pakattu uudelleen.
+        Muutokset: malleista on otettu mukaan vain raajojen ja vartalon lihakset, jänteet ja luut,
+        tekstuurit on korvattu yksivärisillä materiaaleilla, vartalon geometriaa on kevennetty ja
+        geometria on pakattu uudelleen.
         Muokatut mallit on lisensoitu CC BY-SA 4.0 -lisenssillä.
       </p>
     </>
