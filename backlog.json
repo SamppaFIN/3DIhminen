@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-04T05:00:00Z",
+    "generated_at": "2026-10-05T18:00:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -532,7 +532,7 @@
           "i_want": "siirtyä nopeasti olkapäähän, kyynärpäähän tai käteen",
           "so_that": "löydän kipukohdan pyörittelemättä",
           "effort": "S",
-          "status": "in_progress",
+          "status": "done",
           "acceptance_criteria": [
             "Pikavalinnat kattavat yläraajan alueet"
           ],

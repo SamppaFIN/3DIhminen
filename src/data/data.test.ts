@@ -90,7 +90,7 @@ describe('3D model', () => {
     expect(problems).toEqual([])
   })
 
-  it('every quick-jump area is framed by bones that exist in the model', () => {
+  it('every quick-jump area is framed by meshes that exist in the model', () => {
     const nodeNames = modelNodeNames()
     const missing = AREAS.flatMap((a) => a.meshes.filter((name) => !nodeNames.has(name)).map((name) => `${a.id}: ${name}`))
     expect(missing).toEqual([])
