@@ -45,10 +45,19 @@ function statusText(selection: Selection, sources: PainSources | null): string {
   return `${region}: ${muscles(sources.local.length)} kipukohdassa, ${muscles(sources.distant.length)} kauempana`
 }
 
+// The back button names the view it returns to.
+function backLabel(previous: NonNullable<Selection>): string {
+  if (previous.kind === 'muscle') return refName(`muscle:${previous.id}`)
+  if (previous.kind === 'chain') return 'Takaisin kytkösketjuun'
+  return 'Takaisin tuloksiin'
+}
+
 function App() {
   const [layers, setLayers] = useState<LayerVisibility>({ superficial: true, deep: true })
   const [resetKey, setResetKey] = useState(0)
   const [selection, setSelection] = useState<Selection>(null)
+  // Earlier selections, so the panel can go back from a muscle to the previous view.
+  const [history, setHistory] = useState<Selection[]>([])
   const [sheetExpanded, setSheetExpanded] = useState(false)
   // An area jump applies until the selection changes; then the selection's own focus takes over.
   const [areaJump, setAreaJump] = useState<{ focus: Focus; selection: Selection } | null>(null)
@@ -110,6 +119,7 @@ function App() {
   const showWholeBody = () => {
     setShowAnatomy(false)
     setSelection(null)
+    setHistory([])
     setNotice(null)
     setResetKey((key) => key + 1)
   }
@@ -130,11 +140,26 @@ function App() {
     setLayers({ ...layers, [muscle.layer]: true })
     setShowAnatomy(true)
     setNotice(null)
+    if (selection && !(selection.kind === 'muscle' && selection.id === id)) setHistory([...history, selection])
     setSelection({ kind: 'muscle', id })
   }
 
+  const goBack = () => {
+    const previous = history.at(-1)
+    if (!previous) return
+    if (previous.kind === 'muscle') {
+      const muscle = muscles.find((m) => m.id === previous.id)
+      if (muscle) setLayers({ ...layers, [muscle.layer]: true })
+    }
+    setHistory(history.slice(0, -1))
+    setSelection(previous)
+  }
+
   // Stable, so the pick listeners are not re-attached on every render (e.g. during the chain animation).
-  const handlePick = useCallback((picked: PainPoint) => setSelection({ kind: 'pain', pain: picked }), [])
+  const handlePick = useCallback((picked: PainPoint) => {
+    setHistory([])
+    setSelection({ kind: 'pain', pain: picked })
+  }, [])
 
   return (
     <main>
@@ -227,6 +252,11 @@ function App() {
             )}
             <Disclaimer />
           </>
+        )}
+        {selectedMuscle && history.length > 0 && (
+          <button type="button" onClick={goBack}>
+            ← {backLabel(history.at(-1)!)}
+          </button>
         )}
         {selectedMuscle && <MuscleInfo muscle={selectedMuscle} connected={connected} onSelectMuscle={selectMuscle} />}
         {!selection && (

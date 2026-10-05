@@ -104,14 +104,14 @@ Koko tikettipuu on tiedostossa `backlog.json`. Tarkista sen `_meta`-lohko ennen 
 | E1 | 3D-anatomiamalli | S1.1 (L), S1.2 (M), S1.3 (M) |
 | E2 | Lihasdata ja kytkökset | S2.0 (S, testausympäristö), S2.1 (S), S2.2 (L), S2.3 (M) |
 | E3 | Kipukohdasta lihaksiin (ydintoiminto) | S3.1 (M), S3.2 (L), S3.3 (M) |
-| E4 | Lihasten tutkiminen | S4.1 (M), S4.2 (M), S4.3 (S) |
+| E4 | Lihasten tutkiminen | S4.1 (M), S4.2 (M), S4.3 (S), S4.4 (S, takaisin edelliseen lihakseen) |
 | E5 | Luotettavuus ja vastuu | S5.1 (S), S5.2 (S) |
 | E6 | Viimeistely | S6.1 (S, mobiilin alapaneeli), S6.2 (S, koodin laatukatselmus) |
 | E7 | Koko alaraaja (laajennus, vaihe A) | S7.1 (L, yleistetty aluejärjestelmä), S7.2 (M, malli), S7.3 (L, lihasdata), S7.4 (M, kytkökset), S7.5 (M, näkymä ja pikavalinnat) |
 | E8 | Yläraaja ja käsi (vaihe B) | S8.1 (L, useat mallit ja kehon osa lähimmästä luusta), S8.2 (M, malli), S8.3 (L, lihasdata), S8.4 (M, kytkökset), S8.5 (S, pikavalinnat) |
 | E9–E11 | Vartalo, pää ja kaula, molemmat puolet (vaiheet C–E) | Storyt pilkotaan, kun vaihe alkaa |
 
-Yhteensä 11 epiciä, 27 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus).
+Yhteensä 11 epiciä, 28 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus).
 
 ---
 

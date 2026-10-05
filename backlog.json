@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-05T18:00:00Z",
+    "generated_at": "2026-10-05T19:00:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -272,6 +272,23 @@
           ],
           "depends_on": [
             "S2.2"
+          ]
+        },
+        {
+          "id": "S4.4",
+          "title": "Takaisin edelliseen lihakseen",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "palata kytkeytyvästä lihaksesta edelliseen näkymään",
+          "so_that": "voin tutkia kytköksiä eksymättä",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Lihaksen tietopaneelissa on takaisin-painike, joka palaa edelliseen lihakseen, tuloksiin tai ketjuun",
+            "Uusi kipukohta tai koko kehon näkymä tyhjentää historian"
+          ],
+          "depends_on": [
+            "S4.2"
           ]
         }
       ]
