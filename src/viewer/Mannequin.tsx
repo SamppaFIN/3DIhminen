@@ -27,16 +27,24 @@ const LIMB: Part[] = [
   { area: 'forearm', capsule: [[-0.232, 1.06, -0.02], [-0.26, 0.88, 0.004]], radius: 0.038 },
   { area: 'hand', capsule: [[-0.267, 0.84, 0.02], [-0.284, 0.73, 0.068]], radius: 0.034, scale: [1, 1, 0.7] },
   { area: 'hand', capsule: [[-0.3, 0.83, 0.035], [-0.328, 0.78, 0.06]], radius: 0.015 },
+  { area: 'head', sphere: [-0.098, 1.63, -0.01], radius: 0.026, scale: [0.45, 1, 0.75] },
 ]
 
 const CENTRE: Part[] = [
   { area: 'pelvis', sphere: [0, 0.92, -0.01], radius: 0.165, scale: [1, 0.62, 0.72] },
   { area: 'trunk', capsule: [[0, 1.03, -0.005], [0, 1.33, -0.005]], radius: 0.155, scale: [1.1, 1, 0.74] },
-  { area: 'head', capsule: [[0, 1.4, -0.03], [0, 1.5, -0.02]], radius: 0.05 },
+  // Neck, skull, jaw and nose: a big, round head over the skull of the head and neck model.
+  { area: 'head', capsule: [[0, 1.43, -0.02], [0, 1.53, -0.015]], radius: 0.058 },
+  { area: 'head', sphere: [0, 1.645, -0.005], radius: 0.12, scale: [0.85, 1, 0.95] },
+  { area: 'head', sphere: [0, 1.585, 0.012], radius: 0.09, scale: [0.95, 0.85, 1] },
+  { area: 'head', capsule: [[0, 1.64, 0.108], [0, 1.612, 0.118]], radius: 0.015 },
 ]
 
-// The figure's head is a space-helmet bubble; clicking it zooms into the head and neck anatomy.
-const HELMET = { centre: [0, 1.6, -0.005] as Vec, radius: 0.165, rimY: 1.46 }
+// Eyes: plain dark dots, as on the game's characters.
+const EYES: Vec[] = [
+  [-0.04, 1.66, 0.1],
+  [0.04, 1.66, 0.1],
+]
 
 const mirror = ([x, y, z]: Vec): Vec => [-x, y, z]
 
@@ -65,15 +73,13 @@ function capsulePose([a, b]: [Vec, Vec]) {
 // Pale, doughy surface; slightly warmer when hovered.
 const SKIN = new Color('#ebe5da')
 const SKIN_HOVER = new Color('#f4e2c8')
-const GLASS = new Color('#cfe6f3')
-const RIM = new Color('#c9ced4')
-const GLASS_OPACITY = 0.28
+const EYE = new Color('#3a3f47')
 const FADE_SECONDS = 0.4
 
-function applyFade(materials: Material[], fade: number, maxOpacity = 1): void {
+function applyFade(materials: Material[], fade: number): void {
   for (const material of materials) {
-    material.opacity = maxOpacity * fade
-    if (maxOpacity === 1) material.depthWrite = fade > 0.99
+    material.opacity = fade
+    material.depthWrite = fade > 0.99
   }
 }
 
@@ -85,11 +91,7 @@ type Props = {
 export function Mannequin({ visible, onSelect }: Props) {
   const material = useMemo(() => new MeshStandardMaterial({ color: SKIN, roughness: 0.85, transparent: true }), [])
   const hoverMaterial = useMemo(() => new MeshStandardMaterial({ color: SKIN_HOVER, roughness: 0.85, transparent: true }), [])
-  const glass = useMemo(
-    () => new MeshStandardMaterial({ color: GLASS, roughness: 0.05, metalness: 0.1, transparent: true, depthWrite: false }),
-    [],
-  )
-  const rim = useMemo(() => new MeshStandardMaterial({ color: RIM, roughness: 0.4, metalness: 0.3, transparent: true }), [])
+  const eye = useMemo(() => new MeshStandardMaterial({ color: EYE, roughness: 0.4, transparent: true }), [])
   const [hovered, setHovered] = useState<number | null>(null)
   const group = useRef<Group>(null)
   const fade = useRef(1)
@@ -100,8 +102,7 @@ export function Mannequin({ visible, onSelect }: Props) {
     const target = visible ? 1 : 0
     const step = reducedMotion ? 1 : delta / FADE_SECONDS
     fade.current = target > fade.current ? Math.min(target, fade.current + step) : Math.max(target, fade.current - step)
-    applyFade([material, hoverMaterial, rim], fade.current)
-    applyFade([glass], fade.current, GLASS_OPACITY)
+    applyFade([material, hoverMaterial, eye], fade.current)
     if (group.current) group.current.visible = fade.current > 0
   })
 
@@ -113,12 +114,11 @@ export function Mannequin({ visible, onSelect }: Props) {
 
   return (
     <group ref={group}>
-      <mesh position={HELMET.centre} material={glass} renderOrder={3} onClick={selectHead}>
-        <sphereGeometry args={[HELMET.radius, 48, 32]} />
-      </mesh>
-      <mesh position={[0, HELMET.rimY, -0.01]} rotation={[Math.PI / 2, 0, 0]} material={rim} onClick={selectHead}>
-        <torusGeometry args={[0.095, 0.018, 12, 48]} />
-      </mesh>
+      {EYES.map((position) => (
+        <mesh key={position[0]} position={position} material={eye} onClick={selectHead}>
+          <sphereGeometry args={[0.013, 16, 12]} />
+        </mesh>
+      ))}
       {PARTS.map((part, i) => {
         const shared = {
           material: hovered === i ? hoverMaterial : material,
