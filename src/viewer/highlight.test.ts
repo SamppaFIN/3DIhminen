@@ -54,6 +54,17 @@ describe('highlightNodes', () => {
     expect(tibia.material).toBe(bone)
   })
 
+  it('emphasises a muscle on both sides only on the given side', () => {
+    const { root, muscle, soleus } = createScene()
+    const left = soleus.clone()
+    soleus.userData.side = 'right'
+    left.userData.side = 'left'
+    root.children[0].add(left)
+    highlightNodes(root, keep('Soleus muscle.r'), 'left')
+    expect(left.material).toBe(muscle)
+    expect((soleus.material as MeshStandardMaterial).transparent).toBe(true)
+  })
+
   it('restores the original materials', () => {
     const { root, muscle, tendon, soleus, plantaris, aponeurosis } = createScene()
     highlightNodes(root, new Map([['Soleus muscle.r', '#f29000']]))
