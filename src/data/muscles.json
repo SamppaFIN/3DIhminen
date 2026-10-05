@@ -388,7 +388,7 @@
     "id": "psoas_major",
     "meshes": ["Psoas major.r"],
     "attachmentMeshes": ["Iliopsoas major origin and insertion.r"],
-    "name": { "fi": "suuri lannelihas", "la": "Psoas major" },
+    "name": { "fi": "suuri lannelihas", "la": "Musculus psoas major" },
     "origin": "Lannenikamat.",
     "insertion": "Yhdessä suoliluulihaksen kanssa reisiluun pieneen sarvennoiseen.",
     "action": "Reiden koukistus lonkkanivelessä yhdessä suoliluulihaksen kanssa.",
@@ -436,7 +436,7 @@
     "origin": "Reisiluun varren etu- ja lateraalinen pinta.",
     "insertion": "Polvilumpio nelipäisen reisilihaksen jänteen kautta; polvilumpio kiinnittyy sääriluun kyhmyyn polvilumpiositeellä.",
     "action": "Polven ojennus.",
-    "layer": "superficial",
+    "layer": "deep",
     "sources": ["teachme-thigh-anterior", "fipat-ta2"]
   },
   {
