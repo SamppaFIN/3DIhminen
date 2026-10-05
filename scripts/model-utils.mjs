@@ -49,6 +49,5 @@ export async function writeCompressed(io, doc, output) {
   await doc.transform(prune(), dedup(), meshopt({ encoder: MeshoptEncoder, level: 'medium' }))
   await io.write(output, doc)
   const groups = doc.getRoot().listScenes()[0].listChildren()
-  const count = (name) => groups.find((g) => g.getName() === name)?.listChildren().length ?? 0
-  console.log(`Wrote ${output}: ${count('Muscles')} muscle and tendon nodes, ${count('Bones')} bones`)
+  console.log(`Wrote ${output}: ${groups.map((g) => `${g.getName()} ${g.listChildren().length}`).join(', ')}`)
 }

@@ -40,7 +40,7 @@ function ModelAttribution() {
         .
       </p>
       <p>
-        Pää ja kaula:{' '}
+        Pää, kaula ja koko kehon hahmon iho:{' '}
         <a href="https://github.com/Z-Anatomy/Models-of-human-anatomy" target="_blank" rel="noreferrer">
           “Z-Anatomy – The libre 3D atlas of anatomy”
         </a>{' '}

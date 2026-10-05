@@ -312,7 +312,9 @@ export function Viewer({ painPoint, emphasis, onSelectBodyArea, ...modelProps }:
         </Bounds>
         <Attachments nodeNames={attachmentNodes} side={modelProps.side} />
       </Suspense>
-      <Mannequin visible={!modelProps.showAnatomy} onSelect={onSelectBodyArea} />
+      <Suspense fallback={null}>
+        <Mannequin visible={!modelProps.showAnatomy} onSelect={onSelectBodyArea} />
+      </Suspense>
       {painPoint && <PainMarker point={painPoint.point} normal={painPoint.normal} />}
     </Canvas>
   )
