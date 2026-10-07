@@ -1,6 +1,6 @@
 # Attribution
 
-This folder holds six adapted models, all licensed CC BY-SA 4.0 (see `LICENSE.md`).
+This folder holds seven adapted models, all licensed CC BY-SA 4.0 (see `LICENSE.md`).
 
 ## lower-limb.glb
 
@@ -114,6 +114,19 @@ The same Z-Anatomy file as `head-neck.glb` above (same repository, commit and ch
 4. Simplified the geometry with meshoptimizer (error 0.1 % of each mesh's size) and encoded it with meshopt compression.
 
 Object names are unchanged from the source.
+
+## tk3-figure.glb
+
+### Source
+
+`skin.glb` above (and so the same Z-Anatomy file as `head-neck.glb`).
+
+### Changes made
+
+`tk3-figure.glb`, the fighter figure of the Tapan Kaikki 3 game (`tk3.html`), was produced from `skin.glb` with `scripts/build-tk3-figure.mjs`:
+
+1. Merged the skin regions into ten rigid body parts by their body area and side: head (with the neck), torso, and upper arm, forearm (with the hand), thigh and shin (with the foot) on each side. The eyes were left out.
+2. Simplified each part with meshoptimizer to a few hundred triangles (about 4,900 in all) and encoded it with meshopt compression.
 
 ## attachments.glb
 

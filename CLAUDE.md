@@ -61,6 +61,7 @@ Käytännössä: lähes kaikki riippuvuudet käyvät, mutta GPL-lisensoituja kir
 | Saavutettavuus | Kipukohdan valinta mallista vaatii hiiren tai kosketuksen. Näppäimistövaihtoehtoa ei tehdä (päätös 2026-10-03). Muut toiminnot (haku, tulokset, ketju, dialogit) toimivat näppäimistöllä. |
 | MVP-rajaus | Alaraaja polvesta alaspäin (sääri, pohje, jalkaterä). Valmis 2026-10-03. |
 | Laajennus | Koko keho vaiheittain (päätös 2026-10-03): A koko alaraaja, B yläraaja ja käsi, C vartalo, D pää ja kaula, E molemmat puolet (peilaus). Mallit Open3D:stä, pää ja kaula Z-Anatomysta. Alaraajan toteutus on laatutaso jokaiselle kehon osalle: erilliset lihakset, kiinnityskohdat, lähteistetty data, alueet ja kytkökset (Sami 2026-10-04). |
+| Sivuprojekti | Tapan Kaikki 3 (Sami 2026-10-07): mobiiliin tehty ylhäältä kuvattu räiskintäpeli, jonka hahmot ovat Lihastohtorin kehomalli nivelletyksi pilkottuna. Oma sivu `tk3.html`, koodi `src/tk3/` (ilman Reactia, suoraan Three.js), malli `public/models/tk3-figure.glb` (`scripts/build-tk3-figure.mjs`). Julkaistaan samassa Pages-buildissa osoitteessa …/3DIhminen/tk3.html. |
 | Aloitusnäkymä | Human Fall Flat -tyylinen oma koko kehon hahmo, josta zoomataan kehon osan anatomiaan (Sami 2026-10-04). Pelin omia hahmoja tai tiedostoja ei käytetä. |
 
 **Terveystiedon periaate.** Sovellus näyttää *mahdollisia* lihasyhteyksiä eikä tee diagnoosia. Jokaisella lihaksella ja kytköksellä on lähdeviite, ja käyttöliittymässä on ilmoitus, ettei sovellus korvaa ammattilaista (story S5.1). Delta ei lisää dataan väitteitä ilman lähdettä.
