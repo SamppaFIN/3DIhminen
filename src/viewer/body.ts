@@ -23,3 +23,6 @@ export type BodySide = 'right' | 'left' | 'centre'
 // Encloses the figure, for framing the whole-body view (metres, +Y up, +Z front). The top leaves
 // room over the head (1.71) for the toolbar, which wraps to two rows on phones.
 export const BODY_BOUNDS = { min: [-0.34, 0, -0.17], max: [0.34, 1.94, 0.17] } as const
+
+// Also encloses the dancing skeleton's arms (Skeleton.tsx), which reach out to the sides.
+export const DANCE_BOUNDS = { min: [-0.85, 0, -0.3], max: [0.85, 1.94, 0.3] } as const

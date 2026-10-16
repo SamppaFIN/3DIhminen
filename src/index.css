@@ -127,7 +127,7 @@ main {
   }
 
   /* Next to the layer toggles on the toolbar's second row, so it never covers them. */
-  .viewer .reset-view {
+  .viewer .view-buttons {
     top: calc(1rem + 44px + 0.5rem);
     right: 1rem;
     bottom: auto;
@@ -503,10 +503,13 @@ button {
   color: var(--ink-muted);
 }
 
-.reset-view {
+.view-buttons {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .visually-hidden {

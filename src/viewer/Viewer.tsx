@@ -8,12 +8,13 @@ import type { DistantSource, PainSources } from '../search/painSearch'
 import { classifyArmRegion, computeArmLandmarks, trunkRegion } from './armRegions'
 import { highlightNodes } from './highlight'
 import { applyLayerVisibility, type LayerVisibility } from './layers'
-import { BODY_BOUNDS, type BodyArea, type BodySide } from './body'
+import { BODY_BOUNDS, type BodyArea, DANCE_BOUNDS, type BodySide } from './body'
 import { classifyHeadRegion, computeHeadLandmarks } from './headRegions'
 import { Mannequin } from './Mannequin'
 import { mirrorRightSide, mirrorX, type Side, sideOfPoint } from './mirror'
 import { type Classify, PainMarker, type PainPoint, PainPicker } from './PainPicker'
 import { classifyRegion, computeLandmarks, legCentreAt } from './regions'
+import { Skeleton } from './Skeleton'
 import { computeTrunkLandmarks } from './trunkRegions'
 
 // Relative to the page (base './' in vite.config.ts), so the models load under the GitHub Pages path too.
@@ -101,6 +102,8 @@ type ModelProps = {
   resetKey: number
   // false: the whole-body figure is shown and the anatomy is hidden.
   showAnatomy: boolean
+  // The whole-body figure is replaced by its dancing skeleton.
+  dancing: boolean
   nodeColors: NodeColors | null
   focus: Focus | null
   // The side of the body the emphasis and attachments are shown on.
@@ -124,7 +127,7 @@ function setVisible(object: Object3D, visible: boolean): void {
   object.visible = visible
 }
 
-function Model({ layers, resetKey, showAnatomy, nodeColors, focus, side, onPick }: ModelProps) {
+function Model({ layers, resetKey, showAnatomy, dancing, nodeColors, focus, side, onPick }: ModelProps) {
   const { scene: lower } = useGLTF(LOWER_LIMB_URL)
   const { scene: upper } = useGLTF(UPPER_LIMB_URL)
   const { scene: trunk } = useGLTF(TRUNK_URL)
@@ -185,7 +188,8 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, side, onPick 
         if (object.userData.name === 'Muscles') box.expandByObject(object)
       })
     } else {
-      box.set(new Vector3(...BODY_BOUNDS.min), new Vector3(...BODY_BOUNDS.max))
+      const { min, max } = dancing ? DANCE_BOUNDS : BODY_BOUNDS
+      box.set(new Vector3(...min), new Vector3(...max))
     }
     const center = box.getCenter(new Vector3())
     const distance = fitDistance(box.getSize(new Vector3()), camera)
@@ -194,7 +198,7 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, side, onPick 
       .clip()
       .moveTo(center.clone().addScaledVector(DEFAULT_DIRECTION, distance))
       .lookAt({ target: center, up: [0, 1, 0] })
-  }, [bounds, camera, root, resetKey, showAnatomy])
+  }, [bounds, camera, root, resetKey, showAnatomy, dancing])
 
   // Look at the focus from the side its aim lies on relative to the bones: deep calf muscles
   // from behind, plantar foot muscles from below. Runs once per new focus.
@@ -313,7 +317,10 @@ export function Viewer({ painPoint, emphasis, onSelectBodyArea, ...modelProps }:
         <Attachments nodeNames={attachmentNodes} side={modelProps.side} />
       </Suspense>
       <Suspense fallback={null}>
-        <Mannequin visible={!modelProps.showAnatomy} onSelect={onSelectBodyArea} />
+        <Mannequin visible={!modelProps.showAnatomy && !modelProps.dancing} onSelect={onSelectBodyArea} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <Skeleton dancing={modelProps.dancing && !modelProps.showAnatomy} />
       </Suspense>
       {painPoint && <PainMarker point={painPoint.point} normal={painPoint.normal} />}
     </Canvas>
