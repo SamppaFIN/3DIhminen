@@ -1,4 +1,4 @@
-// Builds public/models/head-neck.glb (muscles of the head and neck, skull) from the glTF that
+// Builds public/models/head-neck.glb (muscles and fasciae of the head and neck, skull) from the glTF that
 // scripts/export-head-neck.py exports from Z-Anatomy.
 // Usage: node scripts/extract-head-neck.mjs <path/to/head-src.glb>
 // (reads <path>.json, written by the export, and the trunk and upper-limb models for alignment)
@@ -21,7 +21,7 @@ const exported = JSON.parse(readFileSync(`${input}.json`, 'utf8'))
 const fit = await fitToOpen3D(exported.reference)
 
 const { io, doc } = await readSource(input)
-regroup(doc, { Muscles: new Set(exported.muscles), Bones: new Set(exported.bones) }, fit)
+regroup(doc, { Muscles: new Set(exported.muscles), Bones: new Set(exported.bones), Fascia: new Set(exported.fasciae) }, fit)
 
 applyFlatMaterials(doc, TENDON_NAME)
 // Z-Anatomy is denser than the Open3D limb models; simplify as for the trunk.

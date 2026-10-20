@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-20T13:30:00Z",
+    "generated_at": "2026-10-20T15:10:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -825,8 +825,8 @@
       "id": "E12",
       "title": "Jänne- ja kalvokerros",
       "type": "epic",
-      "status": "in_progress",
-      "description": "Lihasten alta paljastuva sidekudoskerros: jänteet, kalvojänteet, lihaskalvot (fascia lata, crural fascia, brachial ja antebrachial fascia), lihasten väliseinämät ja pidäkkeet. Kerros näkyy kerrosvalitsimesta ja zoomaamalla lihasten ohi. Suunnitelma kirjattu 2026-10-20 (Delta); Sami vahvistaa vuorovaikutusmallin ennen S12.3:n toteutusta. Lähdemallit: Open3D:n raajamallit ovat päivittyneet 2026-10-14 (uudet tarkistussummat), vartalon malli on ennallaan. Pään ja kaulan kalvot vaativat Blenderin bpy-moduulin, jota ei ole kehityskoneella, joten ne jäävät myöhemmäksi. Toteutus 2026-10-20 (Delta, Samin valinta: vaihtoehto 1, kuorinta lähimmän etäisyyden ohi): S12.1–S12.3 valmiit, S12.4 odottaa bpy-ympäristöä. Lähdemallien päivitys korjasi lapaluun solmun nimen (Scapula.r. → Scapula.r), ja viittaukset päivitettiin.",
+      "status": "done",
+      "description": "Lihasten alta paljastuva sidekudoskerros: jänteet, kalvojänteet, lihaskalvot (fascia lata, crural fascia, brachial ja antebrachial fascia), lihasten väliseinämät ja pidäkkeet. Kerros näkyy kerrosvalitsimesta ja zoomaamalla lihasten ohi. Suunnitelma kirjattu 2026-10-20 (Delta); Sami vahvistaa vuorovaikutusmallin ennen S12.3:n toteutusta. Lähdemallit: Open3D:n raajamallit ovat päivittyneet 2026-10-14 (uudet tarkistussummat), vartalon malli on ennallaan. Pään ja kaulan kalvot vaativat Blenderin bpy-moduulin, jota ei ole kehityskoneella, joten ne jäävät myöhemmäksi. Toteutus 2026-10-20 (Delta, Samin valinta: vaihtoehto 1, kuorinta lähimmän etäisyyden ohi): S12.1–S12.4 valmiit (S12.4 samana päivänä, kun Python 3.11 ja bpy asennettiin). Lähdemallien päivitys korjasi lapaluun solmun nimen (Scapula.r. → Scapula.r), ja viittaukset päivitettiin.",
       "stories": [
         {
           "id": "S12.1",
@@ -895,10 +895,10 @@
           "i_want": "nähdä pään ja kaulan kalvot samassa kerroksessa",
           "so_that": "kalvokerros kattaa koko kehon",
           "effort": "M",
-          "status": "todo",
+          "status": "done",
           "acceptance_criteria": [
-            "export-head-neck.py vie Z-Anatomyn kaulan kalvot (fascia cervicalis) ja ne liitetään head-neck.glb:n Fascia-ryhmään",
-            "Vaatii Blenderin bpy-moduulin ajoympäristön"
+            "export-head-neck.py vie Z-Anatomyn pään ja kaulan kalvot (masseteric fascia, temporal fascian pinnallinen kerros, superficial investing cervical fascia; oikea puoli) ja extract-head-neck.mjs liittää ne head-neck.glb:n Fascia-ryhmään läpikuultavina",
+            "Ajoympäristö: Python 3.11 ja bpy 4.5 asennettu kehityskoneelle 2026-10-20; Z-Anatomy.zip ja Startup.blend täsmäävät ATTRIBUTION.md:n tarkistussummiin"
           ],
           "depends_on": [
             "S12.2"

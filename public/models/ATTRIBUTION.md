@@ -91,9 +91,9 @@ The parts of Z-Anatomy adapted from models under non-commercial licences (the in
 
 `head-neck.glb` was produced in two steps: `scripts/export-head-neck.py` (Blender 4.5) exported the selected objects to glTF without materials, and `scripts/extract-head-neck.mjs` built the final file:
 
-1. Kept the right-side masticatory, facial, epicranial, neck, suprahyoid, infrahyoid and suboccipital muscles, and the bones of the skull, the mandible, the hyoid, the teeth and the thyroid and cricoid cartilages (both sides). All other structures, including the laryngeal and pharyngeal muscles, were removed.
-2. Merged the objects into two groups, "Muscles" and "Bones", and aligned them to the Open3D models above with a per-axis scale and offset fitted to the cervical vertebrae, T1 and the clavicle (scale 0.986–0.999, offset under 1 mm).
-3. Replaced the materials with three flat colours (muscle, tendon, bone).
+1. Kept the right-side masticatory, facial, epicranial, neck, suprahyoid, infrahyoid and suboccipital muscles, the bones of the skull, the mandible, the hyoid, the teeth and the thyroid and cricoid cartilages (both sides), and, in a Fascia group of their own, the right-side masseteric fascia, the superficial layer of the temporal fascia and the superficial investing cervical fascia. All other structures, including the laryngeal and pharyngeal muscles, were removed.
+2. Merged the objects into three groups, "Muscles", "Bones" and "Fascia", and aligned them to the Open3D models above with a per-axis scale and offset fitted to the cervical vertebrae, T1 and the clavicle (scale 0.986–0.999, offset under 1 mm).
+3. Replaced the materials with four flat materials (muscle, tendon, bone, and a see-through fascia material for the fascia sheets).
 4. Simplified the geometry with meshoptimizer (error 0.1 % of each mesh's size) and encoded it with meshopt compression.
 
 Object names are unchanged from the source.

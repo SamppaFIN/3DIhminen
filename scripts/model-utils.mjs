@@ -18,9 +18,10 @@ export async function readSource(path) {
   return { io, doc: await io.read(path) }
 }
 
-// Fascia sheets that wrap a whole limb or the back: see-through, so the muscles under them stay
-// visible when both the muscles and the tendon-and-fascia layer are shown.
-const ENVELOPING_FASCIA = /^(Fascia lata|Crural fascia|Brachial fascia|Antebrachial fascia|Gluteal aponeurosis|Clavipectoral fascia|Thoracolumbar fascia)/
+// Fascia sheets that wrap a whole limb, the back, the neck or a muscle of the head: see-through, so
+// the muscles under them stay visible when both the muscles and the tendon-and-fascia layer are shown.
+const ENVELOPING_FASCIA =
+  /^(Fascia lata|Crural fascia|Brachial fascia|Antebrachial fascia|Gluteal aponeurosis|Clavipectoral fascia|Thoracolumbar fascia|Superficial investing cervical fascia|Superficial layer of temporal fascia|Masseteric fascia)/
 const FASCIA_ALPHA = 0.5
 
 // The source textures are CC BY-NC-SA, so all textures are dropped and replaced with flat materials.

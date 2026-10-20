@@ -29,6 +29,8 @@ SKIP_GROUPS = {'Laryngeal muscles.g', 'Pharyngeal muscles.g'}
 # Bones of the skull, both sides, and the cartilages the infrahyoid muscles attach to.
 BONE_GROUPS = ['Bones of cranium.g', 'Extracranial bones of head.g', 'Anterior teeth.g', 'Posterior teeth.g']
 EXTRA_BONES = {'Thyroid cartilage', 'Cricoid cartilage'}
+# Right-side fascia sheets of the head and neck, for the app's tendon-and-fascia layer.
+FASCIA_GROUPS = ['Fasciae of head.g', 'Cervical fasciae.g']
 # Children of bones that are not bones: sinuses, ethmoid cells and attachment markers (".o", ".e", ".j").
 NOT_BONE = re.compile(r'^(Sinus of|.* cells of ethmoid)|\.(o|e|i)\d*[lr]?$|\.j$|\.g$')
 # Reference bones for aligning the model to the Open3D models (see extract-head-neck.mjs).
@@ -51,9 +53,10 @@ def meshes_under(group_name, right_only):
 muscles = {o.name: o for g in MUSCLE_GROUPS for o in meshes_under(g, True)}
 bones = {o.name: o for g in BONE_GROUPS for o in meshes_under(g, False)}
 bones.update({name: bpy.data.objects[name] for name in EXTRA_BONES})
+fasciae = {o.name: o for g in FASCIA_GROUPS for o in meshes_under(g, True)}
 
 bpy.ops.object.select_all(action='DESELECT')
-for o in [*muscles.values(), *bones.values()]:
+for o in [*muscles.values(), *bones.values(), *fasciae.values()]:
     o.hide_set(False)
     o.hide_viewport = False
     o.select_set(True)
@@ -81,9 +84,10 @@ with open(out + '.json', 'w') as f:
         {
             'muscles': sorted(muscles),
             'bones': sorted(bones),
+            'fasciae': sorted(fasciae),
             'reference': {name: bounds(bpy.data.objects[name]) for name in REFERENCE},
         },
         f,
         indent=1,
     )
-print(f'Exported {len(muscles)} muscles and {len(bones)} bones to {out}')
+print(f'Exported {len(muscles)} muscles, {len(bones)} bones and {len(fasciae)} fasciae to {out}')

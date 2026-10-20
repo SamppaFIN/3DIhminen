@@ -114,7 +114,7 @@ Koko tikettipuu on tiedostossa `backlog.json`. Tarkista sen `_meta`-lohko ennen 
 | E11 | Molemmat puolet (vaihe E) | S11.1 (M, vasen puoli peilaamalla), S11.2 (M, kipuhaku vasemmalla), S11.3 (S, hahmon vasen puoli ja kameran puoli) |
 | E12 | Jänne- ja kalvokerros | S12.1 (M, sidekudoskerros nykyisistä malleista), S12.2 (L, lihaskalvot lähdemalleista), S12.3 (M, kerrosten kuorinta zoomaamalla), S12.4 (M, pään ja kaulan kalvot) |
 
-Yhteensä 12 epiciä, 46 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus). E12: S12.1–S12.3 toteutettu 2026-10-20 (kuorinta zoomaamalla katsotun pinnan kohdalla, Samin valinta); S12.4 odottaa Blenderin bpy-ympäristöä.
+Yhteensä 12 epiciä, 46 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus). E12 toteutettu 2026-10-20 (kuorinta zoomaamalla katsotun pinnan kohdalla, Samin valinta); pään ja kaulan kalvojen vienti vaatii Python 3.11:n ja bpy 4.5:n, jotka on asennettu Samin koneelle.
 
 ---
 

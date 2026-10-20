@@ -60,7 +60,7 @@ describe('mirrorRightSide', () => {
   })
 
   it('keeps the groups that highlighting and layers look for', () => {
-    expect(head.left.children.map((g) => g.userData.name)).toEqual(['Muscles', 'Bones'])
+    expect(head.left.children.map((g) => g.userData.name)).toEqual(['Muscles', 'Bones', 'Fascia'])
     expect(leg.left.children.map((g) => g.userData.name)).toEqual(['Bones', 'Fascia', 'Muscles'])
   })
 
