@@ -538,10 +538,17 @@ button {
   color: var(--ink-muted);
 }
 
-.reset-view {
+.view-buttons {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.view-buttons[hidden] {
+  display: none;
 }
 
 .visually-hidden {

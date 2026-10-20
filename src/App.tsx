@@ -70,6 +70,8 @@ function App() {
   const [showAnatomy, setShowAnatomy] = useState(false)
   // The side of the body being looked at: the camera frames muscles on this side.
   const [side, setSide] = useState<Side>('right')
+  // The whole-body figure's skeleton dances in its place.
+  const [dancing, setDancing] = useState(false)
   const panelRef = useRef<HTMLElement>(null)
 
   const pain = selection?.kind === 'pain' || selection?.kind === 'chain' ? selection.pain : null
@@ -110,6 +112,7 @@ function App() {
     if (!area) return
     const meshes = [...area.meshes]
     setShowAnatomy(true)
+    setDancing(false)
     setSide(areaSide)
     const view = 'view' in area ? area.view : undefined
     const focus = { meshes, attachmentMeshes: [], aim: meshes, keepDirection: true, view, side: areaSide }
@@ -151,6 +154,7 @@ function App() {
     if (!muscle) return
     setLayers({ ...layers, [muscle.layer]: true })
     setShowAnatomy(true)
+    setDancing(false)
     if (selection && !(selection.kind === 'muscle' && selection.id === id)) setHistory([...history, selection])
     select({ kind: 'muscle', id })
   }
@@ -199,6 +203,7 @@ function App() {
             resetKey={resetKey}
             showAnatomy={showAnatomy}
             onSelectBodyArea={selectBodyArea}
+            dancing={dancing}
             painPoint={pain}
             emphasis={emphasis}
             focus={focus}
@@ -250,15 +255,22 @@ function App() {
             {toolsHidden ? <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" /> : <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />}
           </svg>
         </button>
-        {showAnatomy ? (
-          <button type="button" className="reset-view" hidden={toolsHidden} onClick={showWholeBody}>
-            Koko keho
-          </button>
-        ) : (
-          <button type="button" className="reset-view" hidden={toolsHidden} onClick={() => setResetKey((key) => key + 1)}>
-            Palauta näkymä
-          </button>
-        )}
+        <div className="view-buttons" hidden={toolsHidden}>
+          {showAnatomy ? (
+            <button type="button" onClick={showWholeBody}>
+              Koko keho
+            </button>
+          ) : (
+            <>
+              <button type="button" onClick={() => setResetKey((key) => key + 1)}>
+                Palauta näkymä
+              </button>
+              <button type="button" onClick={() => setDancing(!dancing)}>
+                {dancing ? 'Lopeta tanssi' : 'Luurankotanssi'}
+              </button>
+            </>
+          )}
+        </div>
       </div>
       <aside className="panel" ref={panelRef} data-sheet={sheet}>
         <p className="visually-hidden" role="status">
