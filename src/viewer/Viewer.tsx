@@ -8,6 +8,7 @@ import type { DistantSource, PainSources } from '../search/painSearch'
 import { classifyArmRegion, computeArmLandmarks, trunkRegion } from './armRegions'
 import { highlightNodes } from './highlight'
 import { applyLayerVisibility, type LayerVisibility } from './layers'
+import { LayerPeel, MIN_DISTANCE } from './LayerPeel'
 import { BODY_BOUNDS, type BodyArea, type BodySide } from './body'
 import { classifyHeadRegion, computeHeadLandmarks } from './headRegions'
 import { Mannequin } from './Mannequin'
@@ -106,6 +107,8 @@ type ModelProps = {
   // The side of the body the emphasis and attachments are shown on.
   side: Side
   onPick: (pain: PainPoint) => void
+  // Zooming past the surface in view peels layers (LayerPeel.tsx).
+  onLayersChange: (layers: LayerVisibility) => void
 }
 
 // One root for all models, so picking, highlighting and layers work across them.
@@ -124,7 +127,7 @@ function setVisible(object: Object3D, visible: boolean): void {
   object.visible = visible
 }
 
-function Model({ layers, resetKey, showAnatomy, nodeColors, focus, side, onPick }: ModelProps) {
+function Model({ layers, resetKey, showAnatomy, nodeColors, focus, side, onPick, onLayersChange }: ModelProps) {
   const { scene: lower } = useGLTF(LOWER_LIMB_URL)
   const { scene: upper } = useGLTF(UPPER_LIMB_URL)
   const { scene: trunk } = useGLTF(TRUNK_URL)
@@ -251,6 +254,7 @@ function Model({ layers, resetKey, showAnatomy, nodeColors, focus, side, onPick 
     <>
       <primitive object={root} />
       {showAnatomy && <PainPicker root={root} classify={classify} onPick={onPick} />}
+      {showAnatomy && <LayerPeel root={root} focus={focus} resetKey={resetKey} layers={layers} onChange={onLayersChange} />}
     </>
   )
 }
@@ -305,7 +309,7 @@ export function Viewer({ painPoint, emphasis, onSelectBodyArea, ...modelProps }:
       <ambientLight intensity={0.6} />
       <directionalLight position={[1, 2, 2]} intensity={1.5} />
       <directionalLight position={[-1, 1, -2]} intensity={0.8} />
-      <OrbitControls makeDefault />
+      <OrbitControls makeDefault minDistance={MIN_DISTANCE} />
       <Suspense fallback={null}>
         <Bounds maxDuration={reducedMotion ? 0.01 : 0.4}>
           <Model {...modelProps} nodeColors={nodeColors} />

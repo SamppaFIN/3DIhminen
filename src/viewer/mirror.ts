@@ -10,7 +10,7 @@ export type Side = 'right' | 'left'
 // Parts that reach further than this over the midline (metres) span both sides and are not copied.
 const MIDLINE_TOLERANCE = 0.005
 // Groups of parts in the models; other top-level nodes (attachment patches) are parts themselves.
-const GROUPS = new Set(['Muscles', 'Bones'])
+const GROUPS = new Set(['Muscles', 'Bones', 'Fascia'])
 
 const leftName = (name: string) => name.replace(/\.r(\.?)$/, '.l$1')
 

@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-05T23:00:00Z",
+    "generated_at": "2026-10-20T13:30:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -373,6 +373,25 @@
             "Testit, tyyppitarkistus ja lint menevät läpi"
           ],
           "depends_on": []
+        },
+        {
+          "id": "S6.3",
+          "title": "Mobiilin näkymän togglet",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "piilottaa puhelimella työkalupalkin ja painaa alapaneelin pelkäksi kahvaksi",
+          "so_that": "3D-malli saa koko näytön, kun tutkin sitä",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Alapaneelilla on kolmas tila, jossa vain kahva näkyy; siihen pääsee vetämällä puoliksi avoimen paneelin alas, ja napautus avaa sen takaisin",
+            "Uusi valinta (kipukohta, haku, ketju, takaisin) avaa kutistetun paneelin puoliksi, jotta tulos näkyy",
+            "Oikean yläkulman 44 px:n ikoninappi piilottaa haun, aluevalitsimen, kerrosvalitsimen ja näkymäpainikkeen ja tuo ne takaisin; napilla on tekstivastine ruudunlukijalle",
+            "Työkalupalkki mahtuu 390 px leveälle näytölle kahdelle riville; 360 px:llä kolmas kerrosnappi (S12.1) rivittyy kolmannelle riville ilman päällekkäisyyksiä, ja näkymäpainike on puhelimella vasemmassa alakulmassa"
+          ],
+          "depends_on": [
+            "S6.1"
+          ]
         }
       ]
     },
@@ -798,6 +817,91 @@
           ],
           "depends_on": [
             "S11.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E12",
+      "title": "Jänne- ja kalvokerros",
+      "type": "epic",
+      "status": "in_progress",
+      "description": "Lihasten alta paljastuva sidekudoskerros: jänteet, kalvojänteet, lihaskalvot (fascia lata, crural fascia, brachial ja antebrachial fascia), lihasten väliseinämät ja pidäkkeet. Kerros näkyy kerrosvalitsimesta ja zoomaamalla lihasten ohi. Suunnitelma kirjattu 2026-10-20 (Delta); Sami vahvistaa vuorovaikutusmallin ennen S12.3:n toteutusta. Lähdemallit: Open3D:n raajamallit ovat päivittyneet 2026-10-14 (uudet tarkistussummat), vartalon malli on ennallaan. Pään ja kaulan kalvot vaativat Blenderin bpy-moduulin, jota ei ole kehityskoneella, joten ne jäävät myöhemmäksi. Toteutus 2026-10-20 (Delta, Samin valinta: vaihtoehto 1, kuorinta lähimmän etäisyyden ohi): S12.1–S12.3 valmiit, S12.4 odottaa bpy-ympäristöä. Lähdemallien päivitys korjasi lapaluun solmun nimen (Scapula.r. → Scapula.r), ja viittaukset päivitettiin.",
+      "stories": [
+        {
+          "id": "S12.1",
+          "title": "Sidekudoskerros nykyisistä malleista",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "näyttää ja piilottaa jänteet ja kalvot omana kerroksenaan",
+          "so_that": "näen lihasten alla kulkevan jänne- ja kalvoverkoston erillään lihaksista",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Kerrosvalitsimessa on kolmas valinta \"Jänteet ja kalvot\" (puhelimella lyhyempi nimi), joka kattaa Muscles-ryhmän jännemateriaaliset solmut, jotka eivät kuulu minkään lihaksen meshes-listaan",
+            "Lihaksen omat jänneosat (esim. hauislihaksen yhteinen jänne) kulkevat edelleen lihaksen kerroksen mukana",
+            "Kerrosten piilotus ja korostus (dimmaus, kipuketjun värit) toimivat uuden kerroksen kanssa kuten ennen",
+            "Kolme kerrosnappia mahtuvat 390 px leveälle näytölle toiselle riville; 360 px:llä kolmas rivittyy ilman päällekkäisyyksiä"
+          ],
+          "depends_on": [
+            "S1.3",
+            "S6.3"
+          ]
+        },
+        {
+          "id": "S12.2",
+          "title": "Lihaskalvot lähdemalleista",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "nähdä raajojen ja vartalon lihaskalvot, väliseinämät ja pidäkkeet mallissa",
+          "so_that": "kalvoketjut (esim. reiden kalvo ja suoliluu-sääriluukaista) näkyvät kokonaisina",
+          "effort": "L",
+          "status": "done",
+          "acceptance_criteria": [
+            "extract-lower-limb, extract-upper-limb ja extract-trunk säilyttävät kalvot omana Fascia-ryhmänään: alaraaja 14 (mukana suoliluu-sääriluukaista), yläraaja 10 (fasciat, väliseinämät, luidenvälinen kalvo, ranteen ojentajien pidäke, sormien jännetupet ja ojentajajänteiden yhdyssiteet), vartalo 6 (rinta-lannekalvon neljä osaa, clavipectoral ja iliopsoas); endothoracic ja transversalis jätetään pois",
+            "Koko raajan ympäröivät kalvot (fascia lata, crural fascia, brachial ja antebrachial fascia) piirretään läpikuultavina, jotta ne eivät peitä lihaksia, kun molemmat kerrokset ovat näkyvissä",
+            "ATTRIBUTION.md päivitetään lähdemallien uusiin versioihin ja tarkistussummiin, ja datatestit varmistavat, etteivät solmujen nimet muuttuneet",
+            "structures.json-tietueet uusille kalvoille lisätään vasta, kun jokin kytkös kulkee niiden kautta (ei vielä yhtään); kalvoilla ei siksi ole vielä suomenkielisiä nimiä sovelluksessa"
+          ],
+          "depends_on": [
+            "S12.1"
+          ]
+        },
+        {
+          "id": "S12.3",
+          "title": "Kerrosten kuorinta zoomaamalla",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "zoomata lihasten ohi niiden alla olevaan kerrokseen",
+          "so_that": "pääsen syvemmälle ilman nappeja, kuten kuorisin kerroksia",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Kamera pysähtyy noin 10 cm:n päähän katsotusta pinnasta; kun käyttäjä zoomaa siinä edelleen sisään, seuraava kerros kuoriutuu: pinnalliset lihakset, sitten syvät lihakset, sitten jänteet ja kalvot; luut jäävät, ja kamera pääsee lähemmäs paljastunutta kerrosta",
+            "Zoomaus ulos palauttaa kuoritut kerrokset sisimmästä alkaen ja siirtää kameran takaisin kerroksen kuorintakohtaan ennen kuin se loittonee; toinen alue, näkymän palautus tai Koko keho palauttaa kaikki kuoritut kerrokset",
+            "Kerrosvalitsin näyttää kuorinnan tilan, ja napit toimivat edelleen itsenäisesti",
+            "Kosketusnäytöllä nipistys pinnan kohdalla kuorii kerroksen; nipistys takaisin palauttaa kerroksen, ja kamera loittonee samalla, koska OrbitControls käsittelee nipistyksen itse",
+            "Pintaan törmäävä zoomiele ei kuori: hiiren rulla kuorii vasta tauon jälkeen, ja nipistys vain, jos se alkaa pinnan kohdalla"
+          ],
+          "depends_on": [
+            "S12.1"
+          ]
+        },
+        {
+          "id": "S12.4",
+          "title": "Pään ja kaulan kalvot",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "nähdä pään ja kaulan kalvot samassa kerroksessa",
+          "so_that": "kalvokerros kattaa koko kehon",
+          "effort": "M",
+          "status": "todo",
+          "acceptance_criteria": [
+            "export-head-neck.py vie Z-Anatomyn kaulan kalvot (fascia cervicalis) ja ne liitetään head-neck.glb:n Fascia-ryhmään",
+            "Vaatii Blenderin bpy-moduulin ajoympäristön"
+          ],
+          "depends_on": [
+            "S12.2"
           ]
         }
       ]

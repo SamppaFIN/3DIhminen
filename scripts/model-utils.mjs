@@ -18,23 +18,36 @@ export async function readSource(path) {
   return { io, doc: await io.read(path) }
 }
 
+// Fascia sheets that wrap a whole limb or the back: see-through, so the muscles under them stay
+// visible when both the muscles and the tendon-and-fascia layer are shown.
+const ENVELOPING_FASCIA = /^(Fascia lata|Crural fascia|Brachial fascia|Antebrachial fascia|Gluteal aponeurosis|Clavipectoral fascia|Thoracolumbar fascia)/
+const FASCIA_ALPHA = 0.5
+
 // The source textures are CC BY-NC-SA, so all textures are dropped and replaced with flat materials.
 // Colours are linear RGB of the design-brief tokens --muscle and --tendon; bone is a neutral ivory.
-// Nodes in the "Bones" group get the bone material, nodes whose names match tendonName the tendon
-// material, and everything else the muscle material.
+// Nodes in the "Bones" group get the bone material; nodes in the "Fascia" group the tendon material,
+// or the see-through fascia material if they envelop muscles; nodes whose names match tendonName
+// the tendon material; and everything else the muscle material. The app's layers
+// (src/viewer/layers.ts) tell tendons and fascia apart from muscles by these material names.
 export function applyFlatMaterials(doc, tendonName) {
   const root = doc.getRoot()
-  const flat = (name, rgb) =>
-    doc.createMaterial(name).setBaseColorFactor([...rgb, 1]).setMetallicFactor(0).setRoughnessFactor(0.7)
+  const flat = (name, rgb, alpha = 1) =>
+    doc.createMaterial(name).setBaseColorFactor([...rgb, alpha]).setMetallicFactor(0).setRoughnessFactor(0.7)
+  const tendonColor = [0.7969, 0.6698, 0.4489]
   const materials = {
     muscle: flat('muscle', [0.5215, 0.0859, 0.0877]),
-    tendon: flat('tendon', [0.7969, 0.6698, 0.4489]),
+    tendon: flat('tendon', tendonColor),
+    fascia: flat('fascia', tendonColor, FASCIA_ALPHA).setAlphaMode('BLEND'),
     bone: flat('bone', [0.8281, 0.7747, 0.6721]),
+  }
+  const materialOf = (group, node) => {
+    if (group === 'Bones') return materials.bone
+    if (group === 'Fascia') return ENVELOPING_FASCIA.test(node) ? materials.fascia : materials.tendon
+    return tendonName.test(node) ? materials.tendon : materials.muscle
   }
   for (const group of root.listScenes()[0].listChildren()) {
     for (const node of group.listChildren()) {
-      const material =
-        group.getName() === 'Bones' ? materials.bone : tendonName.test(node.getName()) ? materials.tendon : materials.muscle
+      const material = materialOf(group.getName(), node.getName())
       for (const primitive of node.getMesh()?.listPrimitives() ?? []) primitive.setMaterial(material)
     }
   }

@@ -10,7 +10,7 @@ import { MuscleInfo } from './MuscleInfo'
 import { MuscleSearch } from './MuscleSearch'
 import { PainResults } from './PainResults'
 import { chainSteps, connectedMuscles, findPainSources, type PainSources } from './search/painSearch'
-import { SheetHandle } from './SheetHandle'
+import { SheetHandle, type SheetState } from './SheetHandle'
 import { SourcesDialog } from './SourcesDialog'
 import { useReveal } from './useReveal'
 import type { Layer, LayerVisibility } from './viewer/layers'
@@ -21,10 +21,11 @@ import { REGION_NAMES } from './viewer/regions'
 import { type Emphasis, type Focus, Viewer } from './viewer/Viewer'
 import { ViewerErrorBoundary } from './ViewerErrorBoundary'
 
-// The word "lihakset" is dropped on phones to fit the toolbar; the group label keeps the context.
-const LAYER_LABELS: Record<Layer, string> = {
-  superficial: 'Pinnalliset',
-  deep: 'Syvät',
+// The second part is dropped on phones to fit the toolbar; the group label keeps the context.
+const LAYER_LABELS: Record<Layer, [string, string]> = {
+  superficial: ['Pinnalliset', ' lihakset'],
+  deep: ['Syvät', ' lihakset'],
+  connective: ['Jänteet', ' ja kalvot'],
 }
 
 // pain: results for a pain point. chain: one distant source's chain for that pain point.
@@ -54,12 +55,14 @@ function backLabel(previous: NonNullable<Selection>): string {
 }
 
 function App() {
-  const [layers, setLayers] = useState<LayerVisibility>({ superficial: true, deep: true })
+  const [layers, setLayers] = useState<LayerVisibility>({ superficial: true, deep: true, connective: true })
   const [resetKey, setResetKey] = useState(0)
   const [selection, setSelection] = useState<Selection>(null)
   // Earlier selections, so the panel can go back from a muscle to the previous view.
   const [history, setHistory] = useState<Selection[]>([])
-  const [sheetExpanded, setSheetExpanded] = useState(false)
+  const [sheet, setSheet] = useState<SheetState>('half')
+  // Hides the toolbar and the view button, so the model has the whole screen.
+  const [toolsHidden, setToolsHidden] = useState(false)
   // An area jump applies until the selection changes; then the selection's own focus takes over.
   const [areaJump, setAreaJump] = useState<{ focus: Focus; selection: Selection } | null>(null)
   // false: the whole-body figure; true: the anatomy of the area zoomed into.
@@ -81,6 +84,8 @@ function App() {
     return source ? chainSteps(source, selection.pain.region) : null
   }, [selection, painSources])
   const lit = useReveal(chain?.steps.length ?? 0, chain)
+
+  const toolsLabel = toolsHidden ? 'Näytä työkalut' : 'Piilota työkalut'
 
   const emphasis = useMemo<Emphasis | null>(() => {
     if (selectedMuscle) return { kind: 'muscle', muscle: selectedMuscle, connected }
@@ -131,6 +136,13 @@ function App() {
     panel.querySelector<HTMLElement>('[data-autofocus]')?.focus({ preventScroll: true })
   }, [selection])
 
+  // Changing the selection also opens a collapsed sheet, so what it shows is seen. Stable, so
+  // handlePick below stays stable.
+  const select = useCallback((next: NonNullable<Selection>) => {
+    setSheet((state) => (state === 'collapsed' ? 'half' : state))
+    setSelection(next)
+  }, [])
+
   // Show the selected muscle's layer. Other muscles are see-through when dimmed, so a deep muscle
   // is visible without hiding the superficial ones.
   const selectMuscle = (id: string) => {
@@ -139,7 +151,7 @@ function App() {
     setLayers({ ...layers, [muscle.layer]: true })
     setShowAnatomy(true)
     if (selection && !(selection.kind === 'muscle' && selection.id === id)) setHistory([...history, selection])
-    setSelection({ kind: 'muscle', id })
+    select({ kind: 'muscle', id })
   }
 
   const goBack = () => {
@@ -150,15 +162,15 @@ function App() {
       if (muscle) setLayers({ ...layers, [muscle.layer]: true })
     }
     setHistory(history.slice(0, -1))
-    setSelection(previous)
+    select(previous)
   }
 
   // Stable, so the pick listeners are not re-attached on every render (e.g. during the chain animation).
   const handlePick = useCallback((picked: PainPoint) => {
     setHistory([])
     setSide(sideOfPoint(picked.point))
-    setSelection({ kind: 'pain', pain: picked })
-  }, [])
+    select({ kind: 'pain', pain: picked })
+  }, [select])
 
   return (
     <main>
@@ -171,6 +183,7 @@ function App() {
         <ViewerErrorBoundary>
           <Viewer
             layers={layers}
+            onLayersChange={setLayers}
             resetKey={resetKey}
             showAnatomy={showAnatomy}
             onSelectBodyArea={selectBodyArea}
@@ -181,7 +194,7 @@ function App() {
             onPick={handlePick}
           />
         </ViewerErrorBoundary>
-        <div className="toolbar">
+        <div className="toolbar" hidden={toolsHidden}>
           <MuscleSearch onSelect={selectMuscle} />
           <select
             className="area-select"
@@ -198,7 +211,7 @@ function App() {
               </option>
             ))}
           </select>
-          <div className="layer-toggles" role="group" aria-label="Lihaskerrokset" hidden={!showAnatomy}>
+          <div className="layer-toggles" role="group" aria-label="Kerrokset" hidden={!showAnatomy}>
             {(Object.keys(LAYER_LABELS) as Layer[]).map((layer) => (
               <button
                 key={layer}
@@ -206,27 +219,40 @@ function App() {
                 aria-pressed={layers[layer]}
                 onClick={() => setLayers({ ...layers, [layer]: !layers[layer] })}
               >
-                {LAYER_LABELS[layer]}
-                <span className="wide-only"> lihakset</span>
+                {LAYER_LABELS[layer][0]}
+                <span className="wide-only">{LAYER_LABELS[layer][1]}</span>
               </button>
             ))}
           </div>
         </div>
+        <button
+          type="button"
+          className="tools-toggle"
+          aria-expanded={!toolsHidden}
+          aria-label={toolsLabel}
+          title={toolsLabel}
+          onClick={() => setToolsHidden(!toolsHidden)}
+        >
+          {/* Arrows out: give the model the whole screen. Arrows in: bring the tools back. */}
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {toolsHidden ? <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" /> : <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />}
+          </svg>
+        </button>
         {showAnatomy ? (
-          <button type="button" className="reset-view" onClick={showWholeBody}>
+          <button type="button" className="reset-view" hidden={toolsHidden} onClick={showWholeBody}>
             Koko keho
           </button>
         ) : (
-          <button type="button" className="reset-view" onClick={() => setResetKey((key) => key + 1)}>
+          <button type="button" className="reset-view" hidden={toolsHidden} onClick={() => setResetKey((key) => key + 1)}>
             Palauta näkymä
           </button>
         )}
       </div>
-      <aside className="panel" ref={panelRef} data-sheet={sheetExpanded ? 'full' : 'half'}>
+      <aside className="panel" ref={panelRef} data-sheet={sheet}>
         <p className="visually-hidden" role="status">
           {statusText(selection, painSources)}
         </p>
-        <SheetHandle expanded={sheetExpanded} onChange={setSheetExpanded} />
+        <SheetHandle state={sheet} onChange={setSheet} />
         {pain && (
           <>
             <h2 className="region-name" tabIndex={-1} data-autofocus={selection?.kind === 'pain' || undefined}>
@@ -236,7 +262,7 @@ function App() {
               <PainResults
                 sources={painSources}
                 onSelectMuscle={selectMuscle}
-                onOpenChain={(muscleId) => setSelection({ kind: 'chain', pain, muscleId })}
+                onOpenChain={(muscleId) => select({ kind: 'chain', pain, muscleId })}
               />
             )}
             {chain && selection?.kind === 'chain' && (
@@ -245,7 +271,7 @@ function App() {
                 steps={chain.steps}
                 links={chain.links}
                 lit={lit}
-                onBack={() => setSelection({ kind: 'pain', pain })}
+                onBack={() => select({ kind: 'pain', pain })}
                 onSelectMuscle={selectMuscle}
               />
             )}

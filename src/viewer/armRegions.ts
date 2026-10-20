@@ -107,7 +107,7 @@ export function classifyArmRegion(point: Vector3, normal: Vector3, lm: ArmLandma
   const { name, distance } = nearestBone(point, lm.bones)
   if (distance > TRUNK_DISTANCE) return trunkRegion(point, lm.elbowY, neckY)
 
-  if (name === 'Clavicle.r' || name === 'Scapula.r.') {
+  if (name === 'Clavicle.r' || name === 'Scapula.r') {
     return point.x < lm.lateralX + 0.02 ? 'shoulder' : trunkRegion(point, lm.elbowY, neckY)
   }
   if (name === 'Humerus.r') {

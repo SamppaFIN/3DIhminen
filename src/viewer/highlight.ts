@@ -6,6 +6,9 @@ const DIM_COLOR = new Color('#c89694')
 const DIM_OPACITY = 0.35
 const dimmed = new WeakMap<Material, Material>()
 const recoloured = new Map<string, Material>()
+const lit = new WeakMap<Material, Material>()
+// Groups whose parts are emphasised or dimmed; bones are left as they are.
+const HIGHLIGHT_GROUPS = new Set(['Muscles', 'Fascia'])
 
 // Muscles turn --muscle-dim; tendons and fascia keep their colour and only become see-through.
 function dimOf(base: Material): Material {
@@ -22,6 +25,20 @@ function dimOf(base: Material): Material {
   return dim
 }
 
+// An emphasised see-through fascia sheet is drawn solid, so it stands out from the dimmed parts.
+function litOf(base: Material): Material {
+  if (!base.transparent) return base
+  let material = lit.get(base)
+  if (!material) {
+    material = base.clone()
+    material.transparent = false
+    material.opacity = 1
+    material.depthWrite = true
+    lit.set(base, material)
+  }
+  return material
+}
+
 function recolourOf(base: Material, color: string): Material {
   const key = `${base.uuid}|${color}`
   let material = recoloured.get(key)
@@ -34,12 +51,13 @@ function recolourOf(base: Material, color: string): Material {
   return material
 }
 
-// nodeColors: the nodes to emphasise, each with a colour, or null to keep its own material.
-// Every other structure in the model's Muscles group is dimmed; bones are left as they are.
+// nodeColors: the nodes to emphasise, each with a colour, or null to keep its own material (drawn
+// solid if it is see-through).
+// Every other structure in the model's Muscles and Fascia groups is dimmed; bones are left as they are.
 // null shows everything normally. Parts on both sides (mirror.ts) are emphasised on `side` only.
 export function highlightNodes(root: Object3D, nodeColors: Map<string, string | null> | null, side = 'right'): void {
   root.traverse((group) => {
-    if (group.userData.name !== 'Muscles') return
+    if (!HIGHLIGHT_GROUPS.has(group.userData.name)) return
     for (const node of group.children) {
       const name = node.userData.name
       const otherSide = node.userData.side !== undefined && node.userData.side !== side
@@ -48,7 +66,8 @@ export function highlightNodes(root: Object3D, nodeColors: Map<string, string | 
         if (!(object instanceof Mesh)) return
         const base: Material = object.userData.baseMaterial ?? object.material
         object.userData.baseMaterial = base
-        if (!nodeColors || color === null) object.material = base
+        if (!nodeColors) object.material = base
+        else if (color === null) object.material = litOf(base)
         else if (color) object.material = recolourOf(base, color)
         else object.material = dimOf(base)
       })

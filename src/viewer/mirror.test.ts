@@ -61,6 +61,15 @@ describe('mirrorRightSide', () => {
 
   it('keeps the groups that highlighting and layers look for', () => {
     expect(head.left.children.map((g) => g.userData.name)).toEqual(['Muscles', 'Bones'])
+    expect(leg.left.children.map((g) => g.userData.name)).toEqual(['Bones', 'Fascia', 'Muscles'])
+  })
+
+  it('mirrors the fascia part by part', () => {
+    const [right, left] = nodesNamed(leg.root, 'Fascia lata.r')
+    expect([right.userData.side, left.userData.side]).toEqual(['right', 'left'])
+    const r = new Box3().setFromObject(right)
+    const l = new Box3().setFromObject(left)
+    expect(l.min.x).toBeCloseTo(-r.max.x, 5)
   })
 })
 

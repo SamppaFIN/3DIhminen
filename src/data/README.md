@@ -45,7 +45,7 @@ Tekstikentät kirjoitetaan suomeksi. Muita kenttiä ei sallita.
 
 ### Kerrosjako (`layer`)
 
-`layer` on käyttöliittymän ryhmittely. Se on johdettu lähteiden sijaintikuvauksista seuraavasti:
+`layer` on käyttöliittymän ryhmittely. Kerrosvalitsimen kolmas kerros, jänteet ja kalvot, ei ole datassa: siihen kuuluvat mallin `Fascia`-ryhmän solmut ja ne `Muscles`-ryhmän solmut, joilla on jännemateriaali eivätkä ne kuulu minkään lihaksen `meshes`-listaan (`src/viewer/layers.ts`). Lihasten kerros on johdettu lähteiden sijaintikuvauksista seuraavasti:
 
 - **Säären takaosasto:** TA2:n ja TeachMeAnatomyn pinnallinen osa on `superficial` ja syvä osa `deep`.
 - **Etu- ja sivuosasto:** lihas on `deep`, jos lähde sanoo sen olevan toisen lihaksen alla. Isonvarpaan pitkä ojentajalihas ja lyhyt pohjeluulihas ovat siksi `deep`.
@@ -90,7 +90,7 @@ Kuvaus kertoo, mitä lähteet raportoivat, eikä koskaan väitä, että jokin ai
 - Id:t ovat yksikäsitteisiä, jokainen `sources`-viittaus osoittaa olemassa olevaan lähteeseen ja jokainen kytkös olemassa olevaan lihakseen, rakenteeseen tai alueeseen. Testi tarkistaa kaikki kolme.
 - Jos lähteestä on luettu vain tiivistelmä, viitteessä lukee "Tiivistelmä luettu". Väitteet perustuvat silloin vain tiivistelmään.
 - `meshes` sisältää 3D-mallin solmujen (node) nimet. three.js nimeää objektit solmujen mukaan, ja testi vaatii jokaiselle lihakselle meshit ja tarkistaa, että nimet löytyvät tiedostosta `public/models/lower-limb.glb`. Skeemassa kenttä on valinnainen, koska testi valvoo sitä mallikohtaisesti.
-- Malli tuotetaan skriptillä `scripts/extract-lower-limb.mjs`, joka ottaa mukaan lähdemallin kaikki lihakset ja luut sekä `structures.json`:n rakenteet. Mallissa voi siis olla lihaksia, joille ei vielä ole dataa; niitä ei näytetä kipuhaun tuloksissa. Kun rakenne lisätään, aja skripti uudelleen (lähde ja tarkistussumma: `public/models/ATTRIBUTION.md`). Kiinnityskohdat tuottaa `scripts/extract-attachments.mjs` lihasten `attachmentMeshes`-kentistä.
+- Malli tuotetaan skriptillä `scripts/extract-lower-limb.mjs`, joka ottaa mukaan lähdemallin kaikki lihakset ja luut, `structures.json`:n rakenteet sekä lähdemallin kalvot, väliseinämät ja pidäkkeet omana `Fascia`-ryhmänään. Mallissa voi siis olla lihaksia ja kalvoja, joille ei vielä ole dataa; niitä ei näytetä kipuhaun tuloksissa. Kun rakenne lisätään, aja skripti uudelleen (lähde ja tarkistussumma: `public/models/ATTRIBUTION.md`). Kiinnityskohdat tuottaa `scripts/extract-attachments.mjs` lihasten `attachmentMeshes`-kentistä.
 
 ## Lähdepolitiikka (päätös 2026-10-03)
 

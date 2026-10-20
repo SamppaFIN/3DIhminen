@@ -106,14 +106,15 @@ Koko tikettipuu on tiedostossa `backlog.json`. Tarkista sen `_meta`-lohko ennen 
 | E3 | Kipukohdasta lihaksiin (ydintoiminto) | S3.1 (M), S3.2 (L), S3.3 (M) |
 | E4 | Lihasten tutkiminen | S4.1 (M), S4.2 (M), S4.3 (S), S4.4 (S, takaisin edelliseen lihakseen) |
 | E5 | Luotettavuus ja vastuu | S5.1 (S), S5.2 (S) |
-| E6 | Viimeistely | S6.1 (S, mobiilin alapaneeli), S6.2 (S, koodin laatukatselmus) |
+| E6 | Viimeistely | S6.1 (S, mobiilin alapaneeli), S6.2 (S, koodin laatukatselmus), S6.3 (S, mobiilin näkymän togglet) |
 | E7 | Koko alaraaja (laajennus, vaihe A) | S7.1 (L, yleistetty aluejärjestelmä), S7.2 (M, malli), S7.3 (L, lihasdata), S7.4 (M, kytkökset), S7.5 (M, näkymä ja pikavalinnat) |
 | E8 | Yläraaja ja käsi (vaihe B) | S8.1 (L, useat mallit ja kehon osa lähimmästä luusta), S8.2 (M, malli), S8.3 (L, lihasdata), S8.4 (M, kytkökset), S8.5 (S, pikavalinnat) |
 | E9 | Vartalo (vaihe C) | S9.1 (M, malli), S9.2 (M, alueet), S9.3 (L, lihasdata), S9.4 (M, kytkökset), S9.5 (S, pikavalinnat) |
 | E10 | Pää ja kaula (vaihe D) | S10.1 (L, malli Z-Anatomysta), S10.2 (M, alueet), S10.3 (L, lihasdata), S10.4 (M, kytkökset), S10.5 (S, pikavalinta ja hahmon pää) |
 | E11 | Molemmat puolet (vaihe E) | S11.1 (M, vasen puoli peilaamalla), S11.2 (M, kipuhaku vasemmalla), S11.3 (S, hahmon vasen puoli ja kameran puoli) |
+| E12 | Jänne- ja kalvokerros | S12.1 (M, sidekudoskerros nykyisistä malleista), S12.2 (L, lihaskalvot lähdemalleista), S12.3 (M, kerrosten kuorinta zoomaamalla), S12.4 (M, pään ja kaulan kalvot) |
 
-Yhteensä 11 epiciä, 41 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus).
+Yhteensä 12 epiciä, 46 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus). E12: S12.1–S12.3 toteutettu 2026-10-20 (kuorinta zoomaamalla katsotun pinnan kohdalla, Samin valinta); S12.4 odottaa Blenderin bpy-ympäristöä.
 
 ---
 

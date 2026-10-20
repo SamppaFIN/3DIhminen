@@ -10,9 +10,9 @@ This folder holds six adapted models, all licensed CC BY-SA 4.0 (see `LICENSE.md
 
 - Model page: https://anatomytool.org/node/63936 (version July 2025)
 - Downloaded file: https://caskanatomy.info/open3dmodelfiles/lower-limb/lower-limb-glb.zip
-  - Last-Modified: 2026-09-02, downloaded 2026-10-03
-  - SHA-256 (zip): `82ad6894bec6e77bb2aba970105f6ee7f0f694de93494932eb634fd0150745c7`
-  - SHA-256 (lower-limb.glb inside the zip): `001677bac4e8b4f44f3be0c3695b0123bc9fad1df9a2bddceecccf4a6eef01eb`
+  - Last-Modified: 2026-10-14, downloaded 2026-10-20
+  - SHA-256 (zip): `190df02d66d64b2d9dd777b1ae2d2de574449a91eba3e71f56cc6cac5ce01d25`
+  - SHA-256 (lower-limb.glb inside the zip): `a0eacca79c3777473632e9e64c09e2bba6a62a5cf3609db0c18e5c670bafa5d8`
 
 The Open3D model is based on Z-Anatomy ("Z-Anatomy – The libre 3D atlas of anatomy", CC BY-SA 4.0), which is based on BodyParts3D (© The Database Center for Life Science, CC BY-SA 2.1 JP at the time of derivation; now CC BY 4.0).
 
@@ -20,8 +20,8 @@ The Open3D model is based on Z-Anatomy ("Z-Anatomy – The libre 3D atlas of ana
 
 `lower-limb.glb` was produced with `scripts/extract-lower-limb.mjs`:
 
-1. Kept the muscles, tendons and bones of the right lower limb, and the connective-tissue structures listed in `src/data/structures.json` (e.g. the iliotibial tract). Nerves, vessels, ligaments, cartilage, bursae and the other fascia were removed.
-2. Removed all textures and replaced the materials with three flat colours (muscle, tendon, bone). The source textures are based on "Thoracic walls" by Claudia Krebs et al., UBC, licensed CC BY-NC-SA 4.0, so they are not included.
+1. Kept the muscles, tendons and bones of the right lower limb, and, in a Fascia group of their own, the fasciae, intermuscular septa and retinacula of the source's Fascia group (e.g. the fascia lata and the iliotibial tract). Nerves, vessels, ligaments, cartilage and bursae were removed.
+2. Removed all textures and replaced the materials with four flat materials (muscle, tendon, bone, and a see-through fascia material for the sheets that wrap the limb). The source textures are based on "Thoracic walls" by Claudia Krebs et al., UBC, licensed CC BY-NC-SA 4.0, so they are not included.
 3. Re-encoded the geometry with meshopt compression instead of Draco.
 
 Node names are unchanged from the source.
@@ -34,9 +34,9 @@ Node names are unchanged from the source.
 
 - Model page: https://anatomytool.org/content/open3dmodel-upper-limb-english-labels (version July 2025)
 - Downloaded file: https://caskanatomy.info/open3dmodelfiles/upper-limb/upper-limb-glb.zip
-  - Last-Modified: 2025-07-24, downloaded 2026-10-03
-  - SHA-256 (zip): `5af0190a6d7bf47393447ac30021e4f3ba619721c7f3a620c39a895947078432`
-  - SHA-256 (upper-limb.glb inside the zip): `e440c84c794239d1850e62b4ede0195d81bcff4f0078c7945528c388ab72fdb4`
+  - Last-Modified: 2026-10-14, downloaded 2026-10-20
+  - SHA-256 (zip): `6e42dce574f044fc7f2c4a608be213f6349d538d31d190db343f314ec7ca5368`
+  - SHA-256 (upper-limb.glb inside the zip): `9a8b824935a399aef750c7b78bacdccfb54ae7104c3065147de0f37f69d82dfe`
 
 Like the lower limb, the Open3D model is based on Z-Anatomy and BodyParts3D.
 
@@ -44,9 +44,9 @@ Like the lower limb, the Open3D model is based on Z-Anatomy and BodyParts3D.
 
 `upper-limb.glb` was produced with `scripts/extract-upper-limb.mjs`:
 
-1. Kept the muscles, tendons and bones of the right pectoral girdle, arm, forearm and hand, and the connective-tissue structures listed in `src/data/structures.json`. Nerves, vessels, ligaments, cartilage, synovial sheaths and bursae, the bones of the back, and the overlay copies of muscle parts were removed.
-2. Merged the source's region groups ("Arm - muscles", "Forearm - bones", ...) into two groups, "Muscles" and "Bones".
-3. Removed all textures and replaced the materials with three flat colours (muscle, tendon, bone).
+1. Kept the muscles, tendons and bones of the right pectoral girdle, arm, forearm and hand, the connective-tissue structures listed in `src/data/structures.json`, and, in a Fascia group of their own, the fasciae, intermuscular septa, interosseous membrane, extensor retinaculum, fibrous sheaths and the intertendinous connections of the extensor digitorum from the source's capsule, ligament and fascia groups. Nerves, vessels, ligaments, cartilage, synovial sheaths and bursae, the bones of the back, and the overlay copies of muscle parts were removed.
+2. Merged the source's region groups ("Arm - muscles", "Forearm - bones", ...) into three groups, "Muscles", "Bones" and "Fascia".
+3. Removed all textures and replaced the materials with four flat materials (muscle, tendon, bone, and a see-through fascia material for the sheets that wrap the limb).
 4. Re-encoded the geometry with meshopt compression instead of Draco.
 
 Node names are unchanged from the source.
@@ -68,9 +68,9 @@ Like the limb models, the Open3D model is based on Z-Anatomy and BodyParts3D.
 
 `trunk.glb` was produced with `scripts/extract-trunk.mjs`:
 
-1. Kept the right-side muscles of the thorax, abdomen and back that are not already in the limb models, the linea alba and the thoracolumbar fascia, and the ribs, sternum, costal cartilage and the vertebrae C1–T11 (both sides, as in the source). The muscles of the shoulder girdle and the iliopsoas (already in the limb models), the overlay copies of muscle parts, the other bones, the articular structures and the other fascia were removed.
-2. Merged the source's groups into two groups, "Muscles" and "Bones".
-3. Removed all textures and replaced the materials with three flat colours (muscle, tendon, bone).
+1. Kept the right-side muscles of the thorax, abdomen and back that are not already in the limb models, the linea alba, and, in a Fascia group of their own, the thoracolumbar, clavipectoral and iliopsoas fasciae, and the ribs, sternum, costal cartilage and the vertebrae C1–T11 (both sides, as in the source). The muscles of the shoulder girdle and the iliopsoas (already in the limb models), the overlay copies of muscle parts, the other bones, the articular structures, and the endothoracic and transversalis fasciae were removed.
+2. Merged the source's groups into three groups, "Muscles", "Bones" and "Fascia".
+3. Removed all textures and replaced the materials with four flat materials (muscle, tendon, bone, and a see-through fascia material for the sheets that wrap the back and the chest wall).
 4. Simplified the geometry with meshoptimizer (error 0.1 % of each mesh's size) and re-encoded it with meshopt compression instead of Draco.
 
 Node names are unchanged from the source.

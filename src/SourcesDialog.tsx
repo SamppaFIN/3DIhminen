@@ -77,8 +77,9 @@ function ModelAttribution() {
         .
       </p>
       <p>
-        Muutokset: malleista on otettu mukaan vain raajojen, vartalon, pään ja kaulan lihakset, jänteet ja luut,
-        tekstuurit on korvattu yksivärisillä materiaaleilla, vartalon, pään ja kaulan geometriaa on kevennetty,
+        Muutokset: malleista on otettu mukaan vain raajojen, vartalon, pään ja kaulan lihakset, jänteet, lihaskalvot
+        ja luut, tekstuurit on korvattu yksivärisillä materiaaleilla (raajoja ja selkää ympäröivät kalvot
+        läpikuultavina), vartalon, pään ja kaulan geometriaa on kevennetty,
         pää ja kaula on kohdistettu muihin malleihin ja geometria on pakattu uudelleen.
         Muokatut mallit on lisensoitu CC BY-SA 4.0 -lisenssillä.
       </p>

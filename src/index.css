@@ -100,8 +100,8 @@ main {
   margin: 0 0 0.75rem;
 }
 
-/* On phones the panel is a bottom sheet: half open or fully open, with the model always
-   visible above it. It scrolls instead of growing further. */
+/* On phones the panel is a bottom sheet: collapsed to its handle, half open or fully open, with
+   the model always visible above it. It scrolls instead of growing further. */
 .sheet-handle {
   display: none;
 }
@@ -113,12 +113,26 @@ main {
     transition: max-height 200ms ease-out;
   }
 
+  /* Leaves room above for the toolbar (up to three rows on narrow phones) and the view button;
+     the panel's padding and border come on top of the max-height. */
   .panel[data-sheet='full'] {
-    max-height: 75dvh;
+    max-height: min(75dvh, calc(100dvh - 260px));
+  }
+
+  /* Only the handle shows; the model has the rest of the screen. */
+  .panel[data-sheet='collapsed'] {
+    max-height: 44px;
+    padding-bottom: 0;
+    overflow: hidden;
   }
 
   .wide-only {
     display: none;
+  }
+
+  /* Narrow enough to share the first row with the area select and the tools toggle. */
+  .toolbar .search {
+    flex-basis: 10rem;
   }
 
   /* Narrow enough to share the first row with the search; the options list shows full names. */
@@ -126,12 +140,9 @@ main {
     width: 6.5rem;
   }
 
-  /* Next to the layer toggles on the toolbar's second row, so it never covers them. */
-  .viewer .reset-view {
-    top: calc(1rem + 44px + 0.5rem);
-    right: 1rem;
-    bottom: auto;
-    left: auto;
+  /* Three layer buttons share the toolbar's second row. */
+  .layer-toggles button {
+    padding: 0.5rem 0.75rem;
   }
 
   .panel > .sheet-handle {
@@ -388,11 +399,12 @@ button {
   cursor: pointer;
 }
 
-/* Search on the left, layer toggles on the right; wraps to two rows on phones. */
+/* Search on the left, layer toggles on the right, with room for the tools toggle at the right
+   edge; wraps to two rows on phones. */
 .toolbar {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: calc(1rem + 44px + 0.5rem);
   left: 1rem;
   display: flex;
   flex-wrap: wrap;
@@ -404,6 +416,23 @@ button {
 
 .toolbar > * {
   pointer-events: auto;
+}
+
+.toolbar[hidden] {
+  display: none;
+}
+
+/* Hides the toolbar and the view button, so the model has the whole screen. An icon, so it stays
+   44px wide next to the toolbar on phones. */
+.tools-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  padding: 0;
 }
 
 .layer-toggles {

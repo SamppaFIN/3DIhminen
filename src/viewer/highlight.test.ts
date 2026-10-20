@@ -8,20 +8,25 @@ function node(name: string, material: MeshStandardMaterial) {
   return mesh
 }
 
-// Mirrors the model: muscles and tendons under "Muscles", bones under "Bones".
+// Mirrors the model: muscles and tendons under "Muscles", bones under "Bones", see-through fascia
+// sheets under "Fascia".
 function createScene() {
   const muscle = new MeshStandardMaterial({ name: 'muscle' })
   const tendon = new MeshStandardMaterial({ name: 'tendon' })
   const bone = new MeshStandardMaterial({ name: 'bone' })
+  const fascia = new MeshStandardMaterial({ name: 'fascia', transparent: true, opacity: 0.5, depthWrite: false })
   const soleus = node('Soleus muscle.r', muscle)
   const plantaris = node('Plantaris muscle.r', muscle)
   const aponeurosis = node('Plantar aponeurosis.r', tendon)
   const tibia = node('Tibia.r', bone)
+  const cruralFascia = node('Crural fascia.r', fascia)
   const muscles = new Group().add(soleus, plantaris, aponeurosis)
   muscles.userData.name = 'Muscles'
   const bones = new Group().add(tibia)
   bones.userData.name = 'Bones'
-  return { root: new Group().add(muscles, bones), muscle, tendon, bone, soleus, plantaris, aponeurosis, tibia }
+  const fasciae = new Group().add(cruralFascia)
+  fasciae.userData.name = 'Fascia'
+  return { root: new Group().add(muscles, bones, fasciae), muscle, tendon, bone, fascia, soleus, plantaris, aponeurosis, tibia, cruralFascia }
 }
 
 const keep = (...names: string[]) => new Map(names.map((name) => [name, null]))
@@ -65,12 +70,28 @@ describe('highlightNodes', () => {
     expect((soleus.material as MeshStandardMaterial).transparent).toBe(true)
   })
 
+  it('draws an emphasised see-through fascia solid and dims the other fascia', () => {
+    const { root, fascia, cruralFascia } = createScene()
+    highlightNodes(root, keep('Crural fascia.r'))
+    const solid = cruralFascia.material as MeshStandardMaterial
+    expect(solid).not.toBe(fascia)
+    expect(solid.transparent).toBe(false)
+    expect(solid.opacity).toBe(1)
+    expect(solid.color.equals(fascia.color)).toBe(true)
+
+    highlightNodes(root, keep('Soleus muscle.r'))
+    const dim = cruralFascia.material as MeshStandardMaterial
+    expect(dim.transparent).toBe(true)
+    expect(dim.opacity).toBeLessThan(fascia.opacity)
+  })
+
   it('restores the original materials', () => {
-    const { root, muscle, tendon, soleus, plantaris, aponeurosis } = createScene()
+    const { root, muscle, tendon, fascia, soleus, plantaris, aponeurosis, cruralFascia } = createScene()
     highlightNodes(root, new Map([['Soleus muscle.r', '#f29000']]))
     highlightNodes(root, null)
     expect(soleus.material).toBe(muscle)
     expect(plantaris.material).toBe(muscle)
     expect(aponeurosis.material).toBe(tendon)
+    expect(cruralFascia.material).toBe(fascia)
   })
 })
