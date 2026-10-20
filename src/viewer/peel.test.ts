@@ -16,7 +16,7 @@ describe('accumulate', () => {
 })
 
 describe('peelNext and restoreNext', () => {
-  it('peels muscles first, then tendons and fascia, and restores innermost first', () => {
+  it('peels muscles first, then tendons and fascia, and restores the last peeled first', () => {
     const first = peelNext([], ALL, 0.5)!
     expect(first.layers).toEqual({ ...ALL, superficial: false })
     const second = peelNext(first.stack, first.layers, 0.4)!
@@ -31,12 +31,7 @@ describe('peelNext and restoreNext', () => {
     expect(back.stack.map((entry) => entry.layer)).toEqual(['superficial', 'deep'])
   })
 
-  it('does not peel the same layer twice before it has rendered', () => {
-    const first = peelNext([], ALL, 0.5)!
-    expect(peelNext(first.stack, ALL, 0.5)).toBeNull()
-  })
-
-  it('skips layers shown again by hand', () => {
+  it('forgets layers shown again by hand', () => {
     const peeledBoth = peelNext(peelNext([], ALL, 0.5)!.stack, { ...ALL, superficial: false }, 0.4)!
     const shownByHand = { ...peeledBoth.layers, deep: true }
     expect(prunePeeled(peeledBoth.stack, shownByHand).map((entry) => entry.layer)).toEqual(['superficial'])
@@ -45,6 +40,17 @@ describe('peelNext and restoreNext', () => {
     expect(back.distance).toBe(0.5)
     expect(back.stack).toEqual([])
     expect(restoreNext([], ALL)).toBeNull()
+  })
+
+  it('peels a layer shown again by hand once more, on top of the stack', () => {
+    const peeledBoth = peelNext(peelNext([], ALL, 0.5)!.stack, { ...ALL, superficial: false }, 0.4)!
+    const shownByHand = { ...peeledBoth.layers, superficial: true }
+    const again = peelNext(peeledBoth.stack, shownByHand, 0.3)!
+    expect(again.layers).toEqual({ ...ALL, superficial: false, deep: false })
+    expect(again.stack).toEqual([
+      { layer: 'deep', distance: 0.4 },
+      { layer: 'superficial', distance: 0.3 },
+    ])
   })
 
   it('restores everything on the stack at once', () => {

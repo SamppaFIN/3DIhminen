@@ -114,9 +114,9 @@ main {
   }
 
   /* Leaves room above for the toolbar (up to three rows on narrow phones) and the view button;
-     the panel's padding and border come on top of the max-height. */
+     the panel's padding and border come on top of the max-height. Never less than half. */
   .panel[data-sheet='full'] {
-    max-height: min(75dvh, calc(100dvh - 260px));
+    max-height: max(45dvh, min(75dvh, calc(100dvh - 260px)));
   }
 
   /* Only the handle shows; the model has the rest of the screen. */
@@ -126,8 +126,14 @@ main {
     overflow: hidden;
   }
 
+  /* Out of sight on phones, but still part of the button's accessible name. */
   .wide-only {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   /* Narrow enough to share the first row with the area select and the tools toggle. */

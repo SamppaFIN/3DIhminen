@@ -34,6 +34,10 @@ export function FirstVisitNotice() {
         Klikkaa mallista kohtaa, johon sattuu. Lihastohtori näyttää lihakset, jotka voivat liittyä
         kipuun siinä kohdassa.
       </p>
+      <p>
+        Zoomaa aivan lähelle, niin päällimmäinen kerros kuoriutuu pois ja alta paljastuvat syvemmät
+        lihakset, jänteet ja kalvot. Zoomaus ulos tuo kerrokset takaisin.
+      </p>
       <Disclaimer />
       <form method="dialog">
         <button autoFocus>Aloita</button>

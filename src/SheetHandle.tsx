@@ -18,7 +18,7 @@ type Props = { state: SheetState; onChange: (state: SheetState) => void }
 
 // Grab handle of the mobile bottom sheet: drag up to open one step, drag down to close one step
 // (from half, only the handle is left), tap or press Enter/Space to open a collapsed sheet or
-// to switch between half and full. Hidden on desktop by CSS.
+// to switch between half and full, arrow keys to move one step. Hidden on desktop by CSS.
 export function SheetHandle({ state, onChange }: Props) {
   const startY = useRef<number | null>(null)
   const step = (by: number) => {
@@ -51,6 +51,12 @@ export function SheetHandle({ state, onChange }: Props) {
       onClick={(event) => {
         // detail is 0 for keyboard activation; pointer taps are handled on pointerup.
         if (event.detail === 0) tap()
+      }}
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowUp') step(1)
+        else if (event.key === 'ArrowDown') step(-1)
+        else return
+        event.preventDefault()
       }}
     >
       <span className="sheet-grip" aria-hidden="true" />

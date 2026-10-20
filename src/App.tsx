@@ -27,6 +27,7 @@ const LAYER_LABELS: Record<Layer, [string, string]> = {
   deep: ['Syvät', ' lihakset'],
   connective: ['Jänteet', ' ja kalvot'],
 }
+const ALL_LAYERS: LayerVisibility = { superficial: true, deep: true, connective: true }
 
 // pain: results for a pain point. chain: one distant source's chain for that pain point.
 // muscle: a muscle's info.
@@ -55,7 +56,7 @@ function backLabel(previous: NonNullable<Selection>): string {
 }
 
 function App() {
-  const [layers, setLayers] = useState<LayerVisibility>({ superficial: true, deep: true, connective: true })
+  const [layers, setLayers] = useState<LayerVisibility>(ALL_LAYERS)
   const [resetKey, setResetKey] = useState(0)
   const [selection, setSelection] = useState<Selection>(null)
   // Earlier selections, so the panel can go back from a muscle to the previous view.
@@ -165,9 +166,19 @@ function App() {
     select(previous)
   }
 
+  // The chain runs through tendons and fascia to a muscle: their layers are shown.
+  const openChain = (muscleId: string) => {
+    if (!pain) return
+    const muscle = muscles.find((m) => m.id === muscleId)
+    setLayers({ ...layers, connective: true, ...(muscle ? { [muscle.layer]: true } : {}) })
+    select({ kind: 'chain', pain, muscleId })
+  }
+
   // Stable, so the pick listeners are not re-attached on every render (e.g. during the chain animation).
   const handlePick = useCallback((picked: PainPoint) => {
     setHistory([])
+    // Every layer is shown, so no source hides in a hidden or peeled layer.
+    setLayers(ALL_LAYERS)
     setSide(sideOfPoint(picked.point))
     select({ kind: 'pain', pain: picked })
   }, [select])
@@ -178,7 +189,8 @@ function App() {
       <div className="viewer">
         <p className="visually-hidden">
           3D-malli koko kehosta. Kehon osan valinta ja kipukohdan valinta mallista vaativat hiiren tai
-          kosketuksen. Lihaksia voi hakea hakukentästä.
+          kosketuksen. Lihaksia voi hakea hakukentästä. Zoomaamalla aivan lähelle päällimmäinen kerros
+          kuoriutuu pois; kerrosvalitsin näyttää tilan.
         </p>
         <ViewerErrorBoundary>
           <Viewer
@@ -262,7 +274,7 @@ function App() {
               <PainResults
                 sources={painSources}
                 onSelectMuscle={selectMuscle}
-                onOpenChain={(muscleId) => select({ kind: 'chain', pain, muscleId })}
+                onOpenChain={openChain}
               />
             )}
             {chain && selection?.kind === 'chain' && (

@@ -1,23 +1,24 @@
 import { useThree } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
+import { type Dispatch, type SetStateAction, useEffect, useRef } from 'react'
 import { type Object3D, Raycaster, type Vector3 } from 'three'
-import { type LayerVisibility, nextPeel } from './layers'
+import type { LayerVisibility } from './layers'
 import { accumulate, type Peeled, peelNext, prunePeeled, restoreAll, restoreNext } from './peel'
 
 // Peeling layers by zooming. The camera stops NEAR_SURFACE in front of the first surface it looks
 // at; zooming in further there peels the outermost layer shown (the muscles first, then the tendons
 // and fascia; the bones stay), and the camera may then come closer to what was under it. Zooming
-// out puts the peeled layers back, innermost first, moving the camera back to where each was
+// out puts the peeled layers back, last peeled first, moving the camera back to where each was
 // peeled, before it moves further away. A zoom gesture that runs into the surface does not peel:
 // a wheel peels after a pause, a pinch only if it started at the surface. Leaving the view
-// (another focus, the whole-body figure) puts every peeled layer back.
+// (another focus, a reset, the whole-body figure) puts every peeled layer back and moves the
+// camera out of them.
 
 // The closest the camera ever gets to its target (metres): OrbitControls' minDistance.
 export const MIN_DISTANCE = 0.08
 // How close the camera comes to the surface in view (metres), and what counts as being there.
 const NEAR_SURFACE = 0.1
 const AT_SURFACE = NEAR_SURFACE * 1.1
-// A raycast over the whole model is not free; the surface distance is reused for this long.
+// A raycast over the whole model is not free; the surface found is reused for this long.
 const SURFACE_CACHE_MS = 100
 // Wheel events further apart than this belong to different gestures.
 const PAUSE_MS = 300
@@ -36,17 +37,20 @@ type Props = {
   focus: unknown
   resetKey: number
   layers: LayerVisibility
-  onChange: (layers: LayerVisibility) => void
+  // Takes an updater too, so layers are put back from the state as it then is.
+  onChange: Dispatch<SetStateAction<LayerVisibility>>
 }
 
 export function LayerPeel({ root, focus, resetKey, layers, onChange }: Props) {
   const camera = useThree((state) => state.camera)
   const controls = useThree((state) => state.controls) as unknown as Controls | null
   const canvas = useThree((state) => state.gl.domElement)
-  // Layers hidden by peeling, outermost first.
+  // Layers hidden by peeling, in the order they were peeled.
   const peeled = useRef<Peeled[]>([])
-  // The latest props, for the cleanup that puts the peeled layers back.
-  const latest = useRef({ layers, onChange })
+  // Layers changed here and not yet rendered, so a second step in the same frame sees them.
+  const pending = useRef<LayerVisibility | null>(null)
+  // The latest onChange, for the cleanup that puts the peeled layers back.
+  const latestOnChange = useRef(onChange)
   const wheel = useRef(0)
   const lastWheel = useRef(0)
   // A wheel gesture that reached the surface by zooming does not peel; the next one does.
@@ -57,37 +61,52 @@ export function LayerPeel({ root, focus, resetKey, layers, onChange }: Props) {
   const spread = useRef<number | null>(null)
   const pinch = useRef(0)
   const pinchArmed = useRef(false)
-  const surface = useRef<{ at: number; distance: number } | null>(null)
+  // Where the surface in view lies, as its offset from the target along the view ray: that holds
+  // while the camera dollies along the ray, unlike a distance from the camera.
+  const surface = useRef<{ at: number; fromTarget: number } | null>(null)
   const raycaster = useRef(new Raycaster())
 
   useEffect(() => {
-    latest.current = { layers, onChange }
-  }, [layers, onChange])
+    latestOnChange.current = onChange
+  }, [onChange])
 
-  // Another focus, a reset or the whole-body figure: what was peeled comes back.
+  // Another focus, a reset or the whole-body figure: what was peeled comes back, on top of the
+  // layers as they are by then (a selection may have just shown one), and the camera moves out
+  // to where the outermost layer was peeled, so it is not left inside it.
   useEffect(
     () => () => {
       const stack = peeled.current
       peeled.current = []
+      pending.current = null
       surface.current = null
-      if (controls) controls.minDistance = MIN_DISTANCE
-      if (stack.length > 0) latest.current.onChange(restoreAll(stack, latest.current.layers))
+      if (!controls) return
+      controls.minDistance = MIN_DISTANCE
+      if (stack.length === 0) return
+      const direction = camera.position.clone().sub(controls.target).normalize()
+      const distance = Math.max(stack[0].distance, camera.position.distanceTo(controls.target))
+      camera.position.copy(controls.target).addScaledVector(direction, distance)
+      latestOnChange.current((current) => restoreAll(stack, current))
     },
-    [focus, resetKey, controls],
+    [focus, resetKey, controls, camera],
   )
 
   useEffect(() => {
     if (!controls) return
+    // New props: the layers are rendered, and the view may have changed.
+    pending.current = null
+    surface.current = null
+    const current = () => pending.current ?? layers
     const distanceToTarget = () => camera.position.distanceTo(controls.target)
     // Distance from the camera to the first shown surface towards the target.
     const surfaceDistance = () => {
       const now = performance.now()
-      if (surface.current && now - surface.current.at < SURFACE_CACHE_MS) return surface.current.distance
+      const toTarget = distanceToTarget()
+      if (surface.current && now - surface.current.at < SURFACE_CACHE_MS) return toTarget - surface.current.fromTarget
       const direction = controls.target.clone().sub(camera.position).normalize()
       raycaster.current.set(camera.position, direction)
       const hit = raycaster.current.intersectObject(root, true)[0]
       const distance = hit ? hit.distance : Infinity
-      surface.current = { at: now, distance }
+      surface.current = { at: now, fromTarget: toTarget - distance }
       return distance
     }
     const atSurface = () => surfaceDistance() <= AT_SURFACE
@@ -99,28 +118,32 @@ export function LayerPeel({ root, focus, resetKey, layers, onChange }: Props) {
         : MIN_DISTANCE
     }
     const restorable = () => {
-      peeled.current = prunePeeled(peeled.current, layers)
+      peeled.current = prunePeeled(peeled.current, current())
       return peeled.current.length > 0
     }
+    const canPeel = () => peelNext(peeled.current, current(), 0) !== null
     // Whether moving `delta` (negative: in) changes a layer instead of the camera.
-    const applies = (delta: number) => (delta < 0 ? atSurface() && nextPeel(layers) !== null : delta > 0 && restorable())
+    const applies = (delta: number) => (delta < 0 ? atSurface() && canPeel() : delta > 0 && restorable())
+    const change = (next: LayerVisibility) => {
+      pending.current = next
+      surface.current = null
+      onChange(next)
+    }
     const peelIn = () => {
-      const next = peelNext(peeled.current, layers, distanceToTarget())
+      const next = peelNext(peeled.current, current(), distanceToTarget())
       if (!next) return
       peeled.current = next.stack
-      surface.current = null
-      onChange(next.layers)
+      change(next.layers)
     }
     const peelOut = () => {
-      const next = restoreNext(peeled.current, layers)
+      const next = restoreNext(peeled.current, current())
       if (!next) return
       peeled.current = next.stack
-      surface.current = null
       // Back to where the layer was peeled, so the camera is outside it again.
       controls.minDistance = Math.max(MIN_DISTANCE, next.distance)
       const direction = camera.position.clone().sub(controls.target).normalize()
       camera.position.copy(controls.target).addScaledVector(direction, next.distance)
-      onChange(next.layers)
+      change(next.layers)
     }
     const peel = (delta: number) => (delta < 0 ? peelIn() : peelOut())
 

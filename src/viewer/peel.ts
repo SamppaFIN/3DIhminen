@@ -11,26 +11,23 @@ export function accumulate(total: number, delta: number, size: number): { total:
   return Math.abs(sum) >= size ? { total: 0, full: true } : { total: sum, full: false }
 }
 
-// Drops the layers shown again by hand from the top of the stack.
+// Drops the layers shown again by hand: they are no longer peeled.
 export function prunePeeled(stack: Peeled[], layers: LayerVisibility): Peeled[] {
-  let end = stack.length
-  while (end > 0 && layers[stack[end - 1].layer]) end--
-  return stack.slice(0, end)
+  return stack.filter((entry) => !layers[entry.layer])
 }
 
-// Peels the outermost layer shown, unless it is already on the stack (a second step before the
-// first one has rendered).
+// Peels the outermost layer shown.
 export function peelNext(
   stack: Peeled[],
   layers: LayerVisibility,
   distance: number,
 ): { stack: Peeled[]; layers: LayerVisibility } | null {
   const layer = nextPeel(layers)
-  if (!layer || stack.some((entry) => entry.layer === layer)) return null
-  return { stack: [...stack, { layer, distance }], layers: { ...layers, [layer]: false } }
+  if (!layer) return null
+  return { stack: [...prunePeeled(stack, layers), { layer, distance }], layers: { ...layers, [layer]: false } }
 }
 
-// Puts the innermost peeled layer back and tells where the camera was when it was peeled.
+// Puts the last peeled layer back and tells where the camera was when it was peeled.
 export function restoreNext(
   stack: Peeled[],
   layers: LayerVisibility,

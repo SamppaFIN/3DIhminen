@@ -1,6 +1,6 @@
 import { Bounds, OrbitControls, useBounds, useGLTF } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Suspense, useCallback, useEffect, useMemo, useRef } from 'react'
+import { type Dispatch, type SetStateAction, Suspense, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Box3, Group, Mesh, MeshBasicMaterial, type Object3D, type PerspectiveCamera, Vector3 } from 'three'
 import { meshesOf } from '../data/connections'
 import type { Muscle } from '../data/muscles'
@@ -108,7 +108,7 @@ type ModelProps = {
   side: Side
   onPick: (pain: PainPoint) => void
   // Zooming past the surface in view peels layers (LayerPeel.tsx).
-  onLayersChange: (layers: LayerVisibility) => void
+  onLayersChange: Dispatch<SetStateAction<LayerVisibility>>
 }
 
 // One root for all models, so picking, highlighting and layers work across them.
