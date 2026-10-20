@@ -68,7 +68,7 @@
   {
     "id": "teachme-thigh-anterior",
     "label": "TeachMeAnatomy: reiden etuosasto",
-    "citation": "Jones O. Muscles of the Anterior Thigh – Quadriceps. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-03.",
+    "citation": "Jones O. Muscles in the Anterior Compartment of the Thigh. TeachMeAnatomy, päivitetty 2026-10-11, luettu 2026-10-20.",
     "url": "https://teachmeanatomy.info/lower-limb/muscles/thigh/anterior-compartment/"
   },
   {
@@ -220,5 +220,95 @@
     "label": "TeachMeAnatomy: lantionpohja",
     "citation": "Fidoe S. The Pelvic Floor. TeachMeAnatomy, päivitetty 2026-08-24, luettu 2026-10-20.",
     "url": "https://teachmeanatomy.info/pelvis/muscles/pelvic-floor/"
+  },
+  {
+    "id": "teachme-fascia-lata",
+    "label": "TeachMeAnatomy: leveä peitinkalvo",
+    "citation": "Delf J. The Fascia Lata. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/lower-limb/muscles/fascia-lata/"
+  },
+  {
+    "id": "teachme-tarsal-tunnel",
+    "label": "TeachMeAnatomy: tarsaalikanava",
+    "citation": "Jones O. The Tarsal Tunnel. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/lower-limb/areas/tarsal-tunnel/"
+  },
+  {
+    "id": "teachme-knee",
+    "label": "TeachMeAnatomy: polvinivel",
+    "citation": "Jones O. The Knee Joint. TeachMeAnatomy, päivitetty 2026-10-10, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/lower-limb/joints/knee-joint/"
+  },
+  {
+    "id": "teachme-foot-arches",
+    "label": "TeachMeAnatomy: jalkaterän holvit",
+    "citation": "Little S. The Arches of the Foot. TeachMeAnatomy, päivitetty 2026-02-23, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/lower-limb/misc/foot-arches/"
+  },
+  {
+    "id": "teachme-deep-fibular-nerve",
+    "label": "TeachMeAnatomy: syvä pohjeluuhermo",
+    "citation": "May H. The Deep Fibular Nerve. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/lower-limb/nerves/deep-fibular/"
+  },
+  {
+    "id": "teachme-lower-limb-arteries",
+    "label": "TeachMeAnatomy: alaraajan valtimot",
+    "citation": "Jones O. Arteries of the Lower Limb. TeachMeAnatomy, päivitetty 2026-10-11, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/lower-limb/vessels/arterial-supply/"
+  },
+  {
+    "id": "teachme-superficial-fibular-nerve",
+    "label": "TeachMeAnatomy: pinnallinen pohjeluuhermo",
+    "citation": "Sardar M. The Superficial Fibular (Peroneal) Nerve. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/lower-limb/nerves/superficial-fibular-nerve/"
+  },
+  {
+    "id": "teachme-hand-fascia",
+    "label": "TeachMeAnatomy: käden kalvot ja siteet",
+    "citation": "Harsten R. Fascia and Ligaments of the Hand. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/upper-limb/misc/fascia-and-ligaments-of-the-hand/"
+  },
+  {
+    "id": "teachme-extensor-expansion",
+    "label": "TeachMeAnatomy: sormien ojentajajänteiden laajentuma",
+    "citation": "Jones O. The Extensor Expansion of the Hand. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/upper-limb/misc/extensor-mechanism/"
+  },
+  {
+    "id": "teachme-flexor-pulleys",
+    "label": "TeachMeAnatomy: sormien koukistajajänteiden ohjaimet",
+    "citation": "Jones O. The Flexor Pulley System of the Hand. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/upper-limb/misc/flexor-system-hand/"
+  },
+  {
+    "id": "teachme-radioulnar-joints",
+    "label": "TeachMeAnatomy: värttinä-kyynärnivelet",
+    "citation": "Jones O. The Radioulnar Joints. TeachMeAnatomy, päivitetty 2026-10-10, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/upper-limb/joints/radioulnar-joints/"
+  },
+  {
+    "id": "teachme-ulnar-nerve",
+    "label": "TeachMeAnatomy: kyynärhermo",
+    "citation": "Jones O. The Ulnar Nerve. TeachMeAnatomy, päivitetty 2026-10-11, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/upper-limb/nerves/ulnar-nerve/"
+  },
+  {
+    "id": "teachme-scalp",
+    "label": "TeachMeAnatomy: päänahka",
+    "citation": "Hunt W. The Scalp. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/head/areas/scalp/"
+  },
+  {
+    "id": "teachme-occipital-bone",
+    "label": "TeachMeAnatomy: takaraivoluu",
+    "citation": "Bhaskaran S. The Occipital Bone. TeachMeAnatomy, päivitetty 2025-12-10, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/head/osteology/occipital-bone/"
+  },
+  {
+    "id": "teachme-parietal-bone",
+    "label": "TeachMeAnatomy: päälaenluu",
+    "citation": "Dalwadi P. The Parietal Bone. TeachMeAnatomy, päivitetty 2025-12-15, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/head/osteology/parietal/"
   }
 ]

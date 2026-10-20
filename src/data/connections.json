@@ -241,8 +241,7 @@
     "evidence": "anatomy",
     "description": "Puolikalvoinen lihas ja kaksipäisen reisilihaksen pitkä pää lähtevät molemmat istuinkyhmystä.",
     "sources": ["teachme-thigh-posterior"]
-  }
-,
+  },
   {
     "id": "flexor-carpi-ulnaris-palmaris-longus",
     "type": "attachment",
@@ -755,5 +754,203 @@
     "evidence": "anatomy",
     "description": "Pitkä päänlihas ja etummainen kylkiluunkannattajalihas lähtevät molemmat C3–C6-nikamien poikkihaarakkeiden etukyhmyistä.",
     "sources": ["teachme-prevertebral", "teachme-scalene"]
+  },
+  {
+    "id": "extensor-digitorum-brevis-inferior-extensor-retinaculum",
+    "type": "attachment",
+    "from": "muscle:extensor_digitorum_brevis",
+    "to": "structure:inferior_extensor_retinaculum",
+    "evidence": "anatomy",
+    "description": "Varpaiden lyhyt ojentajalihas lähtee osittain nilkan alemmasta ojentajien pidäkkeestä.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "extensor-hallucis-brevis-inferior-extensor-retinaculum",
+    "type": "attachment",
+    "from": "muscle:extensor_hallucis_brevis",
+    "to": "structure:inferior_extensor_retinaculum",
+    "evidence": "anatomy",
+    "description": "Isonvarpaan lyhyt ojentajalihas lähtee osittain nilkan alemmasta ojentajien pidäkkeestä.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "abductor-hallucis-flexor-retinaculum-tali",
+    "type": "attachment",
+    "from": "muscle:abductor_hallucis",
+    "to": "structure:flexor_retinaculum_tali",
+    "evidence": "anatomy",
+    "description": "Isonvarpaan loitontajalihas lähtee osittain nilkan koukistajien pidäkkeestä.",
+    "sources": ["teachme-foot"]
+  },
+  {
+    "id": "flexor-digitorum-profundus-interosseous-membrane-forearm",
+    "type": "attachment",
+    "from": "muscle:flexor_digitorum_profundus",
+    "to": "structure:interosseous_membrane_forearm",
+    "evidence": "anatomy",
+    "description": "Sormien syvä koukistajalihas lähtee osittain kyynärvarren luiden välisestä kalvosta.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "flexor-pollicis-longus-interosseous-membrane-forearm",
+    "type": "attachment",
+    "from": "muscle:flexor_pollicis_longus",
+    "to": "structure:interosseous_membrane_forearm",
+    "evidence": "anatomy",
+    "description": "Peukalon pitkä koukistajalihas lähtee osittain kyynärvarren luiden välisestä kalvosta.",
+    "sources": ["teachme-forearm-anterior"]
+  },
+  {
+    "id": "abductor-pollicis-longus-interosseous-membrane-forearm",
+    "type": "attachment",
+    "from": "muscle:abductor_pollicis_longus",
+    "to": "structure:interosseous_membrane_forearm",
+    "evidence": "anatomy",
+    "description": "Peukalon pitkä loitontajalihas lähtee osittain kyynärvarren luiden välisestä kalvosta.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-pollicis-brevis-interosseous-membrane-forearm",
+    "type": "attachment",
+    "from": "muscle:extensor_pollicis_brevis",
+    "to": "structure:interosseous_membrane_forearm",
+    "evidence": "anatomy",
+    "description": "Peukalon lyhyt ojentajalihas lähtee osittain kyynärvarren luiden välisestä kalvosta.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-pollicis-longus-interosseous-membrane-forearm",
+    "type": "attachment",
+    "from": "muscle:extensor_pollicis_longus",
+    "to": "structure:interosseous_membrane_forearm",
+    "evidence": "anatomy",
+    "description": "Peukalon pitkä ojentajalihas lähtee osittain kyynärvarren luiden välisestä kalvosta.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "extensor-indicis-interosseous-membrane-forearm",
+    "type": "attachment",
+    "from": "muscle:extensor_indicis",
+    "to": "structure:interosseous_membrane_forearm",
+    "evidence": "anatomy",
+    "description": "Etusormen ojentajalihas lähtee osittain kyynärvarren luiden välisestä kalvosta.",
+    "sources": ["teachme-forearm-posterior"]
+  },
+  {
+    "id": "fascia-lata-crural-fascia",
+    "type": "continuous",
+    "from": "structure:fascia_lata",
+    "to": "structure:crural_fascia",
+    "evidence": "anatomy",
+    "description": "Leveä peitinkalvo päättyy polveen ja jatkuu siitä säären kalvona.",
+    "sources": ["teachme-fascia-lata"]
+  },
+  {
+    "id": "fascia-lata-iliotibial-tract",
+    "type": "continuous",
+    "from": "structure:fascia_lata",
+    "to": "structure:iliotibial_tract",
+    "evidence": "anatomy",
+    "description": "Suoliluu-sääriluukaista on leveän peitinkalvon pitkittäinen paksuuntuma reiden ulkosivulla.",
+    "sources": ["teachme-fascia-lata"]
+  },
+  {
+    "id": "fascia-lata-lateral-femoral-intermuscular-septum",
+    "type": "continuous",
+    "from": "structure:fascia_lata",
+    "to": "structure:lateral_femoral_intermuscular_septum",
+    "evidence": "anatomy",
+    "description": "Reiden lateraalinen lihasväliseinämä lähtee leveän peitinkalvon syvästä pinnasta reisiluuhun.",
+    "sources": ["teachme-fascia-lata"]
+  },
+  {
+    "id": "fascia-lata-medial-femoral-intermuscular-septum",
+    "type": "continuous",
+    "from": "structure:fascia_lata",
+    "to": "structure:medial_femoral_intermuscular_septum",
+    "evidence": "anatomy",
+    "description": "Reiden mediaalinen lihasväliseinämä lähtee leveän peitinkalvon syvästä pinnasta reisiluuhun.",
+    "sources": ["teachme-fascia-lata"]
+  },
+  {
+    "id": "iliotibial-tract-lateral-femoral-intermuscular-septum",
+    "type": "continuous",
+    "from": "structure:iliotibial_tract",
+    "to": "structure:lateral_femoral_intermuscular_septum",
+    "evidence": "anatomy",
+    "description": "Suoliluu-sääriluukaistan syvin osa jatkuu reiden lateraaliseksi lihasväliseinämäksi.",
+    "sources": ["teachme-fascia-lata"]
+  },
+  {
+    "id": "crural-fascia-flexor-retinaculum-tali",
+    "type": "continuous",
+    "from": "structure:crural_fascia",
+    "to": "structure:flexor_retinaculum_tali",
+    "evidence": "anatomy",
+    "description": "Nilkan koukistajien pidäke on yhtenäinen säären ja jalkaterän syvän kalvon kanssa.",
+    "sources": ["teachme-tarsal-tunnel"]
+  },
+  {
+    "id": "iliopsoas-fascia-thoracolumbar-fascia",
+    "type": "continuous",
+    "from": "structure:iliopsoas_fascia",
+    "to": "structure:thoracolumbar_fascia",
+    "evidence": "anatomy",
+    "description": "Lannelihaksen kalvo jatkuu lateraalisesti rinta-lannekalvoon.",
+    "sources": ["teachme-posterior-abdominal-wall"]
+  },
+  {
+    "id": "iliopsoas-fascia-fascia-lata",
+    "type": "continuous",
+    "from": "structure:iliopsoas_fascia",
+    "to": "structure:fascia_lata",
+    "evidence": "anatomy",
+    "description": "Suoliluu- ja lannelihaksen alueen peittävä kalvo sulautuu leveään peitinkalvoon.",
+    "sources": ["teachme-fascia-lata"]
+  },
+  {
+    "id": "bicipital-aponeurosis-antebrachial-fascia",
+    "type": "continuous",
+    "from": "structure:bicipital_aponeurosis",
+    "to": "structure:antebrachial_fascia",
+    "evidence": "anatomy",
+    "description": "Hauislihaksen kalvojänne sulautuu kyynärvarren etuosan syvään kalvoon.",
+    "sources": ["teachme-upper-arm"]
+  },
+  {
+    "id": "flexor-retinaculum-carpi-antebrachial-fascia",
+    "type": "continuous",
+    "from": "structure:flexor_retinaculum_carpi",
+    "to": "structure:antebrachial_fascia",
+    "evidence": "anatomy",
+    "description": "Ranteen koukistajien pidäke jatkuu ylöspäin kyynärvarren kalvoon.",
+    "sources": ["teachme-hand-fascia"]
+  },
+  {
+    "id": "flexor-retinaculum-carpi-palmar-aponeurosis",
+    "type": "continuous",
+    "from": "structure:flexor_retinaculum_carpi",
+    "to": "structure:palmar_aponeurosis",
+    "evidence": "anatomy",
+    "description": "Ranteen koukistajien pidäke jatkuu alaspäin kämmenen kalvojänteeseen, jonka kärki kiinnittyy pidäkkeeseen.",
+    "sources": ["teachme-hand-fascia"]
+  },
+  {
+    "id": "palmar-aponeurosis-fibrous-sheaths-digits-hand",
+    "type": "continuous",
+    "from": "structure:palmar_aponeurosis",
+    "to": "structure:fibrous_sheaths_digits_hand",
+    "evidence": "anatomy",
+    "description": "Kämmenen kalvojänteen syvät kaistaleet kiertävät koukistajajänteet ja sulautuvat sormien säietuppiin.",
+    "sources": ["teachme-hand-fascia"]
+  },
+  {
+    "id": "palmar-carpal-ligament-antebrachial-fascia",
+    "type": "continuous",
+    "from": "structure:palmar_carpal_ligament",
+    "to": "structure:antebrachial_fascia",
+    "evidence": "anatomy",
+    "description": "Ranteen kämmenpuoleinen side on kyynärvarren kalvon poikittainen paksuuntuma ranteen etupuolella.",
+    "sources": ["teachme-hand-fascia"]
   }
 ]

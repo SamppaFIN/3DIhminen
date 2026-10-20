@@ -529,7 +529,7 @@
   },
   {
     "id": "biceps_femoris",
-    "meshes": ["Long head of biceps femoris.r", "Short head of biceps femoris.r", "Common tendon of biceps femoris.r"],
+    "meshes": ["Long head of biceps femoris.r", "Short head of biceps femoris.r", "Common tendon of biceps femoris.r", "Common tendon of Semitendinosus and Long head of biceps femoris"],
     "attachmentMeshes": ["Long head of biceps femoris origin and insertion.r", "Biceps femoris origin and insertion.r"],
     "name": { "fi": "kaksipäinen reisilihas", "la": "Musculus biceps femoris" },
     "origin": "Pitkä pää: istuinkyhmy. Lyhyt pää: reisiluun takapinnan karhea linja.",
@@ -540,7 +540,7 @@
   },
   {
     "id": "semitendinosus",
-    "meshes": ["Semitendinosus muscle.r"],
+    "meshes": ["Semitendinosus muscle.r", "Common tendon of Semitendinosus and Long head of biceps femoris"],
     "attachmentMeshes": ["Semitendinosus origin and insertion.r"],
     "name": { "fi": "puolijänteinen lihas", "la": "Musculus semitendinosus" },
     "origin": "Istuinkyhmy.",

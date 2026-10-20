@@ -35,11 +35,34 @@ function modelNodeNames(): Set<string> {
   return new Set(['lower-limb', 'upper-limb', 'trunk', 'head-neck'].flatMap((m) => [...glbNodeNames(`public/models/${m}.glb`)]))
 }
 
-// Node names from the GLB's JSON chunk (header 12 bytes, chunk header 8 bytes).
-function glbNodeNames(path: string): Set<string> {
+// The GLB's JSON chunk (header 12 bytes, chunk header 8 bytes).
+function glbJson(path: string) {
   const glb = readFileSync(path)
-  const json = JSON.parse(glb.subarray(20, 20 + glb.readUInt32LE(12)).toString('utf8'))
-  return new Set(json.nodes.map((node: { name?: string }) => node.name))
+  return JSON.parse(glb.subarray(20, 20 + glb.readUInt32LE(12)).toString('utf8'))
+}
+
+function glbNodeNames(path: string): Set<string> {
+  return new Set(glbJson(path).nodes.map((node: { name?: string }) => node.name))
+}
+
+type GltfNode = { name: string; mesh?: number; children?: number[] }
+
+// Nodes of the tendon-and-fascia layer (src/viewer/layers.ts): everything in a Fascia group, and
+// the parts of a Muscles group with the tendon or fascia material.
+function connectiveNodeNames(path: string): string[] {
+  const json = glbJson(path)
+  const nodes: GltfNode[] = json.nodes
+  const material = (node: GltfNode) =>
+    node.mesh === undefined ? undefined : json.materials[json.meshes[node.mesh].primitives[0].material].name
+  return (json.scenes[0].nodes as number[])
+    .map((i) => nodes[i])
+    .filter((group) => group.name === 'Muscles' || group.name === 'Fascia')
+    .flatMap((group) =>
+      (group.children ?? [])
+        .map((i) => nodes[i])
+        .filter((node) => group.name === 'Fascia' || ['tendon', 'fascia'].includes(material(node) ?? ''))
+        .map((node) => node.name),
+    )
 }
 
 describe('data files', () => {
@@ -88,6 +111,14 @@ describe('3D model', () => {
         : [`${r.id}: no meshes`],
     )
     expect(problems).toEqual([])
+  })
+
+  it('every tendon and fascia in the models has a muscle or structure record, so it can be opened', () => {
+    const recorded = new Set([...muscles, ...structures].flatMap((r) => r.meshes ?? []))
+    const missing = ['lower-limb', 'upper-limb', 'trunk', 'head-neck'].flatMap((m) =>
+      connectiveNodeNames(`public/models/${m}.glb`).filter((name) => !recorded.has(name)).map((name) => `${m}: ${name}`),
+    )
+    expect(missing).toEqual([])
   })
 
   it('every quick-jump area is framed by meshes that exist in the model', () => {

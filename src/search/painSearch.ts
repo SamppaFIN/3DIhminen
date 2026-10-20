@@ -23,10 +23,13 @@ const muscleById = new Map(muscles.map((m) => [m.id, m]))
 const muscleRef = (m: Muscle) => `muscle:${m.id}`
 
 // Anatomical links are followed both ways; referred pain only from its region to the muscle.
-const anatomical = connections.filter((c) => c.type !== 'referred_pain')
+// Continuity between tendons and fascia is not followed: a fascia that wraps a whole limb would
+// lead from any pain point in the limb to every muscle attached anywhere along it.
+const anatomical = connections.filter((c) => c.type !== 'referred_pain' && c.type !== 'continuous')
+const structural = connections.filter((c) => c.type !== 'referred_pain')
 
-function neighbours(ref: string): { ref: string; connection: Connection }[] {
-  return anatomical.flatMap((c) => {
+function neighbours(ref: string, links: Connection[] = anatomical): { ref: string; connection: Connection }[] {
+  return links.flatMap((c) => {
     if (c.from === ref) return [{ ref: c.to, connection: c }]
     if (c.to === ref) return [{ ref: c.from, connection: c }]
     return []
@@ -123,12 +126,12 @@ export function linkedStructures(muscleId: string): Structure[] {
 export type StructureLinks = { muscles: DistantSource[]; structures: { structure: Structure; connection: Connection }[] }
 
 // For a tendon's or fascia's info: the muscles that pull on it, directly or through other tendons
-// and fascia as in the pain search, and the tendons and fascia it continues into.
+// and fascia as in the pain search, and the tendons and fascia it continues into or shares.
 export function structureLinks(structureId: string): StructureLinks {
   const ref = `structure:${structureId}`
   return {
     muscles: byEvidence(reachableMuscles(new Set([ref]), CONNECTED_STEPS, false)),
-    structures: neighbours(ref).flatMap(({ ref: next, connection }) => {
+    structures: neighbours(ref, structural).flatMap(({ ref: next, connection }) => {
       const structure = next.startsWith('structure:') ? structureById.get(next.slice('structure:'.length)) : undefined
       return structure ? [{ structure, connection }] : []
     }),

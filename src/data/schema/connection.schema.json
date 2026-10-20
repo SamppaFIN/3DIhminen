@@ -14,8 +14,8 @@
         "pattern": "^[a-z0-9-]+$"
       },
       "type": {
-        "description": "shared_tissue: a shared tendon or fascia. attachment: one attaches to the other, or both share an attachment site. referred_pain: pain from the muscle may be felt in the region.",
-        "enum": ["shared_tissue", "attachment", "referred_pain"]
+        "description": "shared_tissue: a shared tendon or fascia. attachment: one attaches to the other, or both share an attachment site. referred_pain: pain from the muscle may be felt in the region. continuous: one tendon or fascia continues into or blends with another; shown in the structure's info, not used by the pain search.",
+        "enum": ["shared_tissue", "attachment", "referred_pain", "continuous"]
       },
       "from": {
         "description": "muscle:<id> or structure:<id>.",
@@ -44,17 +44,30 @@
         "items": { "type": "string", "pattern": "^[a-z0-9-]+$" }
       }
     },
-    "if": { "properties": { "type": { "const": "referred_pain" } } },
-    "then": {
-      "properties": {
-        "from": { "type": "string", "pattern": "^muscle:" },
-        "to": { "type": "string", "pattern": "^region:" }
+    "allOf": [
+      {
+        "if": { "properties": { "type": { "const": "referred_pain" } } },
+        "then": {
+          "properties": {
+            "from": { "type": "string", "pattern": "^muscle:" },
+            "to": { "type": "string", "pattern": "^region:" }
+          }
+        },
+        "else": {
+          "properties": {
+            "to": { "type": "string", "pattern": "^(muscle|structure):" }
+          }
+        }
+      },
+      {
+        "if": { "properties": { "type": { "const": "continuous" } } },
+        "then": {
+          "properties": {
+            "from": { "type": "string", "pattern": "^structure:" },
+            "to": { "type": "string", "pattern": "^structure:" }
+          }
+        }
       }
-    },
-    "else": {
-      "properties": {
-        "to": { "type": "string", "pattern": "^(muscle|structure):" }
-      }
-    }
+    ]
   }
 }

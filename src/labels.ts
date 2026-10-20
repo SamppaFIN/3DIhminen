@@ -13,6 +13,7 @@ export const CONNECTION_TYPE_LABELS: Record<string, string> = {
   shared_tissue: 'yhteinen jänne tai kalvo',
   attachment: 'kiinnityskohta',
   referred_pain: 'heijastekipu',
+  continuous: 'jatkuu toiseen jänteeseen tai kalvoon',
 }
 
 // Finnish name of a "muscle:", "structure:" or "region:" reference.

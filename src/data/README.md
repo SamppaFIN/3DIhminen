@@ -72,7 +72,7 @@ Jos lähde nimeää rakenteen mutta ei kuvaa sitä, kuvaus jätetään pois ja `
 | Kenttä | Tyyppi | Kuvaus |
 |---|---|---|
 | `id` | string, `kebab-case` | Pysyvä tunniste |
-| `type` | `shared_tissue` \| `attachment` \| `referred_pain` | Yhteinen jänne tai kalvo, kiinnittyminen toiseen rakenteeseen tai yhteinen kiinnityskohta, tai heijastekipu |
+| `type` | `shared_tissue` \| `attachment` \| `referred_pain` \| `continuous` | Yhteinen jänne tai kalvo, kiinnittyminen toiseen rakenteeseen tai yhteinen kiinnityskohta, heijastekipu, tai rakenteen jatkuminen toiseen rakenteeseen. `continuous` yhdistää vain rakenteita ja näkyy rakenteen tiedoissa, mutta kipuhaku ja lihasten kytkökset eivät kulje sen kautta: raajaa ympäröivä kalvo yhdistäisi muuten raajan jokaisen kipukohdan kaikkiin kalvoon kiinnittyviin lihaksiin. |
 | `from` | `muscle:<id>` \| `structure:<id>` | Kytköksen toinen pää |
 | `to` | `muscle:<id>` \| `structure:<id>` \| `region:<id>` | Toinen pää. Alue (`region`, ks. `src/viewer/regions.ts`) vain heijastekivussa. |
 | `evidence` | `anatomy` \| `cadaver_study` \| `contested` | Näytön taso: anatominen perustieto, ruumiinavaus- tai kudostutkimus tai tieteellisesti kiistanalainen |

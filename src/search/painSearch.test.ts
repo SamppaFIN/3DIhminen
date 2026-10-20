@@ -25,6 +25,21 @@ describe('structureLinks and linkedStructures', () => {
     expect(links.muscles.every((d) => d.refs.slice(1, -1).every((ref) => ref.startsWith('structure:')))).toBe(true)
   })
 
+  it('lists the fascia a fascia continues into, but no muscles through that continuity', () => {
+    const links = structureLinks('fascia_lata')
+    expect(links.structures.map((s) => s.structure.id)).toEqual(
+      expect.arrayContaining(['crural_fascia', 'iliotibial_tract', 'lateral_femoral_intermuscular_septum']),
+    )
+    expect(links.muscles).toEqual([])
+  })
+
+  it('does not follow continuity in the pain search or between muscles', () => {
+    // The fascia lata wraps the whole thigh: it must not lead to the muscles on the iliotibial tract.
+    expect(findPainSources(['Fascia lata.r'], 'thigh_lateral').distant).toEqual([])
+    expect(ids(connectedMuscles('tensor_fasciae_latae').map((d) => d.muscle))).not.toContain('flexor_hallucis_longus')
+    expect(connectedMuscles('biceps_brachii').every((d) => d.path.every((c) => c.type !== 'continuous'))).toBe(true)
+  })
+
   it('lists the tendons and fascia a muscle attaches to', () => {
     expect(linkedStructures('gastrocnemius').map((s) => s.id)).toEqual(['calcaneal_tendon'])
     expect(linkedStructures('flexor_digitorum_brevis').map((s) => s.id)).toEqual(['plantar_aponeurosis'])

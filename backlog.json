@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-20T16:00:00Z",
+    "generated_at": "2026-10-20T17:30:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -825,8 +825,8 @@
       "id": "E12",
       "title": "Jänne- ja kalvokerros",
       "type": "epic",
-      "status": "in_progress",
-      "description": "Lihasten alta paljastuva sidekudoskerros: jänteet, kalvojänteet, lihaskalvot (fascia lata, crural fascia, brachial ja antebrachial fascia), lihasten väliseinämät ja pidäkkeet. Kerros näkyy kerrosvalitsimesta ja zoomaamalla lihasten ohi. Suunnitelma kirjattu 2026-10-20 (Delta); Sami vahvistaa vuorovaikutusmallin ennen S12.3:n toteutusta. Lähdemallit: Open3D:n raajamallit ovat päivittyneet 2026-10-14 (uudet tarkistussummat), vartalon malli on ennallaan. Pään ja kaulan kalvot vaativat Blenderin bpy-moduulin, jota ei ole kehityskoneella, joten ne jäävät myöhemmäksi. Toteutus 2026-10-20 (Delta, Samin valinta: vaihtoehto 1, kuorinta lähimmän etäisyyden ohi): S12.1–S12.4 valmiit (S12.4 samana päivänä, kun Python 3.11 ja bpy asennettiin). Lähdemallien päivitys korjasi lapaluun solmun nimen (Scapula.r. → Scapula.r), ja viittaukset päivitettiin.",
+      "status": "done",
+      "description": "Lihasten alta paljastuva sidekudoskerros: jänteet, kalvojänteet, lihaskalvot (fascia lata, crural fascia, brachial ja antebrachial fascia), lihasten väliseinämät ja pidäkkeet. Kerros näkyy kerrosvalitsimesta ja zoomaamalla lihasten ohi. Suunnitelma kirjattu 2026-10-20 (Delta); Sami vahvistaa vuorovaikutusmallin ennen S12.3:n toteutusta. Lähdemallit: Open3D:n raajamallit ovat päivittyneet 2026-10-14 (uudet tarkistussummat), vartalon malli on ennallaan. Pään ja kaulan kalvot vaativat Blenderin bpy-moduulin, jota ei ole kehityskoneella, joten ne jäävät myöhemmäksi. Toteutus 2026-10-20 (Delta, Samin valinta: vaihtoehto 1, kuorinta lähimmän etäisyyden ohi): S12.1–S12.4 valmiit (S12.4 samana päivänä, kun Python 3.11 ja bpy asennettiin). Lähdemallien päivitys korjasi lapaluun solmun nimen (Scapula.r. → Scapula.r), ja viittaukset päivitettiin. S12.5 ja S12.6 lisättiin Samin pyynnöstä 2026-10-20. Avoimia pikkuasioita: pidäkkeiden suomenkielinen nimi on structures.json:ssa \"pidäke\" mutta muscles.json:n lähtökohtakuvauksissa \"pidinside\"; teachme-hand-lähteen päivityspäivä on vanhentunut (sivu päivitetty 2026-10-11).",
       "stories": [
         {
           "id": "S12.1",
@@ -929,11 +929,12 @@
           "i_want": "avata jänteen tai kalvon tiedot kuten lihaksen",
           "so_that": "näen, mikä rakenne on, mitä se tekee ja mitkä lihakset siihen kiinnittyvät",
           "effort": "M",
-          "status": "in_progress",
+          "status": "done",
           "acceptance_criteria": [
             "Jänteet ja kalvot löytyvät hausta, kytkösketjusta ja lihaksen paneelista, ja niiden paneelissa on nimet, kuvaus ja tehtävä (kun lähde kertoo ne), kiinnittyvät lihakset kytköksineen, jatkuvat rakenteet ja lähteet",
-            "Jokaisella mallin jänne- ja kalvosolmulla on structures.json-tietue; kuvaukset ja kytkökset perustuvat luettuihin TeachMeAnatomyn sivuihin",
-            "Rakenteen valinta näyttää jänne- ja kalvokerroksen, kohdistaa kameran ja korostaa kiinnittyvät lihakset"
+            "Jokaisella mallin jänne- ja kalvosolmulla on structures.json-tietue (datatesti valvoo); 29 rakenteella on TeachMeAnatomyn sivuihin perustuva kuvaus, 11:llä vain TA2-nimi, koska TeachMe ei kuvaa niitä (lainaukset tarkistettu sivuilta 2026-10-20)",
+            "Rakenteen valinta näyttää jänne- ja kalvokerroksen, kohdistaa kameran ja korostaa kiinnittyvät lihakset",
+            "Rakenteen jatkuminen toiseen rakenteeseen (kytköstyyppi continuous) näkyy paneelissa, mutta kipuhaku ja lihasten kytkökset eivät kulje sen kautta"
           ],
           "depends_on": [
             "S12.2"
