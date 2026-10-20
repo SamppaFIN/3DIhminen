@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "1.0",
     "project": "Lihastohtori",
-    "generated_at": "2026-10-20T15:10:00Z",
+    "generated_at": "2026-10-20T16:00:00Z",
     "language": "fi",
     "git_commit": null,
     "generated_by": "Delta",
@@ -825,7 +825,7 @@
       "id": "E12",
       "title": "Jänne- ja kalvokerros",
       "type": "epic",
-      "status": "done",
+      "status": "in_progress",
       "description": "Lihasten alta paljastuva sidekudoskerros: jänteet, kalvojänteet, lihaskalvot (fascia lata, crural fascia, brachial ja antebrachial fascia), lihasten väliseinämät ja pidäkkeet. Kerros näkyy kerrosvalitsimesta ja zoomaamalla lihasten ohi. Suunnitelma kirjattu 2026-10-20 (Delta); Sami vahvistaa vuorovaikutusmallin ennen S12.3:n toteutusta. Lähdemallit: Open3D:n raajamallit ovat päivittyneet 2026-10-14 (uudet tarkistussummat), vartalon malli on ennallaan. Pään ja kaulan kalvot vaativat Blenderin bpy-moduulin, jota ei ole kehityskoneella, joten ne jäävät myöhemmäksi. Toteutus 2026-10-20 (Delta, Samin valinta: vaihtoehto 1, kuorinta lähimmän etäisyyden ohi): S12.1–S12.4 valmiit (S12.4 samana päivänä, kun Python 3.11 ja bpy asennettiin). Lähdemallien päivitys korjasi lapaluun solmun nimen (Scapula.r. → Scapula.r), ja viittaukset päivitettiin.",
       "stories": [
         {
@@ -902,6 +902,82 @@
           ],
           "depends_on": [
             "S12.2"
+          ]
+        },
+        {
+          "id": "S12.5",
+          "title": "Jänne- ja kalvokerroksen hehku",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "nähdä jänteet ja kalvot selvästi omana kerroksenaan, kun lihakset on piilotettu tai kuorittu",
+          "so_that": "erotan ne luista ja ymmärrän, mitä kerrosta katson",
+          "effort": "S",
+          "status": "done",
+          "acceptance_criteria": [
+            "Kun lihaskerrokset ovat piilossa ja jänteet ja kalvot näkyvissä, jokaisen jänteen ja kalvon takana näkyy ohut meripihkan värinen hehku (Samin pyyntö 2026-10-20)",
+            "Hehku ei vaikuta kipukohdan valintaan, kuorintaan eikä korostukseen, ja se näkyy myös vaaleaa taustaa vasten"
+          ],
+          "depends_on": [
+            "S12.1"
+          ]
+        },
+        {
+          "id": "S12.6",
+          "title": "Jänteiden ja kalvojen tietopaneeli",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "avata jänteen tai kalvon tiedot kuten lihaksen",
+          "so_that": "näen, mikä rakenne on, mitä se tekee ja mitkä lihakset siihen kiinnittyvät",
+          "effort": "M",
+          "status": "in_progress",
+          "acceptance_criteria": [
+            "Jänteet ja kalvot löytyvät hausta, kytkösketjusta ja lihaksen paneelista, ja niiden paneelissa on nimet, kuvaus ja tehtävä (kun lähde kertoo ne), kiinnittyvät lihakset kytköksineen, jatkuvat rakenteet ja lähteet",
+            "Jokaisella mallin jänne- ja kalvosolmulla on structures.json-tietue; kuvaukset ja kytkökset perustuvat luettuihin TeachMeAnatomyn sivuihin",
+            "Rakenteen valinta näyttää jänne- ja kalvokerroksen, kohdistaa kameran ja korostaa kiinnittyvät lihakset"
+          ],
+          "depends_on": [
+            "S12.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E13",
+      "title": "Luurankotanssi",
+      "type": "epic",
+      "status": "in_progress",
+      "description": "Koko kehon hahmon tilalle tanssiva luuranko, joka on koottu anatomiamallien luista. Ensimmäinen versio tehtiin haarassa ccr-0e3aa885-ins9rh ja yhdistettiin mainiin 2026-10-20. Sami toivoi samana päivänä eri tanssityylejä.",
+      "stories": [
+        {
+          "id": "S13.1",
+          "title": "Luurankotanssi",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "saada hahmon luurangon tanssimaan",
+          "so_that": "sovelluksessa on hauska tapa nähdä luut liikkeessä",
+          "effort": "M",
+          "status": "done",
+          "acceptance_criteria": [
+            "Hahmonäkymän painike vaihtaa hahmon tanssivaan luurankoon ja takaisin",
+            "Luuranko koostuu anatomiamallien luista, ja nivelet kiertävät luiden mitoista lasketuissa kohdissa"
+          ],
+          "depends_on": []
+        },
+        {
+          "id": "S13.2",
+          "title": "Tanssityylit",
+          "type": "story",
+          "as_a": "käyttäjä",
+          "i_want": "valita luurangolle eri tanssityylejä",
+          "so_that": "tanssi ei ole aina sama",
+          "effort": "M",
+          "status": "todo",
+          "acceptance_criteria": [
+            "Tanssin aikana voi vaihtaa tyyliä vähintään kolmen tyylin välillä; tyylien sisältö sovitaan Samin kanssa ennen toteutusta",
+            "Tyylin vaihto on pehmeä siirtymä, ei hyppy"
+          ],
+          "depends_on": [
+            "S13.1"
           ]
         }
       ]

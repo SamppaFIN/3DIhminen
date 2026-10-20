@@ -208,5 +208,17 @@
     "label": "TeachMeAnatomy: niskakuopan lihakset",
     "citation": "Cassidy A. The Suboccipital Muscles. TeachMeAnatomy, päivitetty 2025-11-06, luettu 2026-10-05.",
     "url": "https://teachmeanatomy.info/neck/muscles/suboccipital/"
+  },
+  {
+    "id": "teachme-neck-fascia",
+    "label": "TeachMeAnatomy: kaulan kalvokerrokset",
+    "citation": "Jones O. Fascial Layers of the Neck. TeachMeAnatomy, päivitetty 2026-04-09, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/neck/misc/fascial-layers/"
+  },
+  {
+    "id": "teachme-pelvic-floor",
+    "label": "TeachMeAnatomy: lantionpohja",
+    "citation": "Fidoe S. The Pelvic Floor. TeachMeAnatomy, päivitetty 2026-08-24, luettu 2026-10-20.",
+    "url": "https://teachmeanatomy.info/pelvis/muscles/pelvic-floor/"
   }
 ]

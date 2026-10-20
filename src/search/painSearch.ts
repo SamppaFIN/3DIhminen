@@ -1,4 +1,4 @@
-import { type Connection, connections, structureByMesh } from '../data/connections'
+import { type Connection, connections, type Structure, structureByMesh, structures } from '../data/connections'
 import { type Muscle, muscleByMesh, muscles } from '../data/muscles'
 import type { Region } from '../viewer/regions'
 
@@ -108,4 +108,29 @@ export function findPainSources(nearbyNodes: Iterable<string>, region: Region): 
 // Muscles linked to the given muscle through a shared tendon, fascia or attachment (S4.2).
 export function connectedMuscles(muscleId: string): DistantSource[] {
   return byEvidence(reachableMuscles(new Set([`muscle:${muscleId}`]), CONNECTED_STEPS, true))
+}
+
+const structureById = new Map(structures.map((s) => [s.id, s]))
+
+// Tendons and fascia a muscle attaches to or shares directly.
+export function linkedStructures(muscleId: string): Structure[] {
+  return neighbours(`muscle:${muscleId}`).flatMap(({ ref }) => {
+    const structure = ref.startsWith('structure:') ? structureById.get(ref.slice('structure:'.length)) : undefined
+    return structure ? [structure] : []
+  })
+}
+
+export type StructureLinks = { muscles: DistantSource[]; structures: { structure: Structure; connection: Connection }[] }
+
+// For a tendon's or fascia's info: the muscles that pull on it, directly or through other tendons
+// and fascia as in the pain search, and the tendons and fascia it continues into.
+export function structureLinks(structureId: string): StructureLinks {
+  const ref = `structure:${structureId}`
+  return {
+    muscles: byEvidence(reachableMuscles(new Set([ref]), CONNECTED_STEPS, false)),
+    structures: neighbours(ref).flatMap(({ ref: next, connection }) => {
+      const structure = next.startsWith('structure:') ? structureById.get(next.slice('structure:'.length)) : undefined
+      return structure ? [{ structure, connection }] : []
+    }),
+  }
 }

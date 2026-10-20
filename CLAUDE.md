@@ -112,9 +112,10 @@ Koko tikettipuu on tiedostossa `backlog.json`. Tarkista sen `_meta`-lohko ennen 
 | E9 | Vartalo (vaihe C) | S9.1 (M, malli), S9.2 (M, alueet), S9.3 (L, lihasdata), S9.4 (M, kytkökset), S9.5 (S, pikavalinnat) |
 | E10 | Pää ja kaula (vaihe D) | S10.1 (L, malli Z-Anatomysta), S10.2 (M, alueet), S10.3 (L, lihasdata), S10.4 (M, kytkökset), S10.5 (S, pikavalinta ja hahmon pää) |
 | E11 | Molemmat puolet (vaihe E) | S11.1 (M, vasen puoli peilaamalla), S11.2 (M, kipuhaku vasemmalla), S11.3 (S, hahmon vasen puoli ja kameran puoli) |
-| E12 | Jänne- ja kalvokerros | S12.1 (M, sidekudoskerros nykyisistä malleista), S12.2 (L, lihaskalvot lähdemalleista), S12.3 (M, kerrosten kuorinta zoomaamalla), S12.4 (M, pään ja kaulan kalvot) |
+| E12 | Jänne- ja kalvokerros | S12.1 (M, sidekudoskerros nykyisistä malleista), S12.2 (L, lihaskalvot lähdemalleista), S12.3 (M, kerrosten kuorinta zoomaamalla), S12.4 (M, pään ja kaulan kalvot), S12.5 (S, kerroksen hehku), S12.6 (M, jänteiden ja kalvojen tietopaneeli) |
+| E13 | Luurankotanssi | S13.1 (M, luurankotanssi), S13.2 (M, tanssityylit) |
 
-Yhteensä 12 epiciä, 46 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus). E12 toteutettu 2026-10-20 (kuorinta zoomaamalla katsotun pinnan kohdalla, Samin valinta); pään ja kaulan kalvojen vienti vaatii Python 3.11:n ja bpy 4.5:n, jotka on asennettu Samin koneelle.
+Yhteensä 13 epiciä, 50 storya. MVP (E1–E5) valmistui 2026-10-03. Laajennuksen riskialtteimmat: S7.1 (aluejärjestelmän yleistys) ja E10 (Z-Anatomyn yhteensopivuus). E12:n S12.1–S12.5 toteutettu 2026-10-20 (kuorinta zoomaamalla katsotun pinnan kohdalla, Samin valinta); pään ja kaulan kalvojen vienti vaatii Python 3.11:n ja bpy 4.5:n, jotka on asennettu Samin koneelle.
 
 ---
 

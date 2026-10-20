@@ -63,7 +63,8 @@ export function highlightNodes(root: Object3D, nodeColors: Map<string, string | 
       const otherSide = node.userData.side !== undefined && node.userData.side !== side
       const color = otherSide ? undefined : nodeColors?.get(name)
       node.traverse((object) => {
-        if (!(object instanceof Mesh)) return
+        // The halos of glow.ts keep their own material.
+        if (!(object instanceof Mesh) || object.userData.isHalo) return
         const base: Material = object.userData.baseMaterial ?? object.material
         object.userData.baseMaterial = base
         if (!nodeColors) object.material = base

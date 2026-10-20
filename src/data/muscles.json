@@ -341,6 +341,17 @@
     "sources": ["teachme-gluteal", "fipat-ta2"]
   },
   {
+    "id": "coccygeus",
+    "meshes": ["Coccygeus muscle.r"],
+    "attachmentMeshes": ["Coccygeus origin and insertion.r"],
+    "name": { "fi": "häntälihas", "la": "Musculus coccygeus" },
+    "origin": "Istuinluun kärki (spina ischiadica).",
+    "insertion": "Ristiluun alapää ja häntäluu.",
+    "action": "Tukee lantion elimiä ja koukistaa häntäluuta.",
+    "layer": "deep",
+    "sources": ["teachme-pelvic-floor", "fipat-ta2"]
+  },
+  {
     "id": "gemellus_superior",
     "meshes": ["Superior gemellus muscle.r"],
     "attachmentMeshes": ["Superior gemellus origin and insertion.r"],
@@ -1506,6 +1517,17 @@
     "action": "Toispuoleisesti taivuttaa kaulaa sivulle ja kiertää sitä. Molemminpuolisesti ojentaa kaulaa takaraivo-kaulanikamanivelissä.",
     "layer": "superficial",
     "sources": ["teachme-sternocleidomastoid", "fipat-ta2"]
+  },
+  {
+    "id": "platysma",
+    "meshes": ["Platysma.r"],
+    "attachmentMeshes": ["Platysma insertion.r"],
+    "name": { "fi": "kaulan ihonalainen lihas", "la": "Platysma" },
+    "origin": "Kaksi osaa isonrintalihaksen ja hartialihaksen kalvosta.",
+    "insertion": "Säikeet kulkevat solisluun yli, kohtaavat keskiviivassa ja sulautuvat kasvojen lihaksiin; yläosa kiinnittyy alaleuan alareunaan.",
+    "action": "Osallistuu kasvojen ilmeisiin.",
+    "layer": "superficial",
+    "sources": ["teachme-neck-fascia", "fipat-ta2"]
   },
   {
     "id": "scalenus_anterior",

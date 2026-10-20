@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AREAS } from './areas'
 import { ChainView } from './ChainView'
-import { meshesOf } from './data/connections'
+import { meshesOf, structures } from './data/connections'
 import { muscles } from './data/muscles'
 import { Disclaimer } from './Disclaimer'
 import { FirstVisitNotice } from './FirstVisitNotice'
@@ -9,9 +9,17 @@ import { refName } from './labels'
 import { MuscleInfo } from './MuscleInfo'
 import { MuscleSearch } from './MuscleSearch'
 import { PainResults } from './PainResults'
-import { chainSteps, connectedMuscles, findPainSources, type PainSources } from './search/painSearch'
+import {
+  chainSteps,
+  connectedMuscles,
+  findPainSources,
+  linkedStructures,
+  type PainSources,
+  structureLinks,
+} from './search/painSearch'
 import { SheetHandle, type SheetState } from './SheetHandle'
 import { SourcesDialog } from './SourcesDialog'
+import { StructureInfo } from './StructureInfo'
 import { useReveal } from './useReveal'
 import type { Layer, LayerVisibility } from './viewer/layers'
 import type { PainPoint } from './viewer/PainPicker'
@@ -30,17 +38,19 @@ const LAYER_LABELS: Record<Layer, [string, string]> = {
 const ALL_LAYERS: LayerVisibility = { superficial: true, deep: true, connective: true }
 
 // pain: results for a pain point. chain: one distant source's chain for that pain point.
-// muscle: a muscle's info.
+// muscle: a muscle's info. structure: a tendon's or fascia's info.
 type Selection =
   | { kind: 'pain'; pain: PainPoint }
   | { kind: 'chain'; pain: PainPoint; muscleId: string }
   | { kind: 'muscle'; id: string }
+  | { kind: 'structure'; id: string }
   | null
 
 // One short line for screen readers when the panel changes, instead of reading the whole panel.
 function statusText(selection: Selection, sources: PainSources | null): string {
   if (!selection) return ''
   if (selection.kind === 'muscle') return `Lihas: ${refName(`muscle:${selection.id}`)}`
+  if (selection.kind === 'structure') return `Jänne tai kalvo: ${refName(`structure:${selection.id}`)}`
   if (selection.kind === 'chain') return `Kytkösketju: ${refName(`muscle:${selection.muscleId}`)}`
   const region = REGION_NAMES[selection.pain.region]
   if (!sources) return region
@@ -51,6 +61,7 @@ function statusText(selection: Selection, sources: PainSources | null): string {
 // The back button names the view it returns to.
 function backLabel(previous: NonNullable<Selection>): string {
   if (previous.kind === 'muscle') return refName(`muscle:${previous.id}`)
+  if (previous.kind === 'structure') return refName(`structure:${previous.id}`)
   if (previous.kind === 'chain') return 'Takaisin kytkösketjuun'
   return 'Takaisin tuloksiin'
 }
@@ -81,6 +92,9 @@ function App() {
   )
   const selectedMuscle = selection?.kind === 'muscle' ? muscles.find((m) => m.id === selection.id) : undefined
   const connected = useMemo(() => (selectedMuscle ? connectedMuscles(selectedMuscle.id) : []), [selectedMuscle])
+  const muscleStructures = useMemo(() => (selectedMuscle ? linkedStructures(selectedMuscle.id) : []), [selectedMuscle])
+  const selectedStructure = selection?.kind === 'structure' ? structures.find((s) => s.id === selection.id) : undefined
+  const links = useMemo(() => (selectedStructure ? structureLinks(selectedStructure.id) : null), [selectedStructure])
   const chain = useMemo(() => {
     if (selection?.kind !== 'chain' || !painSources) return null
     const source = painSources.distant.find((d) => d.muscle.id === selection.muscleId)
@@ -92,9 +106,10 @@ function App() {
 
   const emphasis = useMemo<Emphasis | null>(() => {
     if (selectedMuscle) return { kind: 'muscle', muscle: selectedMuscle, connected }
+    if (selectedStructure && links) return { kind: 'structure', structure: selectedStructure, connected: links.muscles }
     if (chain) return { kind: 'chain', steps: chain.steps, lit }
     return painSources ? { kind: 'sources', sources: painSources } : null
-  }, [selectedMuscle, connected, chain, lit, painSources])
+  }, [selectedMuscle, connected, selectedStructure, links, chain, lit, painSources])
 
   // Depends on the selection itself, so choosing the same muscle again refocuses the camera.
   const selectionFocus = useMemo<Focus | null>(() => {
@@ -102,9 +117,13 @@ function App() {
       const { meshes, attachmentMeshes = [] } = selectedMuscle
       return { meshes, attachmentMeshes, aim: meshes, side }
     }
+    if (selection?.kind === 'structure' && selectedStructure) {
+      const { meshes } = selectedStructure
+      return { meshes, attachmentMeshes: [], aim: meshes, side }
+    }
     if (chain) return { meshes: chain.steps.flatMap(meshesOf), attachmentMeshes: [], aim: meshesOf(chain.steps.at(-1)!), side }
     return null
-  }, [selection, selectedMuscle, chain, side])
+  }, [selection, selectedMuscle, selectedStructure, chain, side])
   const focus = areaJump && areaJump.selection === selection ? areaJump.focus : selectionFocus
 
   const jumpToArea = (id: string, areaSide: Side) => {
@@ -159,6 +178,16 @@ function App() {
     select({ kind: 'muscle', id })
   }
 
+  // Shows the tendon-and-fascia layer, like selectMuscle shows the muscle's.
+  const selectStructure = (id: string) => {
+    if (!structures.some((s) => s.id === id)) return
+    setLayers({ ...layers, connective: true })
+    setShowAnatomy(true)
+    setDancing(false)
+    if (selection && !(selection.kind === 'structure' && selection.id === id)) setHistory([...history, selection])
+    select({ kind: 'structure', id })
+  }
+
   const goBack = () => {
     const previous = history.at(-1)
     if (!previous) return
@@ -166,6 +195,7 @@ function App() {
       const muscle = muscles.find((m) => m.id === previous.id)
       if (muscle) setLayers({ ...layers, [muscle.layer]: true })
     }
+    if (previous.kind === 'structure') setLayers({ ...layers, connective: true })
     setHistory(history.slice(0, -1))
     select(previous)
   }
@@ -193,7 +223,7 @@ function App() {
       <div className="viewer">
         <p className="visually-hidden">
           3D-malli koko kehosta. Kehon osan valinta ja kipukohdan valinta mallista vaativat hiiren tai
-          kosketuksen. Lihaksia voi hakea hakukentästä. Zoomaamalla aivan lähelle päällimmäinen kerros
+          kosketuksen. Lihaksia, jänteitä ja kalvoja voi hakea hakukentästä. Zoomaamalla aivan lähelle päällimmäinen kerros
           kuoriutuu pois; kerrosvalitsin näyttää tilan.
         </p>
         <ViewerErrorBoundary>
@@ -212,7 +242,7 @@ function App() {
           />
         </ViewerErrorBoundary>
         <div className="toolbar" hidden={toolsHidden}>
-          <MuscleSearch onSelect={selectMuscle} />
+          <MuscleSearch onSelectMuscle={selectMuscle} onSelectStructure={selectStructure} />
           <select
             className="area-select"
             aria-label="Siirry alueelle"
@@ -297,17 +327,34 @@ function App() {
                 lit={lit}
                 onBack={() => select({ kind: 'pain', pain })}
                 onSelectMuscle={selectMuscle}
+                onSelectStructure={selectStructure}
               />
             )}
             <Disclaimer />
           </>
         )}
-        {selectedMuscle && history.length > 0 && (
+        {(selectedMuscle || selectedStructure) && history.length > 0 && (
           <button type="button" onClick={goBack}>
             ← {backLabel(history.at(-1)!)}
           </button>
         )}
-        {selectedMuscle && <MuscleInfo muscle={selectedMuscle} connected={connected} onSelectMuscle={selectMuscle} />}
+        {selectedMuscle && (
+          <MuscleInfo
+            muscle={selectedMuscle}
+            connected={connected}
+            structures={muscleStructures}
+            onSelectMuscle={selectMuscle}
+            onSelectStructure={selectStructure}
+          />
+        )}
+        {selectedStructure && links && (
+          <StructureInfo
+            structure={selectedStructure}
+            links={links}
+            onSelectMuscle={selectMuscle}
+            onSelectStructure={selectStructure}
+          />
+        )}
         {!selection && (
           <p className="empty-state">
             {showAnatomy ? 'Klikkaa kohtaa, johon sattuu.' : 'Valitse kehon osa, jota haluat tutkia.'}

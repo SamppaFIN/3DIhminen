@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest'
+import { searchStructures } from './connections'
 import { searchMuscles } from './muscles'
 
 const ids = (query: string) => searchMuscles(query).map((m) => m.id)
+
+describe('searchStructures', () => {
+  it('finds tendons and fascia by Finnish and Latin name', () => {
+    expect(searchStructures('akilles').map((s) => s.id)).toEqual(['calcaneal_tendon'])
+    expect(searchStructures('Tendo calcaneus').map((s) => s.id)).toEqual(['calcaneal_tendon'])
+    expect(searchStructures('  ')).toEqual([])
+  })
+})
 
 describe('searchMuscles', () => {
   it('returns nothing for an empty query', () => {

@@ -1,7 +1,35 @@
 import { describe, expect, it } from 'vitest'
-import { chainSteps, connectedMuscles, EVIDENCE_ORDER, findPainSources, weakestEvidence } from './painSearch'
+import {
+  chainSteps,
+  connectedMuscles,
+  EVIDENCE_ORDER,
+  findPainSources,
+  linkedStructures,
+  structureLinks,
+  weakestEvidence,
+} from './painSearch'
 
 const ids = (muscles: { id: string }[]) => muscles.map((m) => m.id)
+
+describe('structureLinks and linkedStructures', () => {
+  it('lists the muscles that pull on a tendon and the structures it continues into', () => {
+    const links = structureLinks('calcaneal_tendon')
+    expect(ids(links.muscles.map((d) => d.muscle))).toEqual(expect.arrayContaining(['gastrocnemius', 'soleus', 'plantaris']))
+    expect(links.structures.map((s) => s.structure.id)).toEqual(['plantar_aponeurosis'])
+  })
+
+  it('reaches muscles through another structure, but not on past a muscle', () => {
+    const links = structureLinks('plantar_aponeurosis')
+    const gastrocnemius = links.muscles.find((d) => d.muscle.id === 'gastrocnemius')
+    expect(gastrocnemius?.refs).toEqual(['structure:plantar_aponeurosis', 'structure:calcaneal_tendon', 'muscle:gastrocnemius'])
+    expect(links.muscles.every((d) => d.refs.slice(1, -1).every((ref) => ref.startsWith('structure:')))).toBe(true)
+  })
+
+  it('lists the tendons and fascia a muscle attaches to', () => {
+    expect(linkedStructures('gastrocnemius').map((s) => s.id)).toEqual(['calcaneal_tendon'])
+    expect(linkedStructures('flexor_digitorum_brevis').map((s) => s.id)).toEqual(['plantar_aponeurosis'])
+  })
+})
 
 describe('findPainSources', () => {
   it('leads from the sole through the plantar fascia and Achilles tendon to the calf muscles', () => {

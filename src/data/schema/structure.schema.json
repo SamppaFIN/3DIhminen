@@ -29,6 +29,16 @@
           "la": { "description": "Latin name (Terminologia Anatomica).", "type": "string", "minLength": 1 }
         }
       },
+      "description": {
+        "description": "What and where the structure is and what attaches to it, as the sources say. Shown in its info panel.",
+        "type": "string",
+        "minLength": 1
+      },
+      "function": {
+        "description": "What the structure does, as the sources say.",
+        "type": "string",
+        "minLength": 1
+      },
       "sources": {
         "description": "Ids of entries in sources.json that support this record.",
         "type": "array",

@@ -12,7 +12,7 @@ export type LayerVisibility = Record<Layer, boolean>
 export const PEEL_ORDER: Layer[] = ['superficial', 'deep', 'connective']
 
 // Groups of the models whose parts have a layer; the bones are always shown.
-const LAYERED_GROUPS = new Set(['Muscles', 'Fascia'])
+export const LAYERED_GROUPS = new Set(['Muscles', 'Fascia'])
 const CONNECTIVE_MATERIALS = new Set(['tendon', 'fascia'])
 const MUSCLE_MATERIALS = new Set(['muscle'])
 
@@ -25,11 +25,12 @@ const layerByNodeName = new Map(
   muscles.flatMap((m) => m.meshes.map((name) => [name, m.layer as Layer] as const)),
 )
 
-// highlight.ts swaps materials and keeps the model's own in userData.baseMaterial.
+// highlight.ts swaps materials and keeps the model's own in userData.baseMaterial. The halos of
+// glow.ts are not part of the model.
 function hasMaterial(part: Object3D, names: Set<string>): boolean {
   let found = false
   part.traverse((object) => {
-    if (!(object instanceof Mesh)) return
+    if (!(object instanceof Mesh) || object.userData.isHalo) return
     const material: Material = object.userData.baseMaterial ?? object.material
     if (names.has(material.name)) found = true
   })

@@ -39,9 +39,11 @@ type Props = {
   lit: number
   onBack: () => void
   onSelectMuscle: (id: string) => void
+  // Tendons and fascia on the chain open their own info.
+  onSelectStructure: (id: string) => void
 }
 
-export function ChainView({ muscleId, steps, links, lit, onBack, onSelectMuscle }: Props) {
+export function ChainView({ muscleId, steps, links, lit, onBack, onSelectMuscle, onSelectStructure }: Props) {
   return (
     <section className="chain" aria-labelledby="chain-title">
       <button type="button" onClick={onBack}>
@@ -54,7 +56,13 @@ export function ChainView({ muscleId, steps, links, lit, onBack, onSelectMuscle 
         {steps.map((ref, i) => (
           <li key={ref} className={i < lit ? 'lit' : undefined}>
             {i > 0 && <ChainLink connection={links[i - 1]} />}
-            <span className="chain-node">{i === 0 ? `${refName(ref)} (kipukohta)` : refName(ref)}</span>
+            {ref.startsWith('structure:') ? (
+              <button type="button" className="chain-node chain-node-link" onClick={() => onSelectStructure(ref.slice('structure:'.length))}>
+                {refName(ref)}
+              </button>
+            ) : (
+              <span className="chain-node">{i === 0 ? `${refName(ref)} (kipukohta)` : refName(ref)}</span>
+            )}
           </li>
         ))}
       </ol>

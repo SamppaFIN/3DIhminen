@@ -1,18 +1,19 @@
-import { type Muscle, sourcesById } from './data/muscles'
-import { CONNECTION_TYPE_LABELS, EVIDENCE_LABELS, refName } from './labels'
-import { type DistantSource, weakestEvidence } from './search/painSearch'
+import type { Structure } from './data/connections'
+import type { Muscle } from './data/muscles'
+import { connectionSummary } from './labels'
+import type { DistantSource } from './search/painSearch'
+import { SourceList } from './SourceList'
 
-// Route between the two muscles, the weakest evidence on it, and its sources.
-function connectionSummary({ refs, path }: DistantSource): string {
-  const via = refs.slice(1, -1).map(refName)
-  const route = via.length > 0 ? `kautta: ${via.join(' → ')}` : CONNECTION_TYPE_LABELS[path[0].type]
-  const sources = [...new Set(path.flatMap((c) => c.sources))].map((id) => sourcesById.get(id)?.label ?? id)
-  return `${route} · yhteyden näyttö: ${EVIDENCE_LABELS[weakestEvidence(path)]} · lähteet: ${sources.join(', ')}`
+type Props = {
+  muscle: Muscle
+  connected: DistantSource[]
+  // Tendons and fascia the muscle attaches to; each opens its own info.
+  structures: Structure[]
+  onSelectMuscle: (id: string) => void
+  onSelectStructure: (id: string) => void
 }
 
-type Props = { muscle: Muscle; connected: DistantSource[]; onSelectMuscle: (id: string) => void }
-
-export function MuscleInfo({ muscle, connected, onSelectMuscle }: Props) {
+export function MuscleInfo({ muscle, connected, structures, onSelectMuscle, onSelectStructure }: Props) {
   return (
     <>
       <h2 className="muscle-name" tabIndex={-1} data-autofocus>
@@ -33,6 +34,20 @@ export function MuscleInfo({ muscle, connected, onSelectMuscle }: Props) {
         <dt>Toiminta</dt>
         <dd>{muscle.action}</dd>
       </dl>
+      {structures.length > 0 && (
+        <>
+          <h3 className="source-heading">Jänteet ja kalvot</h3>
+          <ul className="source-list">
+            {structures.map((structure) => (
+              <li key={structure.id}>
+                <button type="button" onClick={() => onSelectStructure(structure.id)}>
+                  {structure.name.fi}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
       {connected.length > 0 && (
         <>
           <h3 className="source-heading">
@@ -50,23 +65,7 @@ export function MuscleInfo({ muscle, connected, onSelectMuscle }: Props) {
           </ul>
         </>
       )}
-      <h3 className="facts-sources-title">Lähteet</h3>
-      <ul className="facts-sources">
-        {muscle.sources.map((id) => {
-          const source = sourcesById.get(id)
-          return (
-            <li key={id}>
-              {source?.url ? (
-                <a href={source.url} target="_blank" rel="noreferrer">
-                  {source.citation}
-                </a>
-              ) : (
-                source?.citation
-              )}
-            </li>
-          )
-        })}
-      </ul>
+      <SourceList ids={muscle.sources} />
     </>
   )
 }

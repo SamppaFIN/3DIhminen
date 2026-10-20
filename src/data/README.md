@@ -54,10 +54,18 @@ Tekstikentät kirjoitetaan suomeksi. Muita kenttiä ei sallita.
 - **Yläraaja:** lihas on `deep`, jos TeachMe sijoittaa sen syvään kerrokseen tai sanoo sen olevan toisen lihaksen alla (esim. olkalihas ja korppiolkalihas hauislihaksen alla, lapaluun kohottaja ja suunnikaslihakset epäkäslihaksen alla). Kyynärvarren etuosaston keskikerros (sormien pinnallinen koukistajalihas) luetaan `deep`-kerrokseen, koska käyttöliittymässä on vain kaksi kerrosta.
 - **Kiertäjäkalvosin:** sen neljä lihasta ovat ryhmänä `deep`. TeachMe ei kuvaa niiden syvyyttä, joten jako on käyttöliittymäpäätös: pinnallisen kerroksen piilottaminen paljastaa koko kalvosimen.
 - **Kämmenselän puoleiset luidenväliset lihakset** ovat `superficial`, koska TeachMe kuvaa ne kämmenselän pinnallisimmiksi lihaksiksi.
+- **Lantionpohja:** häntälihas on `deep`, kuten pakaran syvät lihakset. TeachMe ei kuvaa sen syvyyttä, joten jako on käyttöliittymäpäätös: lihas on lantion sisäpinnalla.
 
 ## Rakenne (`structures.json`)
 
-Jänne tai kalvo, joka ei ole lihas mutta jonka kautta kytkösketju kulkee (esim. akillesjänne). Kentät: `id`, `meshes`, `name.fi`, `name.la` ja `sources`, joilla on sama merkitys kuin lihaksella.
+Jänne, kalvo, väliseinämä tai pidäke, joka ei ole lihas (esim. akillesjänne). Jokaisella mallin jänne- ja kalvosolmulla on tietue, jotta sen voi valita ja sen tiedot näyttää (S12.6). Kentät `id`, `meshes`, `name.fi`, `name.la` ja `sources` ovat pakollisia ja tarkoittavat samaa kuin lihaksella. Valinnaiset kentät:
+
+| Kenttä | Kuvaus |
+|---|---|
+| `description` | Mikä ja missä rakenne on ja mitä siihen kiinnittyy, lähteen mukaan |
+| `function` | Rakenteen tehtävä, jos lähde kertoo sen |
+
+Jos lähde nimeää rakenteen mutta ei kuvaa sitä, kuvaus jätetään pois ja `sources` sisältää vain nimistölähteen.
 
 ## Kytkös (`connections.json`)
 

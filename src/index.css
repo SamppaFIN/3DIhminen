@@ -321,6 +321,20 @@ main {
   border-left: 4px solid var(--source-distant);
 }
 
+/* A tendon or fascia on the chain opens its info. */
+.chain-node-link {
+  width: 100%;
+  min-height: 44px;
+  font-size: var(--step-0);
+  text-align: left;
+  background: none;
+  border-width: 0 0 0 4px;
+  border-color: var(--source-distant);
+  border-radius: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .chain-steps li:first-child .chain-node {
   border-left-color: var(--pain);
 }
@@ -510,6 +524,11 @@ button {
 .search-results i,
 .latin-name {
   font-style: italic;
+  color: var(--ink-muted);
+}
+
+.search-kind {
+  font-size: var(--step--1);
   color: var(--ink-muted);
 }
 

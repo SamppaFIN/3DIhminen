@@ -2,11 +2,12 @@ import { Bounds, OrbitControls, useBounds, useGLTF } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 import { type Dispatch, type SetStateAction, Suspense, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Box3, Group, Mesh, MeshBasicMaterial, type Object3D, type PerspectiveCamera, Vector3 } from 'three'
-import { meshesOf } from '../data/connections'
+import { meshesOf, type Structure } from '../data/connections'
 import type { Muscle } from '../data/muscles'
 import type { DistantSource, PainSources } from '../search/painSearch'
 import { classifyArmRegion, computeArmLandmarks, trunkRegion } from './armRegions'
 import { highlightNodes } from './highlight'
+import { connectiveInFront, setConnectiveGlow } from './glow'
 import { applyLayerVisibility, type LayerVisibility } from './layers'
 import { LayerPeel, MIN_DISTANCE } from './LayerPeel'
 import { BODY_BOUNDS, type BodyArea, DANCE_BOUNDS, type BodySide } from './body'
@@ -50,8 +51,10 @@ function fitDistance(size: Vector3, camera: PerspectiveCamera): number {
 // - muscle: the muscle as it is (others dimmed), with its attachments, and its connected muscles.
 // - sources: local and distant pain sources, with the tendons and fascia on their chains.
 // - chain: the first `lit` steps of a chain (refs as in chainSteps); the rest is dimmed.
+// - structure: a tendon or fascia as it is, with the muscles that pull on it.
 export type Emphasis =
   | { kind: 'muscle'; muscle: Muscle; connected: DistantSource[] }
+  | { kind: 'structure'; structure: Structure; connected: DistantSource[] }
   | { kind: 'sources'; sources: PainSources }
   | { kind: 'chain'; steps: string[]; lit: number }
 
@@ -77,10 +80,11 @@ function emphasisColors(emphasis: Emphasis | null): NodeColors | null {
     for (const mesh of meshesOf(ref)) colors.set(mesh, color)
   }
 
-  if (emphasis.kind === 'muscle') {
+  if (emphasis.kind === 'muscle' || emphasis.kind === 'structure') {
     for (const { refs } of emphasis.connected) for (const ref of refs) if (ref.startsWith('structure:')) set(ref, null)
     for (const { muscle } of emphasis.connected) set(`muscle:${muscle.id}`, DISTANT_COLOR)
-    for (const mesh of emphasis.muscle.meshes) colors.set(mesh, null)
+    const own = emphasis.kind === 'muscle' ? emphasis.muscle.meshes : emphasis.structure.meshes
+    for (const mesh of own) colors.set(mesh, null)
   } else if (emphasis.kind === 'sources') {
     const { local, distant } = emphasis.sources
     if (local.length === 0 && distant.length === 0) return null
@@ -177,6 +181,7 @@ function Model({ layers, resetKey, showAnatomy, dancing, nodeColors, focus, side
 
   useEffect(() => {
     applyLayerVisibility(root, layers)
+    setConnectiveGlow(root, connectiveInFront(layers))
   }, [root, layers])
 
   useEffect(() => {
